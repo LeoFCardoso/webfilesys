@@ -1,2 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java/de/webfilesys/util/CommonUtils.java=ISO-8859-1
+encoding//src/main/webapp/WEB-INF/languages/Portugues.resources=ISO-8859-1
+encoding//src/main/webapp/WEB-INF/languages/Spanish.resources=ISO-8859-1
+encoding//src/main/webapp/WEB-INF/languages/diskquota_Portugues.template=ISO-8859-1
+encoding//src/main/webapp/WEB-INF/languages/folderChange_Portugues.template=ISO-8859-1
+encoding//src/main/webapp/WEB-INF/languages/welcome_Portugues.template=ISO-8859-1

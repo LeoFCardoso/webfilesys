@@ -46,6 +46,14 @@
       <filePattern>*.gpx</filePattern>
     </filePatternList>
   </viewHandler>
+  
+  <!-- PDF File -->
+  <viewHandler>
+    <class>br.nom.leonardo.viewhandler.PDFViewHandler</class>
+    <filePatternList>
+      <filePattern>*.pdf</filePattern>
+    </filePatternList>
+  </viewHandler>
 
   <!-- 
     The view handler for compiled Java class files requires the JAD decompiler.
