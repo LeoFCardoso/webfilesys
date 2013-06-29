@@ -6,7 +6,7 @@
 # Save a copy of the unchanged file for further reference !
 
 # common labels
-label.login.title=[NOME DO SISTEMA] Login
+label.login.title=WebFileSys Login
 label.userid=Userid
 label.password=Senha
 label.logon=Logon
@@ -42,7 +42,7 @@ button.previous=Anterior
 label.fastpath=pastas visualizadas recentemente
 label.returnToPrevDir=retornar para a última pasta
 label.processes=Processos do SO
-label.fsstat=EstatÃ­sticas do Sistema de Arquivos
+label.fsstat=Estatísticas do Sistema de Arquivos
 label.oscmd=Executar comando do SO
 label.admin=Administração
 label.refreshDrives=Verificar novas unidades
@@ -50,7 +50,7 @@ label.diskQuotaUsage=Uso de disco
 label.thumbnails=Miniaturas de imagens
 label.thumbinvite=Miniaturas de imagens e convites de visitantes
 label.slideshow=Apresentação de Slides
-label.story=Picture Story
+label.story=Histórico de Imagens
 label.ftpBackup=FTP Backup de pasta
 label.downloadCommentStats=Estatísticas de Download e Comentários
 label.commentStats=Estatisticas de Comentários
@@ -176,19 +176,19 @@ sort.voteCount=ordenar por contagem de votos
 sort.voteValue=ordenar por resultados de votos
 
 # create file/subdir labels
-label.parentDir=parent directory
-label.newDirName=new folder name
-label.newFileName=new file name
+label.parentDir=diretório pai
+label.newDirName=nome do novo diretório
+label.newFileName=nome do novo arquivo
 
 # upload parameter window labels
-label.uploadfile=Upload File
-label.upload.localFile=file to be uploaded
-label.upload.serverFileName=file name on server
-label.upload.description=file description
-label.xfermode=transfer mode
-label.xferbin=binary
-label.xfertext=text
-button.startUpload=Start Upload
+label.uploadfile=Upload de Arquivo
+label.upload.localFile=arquivo para upload
+label.upload.serverFileName=nome do arquivo no servicod
+label.upload.description=descrição do arquivo
+label.xfermode=modo de transferência
+label.xferbin=binário
+label.xfertext=texto
+button.startUpload=Iniciar Upload
 hint.upload.multizip=To upload multiple files or a whole folder tree at once, create a ZIP archive on your computer and upload it.
 label.upload.unzip=unzip after upload
 link.multiUpload=multi file upload

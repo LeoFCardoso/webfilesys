@@ -12,6 +12,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * This filter modifies some functions of WebFileSys to prevent some features to be used.
  * 
@@ -23,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 public final class ChangeParameterFilter implements Filter {
 
 	/**
-	 * These commands will be redirected to "blank" command //TODO - check another "dangerous" commands and
+	 * These commands will be redirected to "forbidden" command //TODO - check another "dangerous" commands and
 	 * add to this list
 	 */
 	private static final String[] disallowedCommands = { "exifThumb", "fileStatistics", "fileSysUsage",
@@ -46,7 +48,9 @@ public final class ChangeParameterFilter implements Filter {
 
 		if (Arrays.asList(disallowedCommands).contains(valueCommand)) {
 			HttpServletResponse responseHttp = (HttpServletResponse) response;
-			responseHttp.sendRedirect(requestHttp.getContextPath() + "/servlet?command=blank");
+			responseHttp.sendRedirect(requestHttp.getContextPath() + "/servlet?command=forbidden");
+			Logger.getLogger(getClass()).warn(
+					"Command " + valueCommand + " not allowed. Redirecting to forbidden.");
 			return;
 		}
 

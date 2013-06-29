@@ -25,7 +25,7 @@ public class TestUserManager extends UserManagerBase {
 		// TODO get all available users.
 		TransientUser adm = new TransientUser();
 		adm.setUserid("admin");
-		adm.setCss("fmweb");
+		adm.setCss("sunset");
 		adm.setDocumentRoot("/");
 		adm.setLanguage("English");
 		adm.setReadonly(false);
@@ -33,7 +33,7 @@ public class TestUserManager extends UserManagerBase {
 
 		TransientUser usu = new TransientUser();
 		usu.setUserid("usu");
-		usu.setCss("fmweb");
+		usu.setCss("sunset");
 		usu.setDocumentRoot("/");
 		usu.setLanguage("Portugues");
 		usu.setReadonly(true);
@@ -187,7 +187,7 @@ public class TestUserManager extends UserManagerBase {
 
 	public String getDocumentRoot(String userId) {
 		// TODO read from config file or context param
-		return "/home/leonardo/Documentos";
+		return "/tmp/webfilesys";
 	}
 
 	public void setDocumentRoot(String userId, String newValue) {

@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import de.webfilesys.ViewHandlerConfig;
 import de.webfilesys.viewhandler.ViewHandler;
@@ -34,10 +35,13 @@ public class PDFViewHandler implements ViewHandler {
 			String userid = req.getSession().getAttribute("userid").toString().trim().toUpperCase();
 
 			PdfReader reader = new PdfReader(filePath);
-			int numeroPaginasNoPDF = reader.getNumberOfPages();
+			int numberOfPages = reader.getNumberOfPages();
 
-			PdfStamper stamp = new PdfStamper(reader, resp.getOutputStream());
-			int indice = 1;
+			PdfStamper stamper = new PdfStamper(reader, resp.getOutputStream());
+			byte[] userPass = null; //Long.toHexString(System.currentTimeMillis()).getBytes();
+			byte[] ownerPass = Long.toHexString(System.currentTimeMillis()).getBytes();
+			stamper.setEncryption(userPass, ownerPass, PdfWriter.ALLOW_PRINTING, PdfWriter.ENCRYPTION_AES_128);
+			int index = 1;
 			PdfContentByte over;
 
 			BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
@@ -46,32 +50,29 @@ public class PDFViewHandler implements ViewHandler {
 			gstate.setFillOpacity(0.3f);
 			gstate.setStrokeOpacity(0.3f);
 
-			while (indice <= numeroPaginasNoPDF) {
-
-				over = stamp.getOverContent(indice);
-
+			while (index <= numberOfPages) {
+				over = stamper.getOverContent(index);
 				over.saveState();
 				over.setGState(gstate);
-
 				over.beginText();
-
 				over.setFontAndSize(bf, 150);
-
-				float alturaPagina = reader.getPageSize(indice).getHeight();
-				float larguraPagina = reader.getPageSize(indice).getWidth();
-				double rotacao = Math.toDegrees(Math.atan(alturaPagina / larguraPagina));
-
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), larguraPagina / 2,
-						alturaPagina / 2, (float) rotacao);
-
+				float pageHeight = reader.getPageSize(index).getHeight();
+				float pageWidth = reader.getPageSize(index).getWidth();
+				double rotacao = Math.toDegrees(Math.atan(pageHeight / pageWidth));
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), pageWidth / 2,
+						pageHeight / 2, (float) rotacao);
+				over.setFontAndSize(bf, 80);
+				// Upper
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), pageWidth / 4,
+						(pageHeight / 4) + (pageHeight / 2), (float) rotacao);
+				// Lower
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), (pageWidth / 2)
+						+ (pageWidth / 4), (pageHeight / 2) - (pageHeight / 4), (float) rotacao);
 				over.endText();
-
 				over.restoreState();
-
-				indice++;
+				index++;
 			}
-
-			stamp.close();
+			stamper.close();
 
 		} catch (Exception e) {
 			// TODO exception handling

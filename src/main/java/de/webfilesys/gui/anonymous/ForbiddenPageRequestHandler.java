@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import de.webfilesys.gui.RequestHandler;
 
 /**
- * @author Frank Hoehnel
+ * @author Leonardo Cardoso
  */
-public class BlankPageRequestHandler extends RequestHandler {
-	public BlankPageRequestHandler(HttpServletRequest req, HttpServletResponse resp, PrintWriter output) {
+public class ForbiddenPageRequestHandler extends RequestHandler {
+	public ForbiddenPageRequestHandler(HttpServletRequest req, HttpServletResponse resp, PrintWriter output) {
 		super(req, resp, null, output);
 	}
 
@@ -20,6 +20,8 @@ public class BlankPageRequestHandler extends RequestHandler {
 		output.println("<head>");
 		output.println("</head>");
 		output.println("<body>");
+		// TODO - set localized message to end user
+		output.println("<h3>403 - Proibido. O acesso a esta página é vedado. Contate o administrador do sistema!</h3>");
 		output.println("</body></html>");
 		output.flush();
 	}
