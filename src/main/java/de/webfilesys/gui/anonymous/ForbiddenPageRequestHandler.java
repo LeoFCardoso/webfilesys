@@ -21,7 +21,7 @@ public class ForbiddenPageRequestHandler extends RequestHandler {
 		output.println("</head>");
 		output.println("<body>");
 		// TODO - set localized message to end user
-		output.println("<h3>403 - Proibido. O acesso a esta p√°gina √© vedado. Contate o administrador do sistema!</h3>");
+		output.println("<h3>403 - Proibido. O acesso a esta p·gina È vedado. Contate o administrador do sistema!</h3>");
 		output.println("</body></html>");
 		output.flush();
 	}

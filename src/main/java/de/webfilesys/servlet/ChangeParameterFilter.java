@@ -28,11 +28,12 @@ public final class ChangeParameterFilter implements Filter {
 	 * These commands will be redirected to "forbidden" command //TODO - check another "dangerous" commands
 	 * and add to this list
 	 */
-	private static final String[] disallowedCommands = { "exifThumb", "fileStatistics", "fileSysUsage",
-			"ftpBackup", "getFile", "getThumb", "getZipContentFile", "mobile", "mp3Thumb", "multiDownload",
-			"multiFileCopyMove", "multiFileDownloadPrompt", "multiFileOp", "pasteFiles", "pictureStory",
-			"processList", "slideShowInFrame", "slideShowParms", "storyInFrame", "thumbnail", "unixCmdLine",
-			"uploadParms", "visitorFile" };
+	private static final String[] disallowedCommands = { "ajaxRPC", "downloadFolder", "deleteDir",
+			"exifThumb", "fileStatistics", "fileSysUsage", "fmdelete", "ftpBackup", "getFile", "getThumb",
+			"getZipContentFile", "mobile", "moveDir", "mp3Thumb", "multiDownload", "multiFileCopyMove",
+			"multiFileDownloadPrompt", "multiFileOp", "pasteFiles", "pictureStory", "processList",
+			"removeDir", "renameFile", "renameFilePrompt", "search", "slideShow", "slideShowInFrame",
+			"slideShowParms", "storyInFrame", "thumbnail", "unixCmdLine", "uploadParms", "visitorFile" };
 
 	/*
 	 * (non-Javadoc)

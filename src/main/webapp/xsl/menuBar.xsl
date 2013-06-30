@@ -267,7 +267,9 @@
       </td>
       
       <td class="plaintext" align="center">
-        <xsl:value-of select="userid" /> @ <xsl:value-of select="hostname" />
+      
+      	<!-- Leonardo - hide hostname for security <xsl:value-of select="hostname" /> -->
+        <xsl:value-of select="userid" /> @ WEBFILESYS
 
         <xsl:if test="readonly and (readonly='true')"> (read-only)</xsl:if>
 
@@ -278,29 +280,32 @@
         <table border="0" cellpadding="0" cellspacing="0">
           <tr>
 
-            <th>
-              <a href="javascript:searchParms()">
-                <img src="/webfilesys/images/menubar/search.gif" border="0" width="32" height="32">
-                  <xsl:attribute name="titleResource">label.search</xsl:attribute>
-                </img>
-              </a>
-            </th>
+            <xsl:if test="not(readonly) or (readonly='false')">
+	            <th>
+	              <a href="javascript:searchParms()">
+	                <img src="/webfilesys/images/menubar/search.gif" border="0" width="32" height="32">
+	                  <xsl:attribute name="titleResource">label.search</xsl:attribute>
+	                </img>
+	              </a>
+	            </th>
 
-            <th>
-              <a href="javascript:slideshow()">
-                <img src="/webfilesys/images/menubar/slideshow.gif" border="0" width="32" height="32">
-                  <xsl:attribute name="titleResource">label.slideshow</xsl:attribute>
-                </img>
-              </a>
-            </th>
+	            <th>
+	              <a href="javascript:slideshow()">
+	                <img src="/webfilesys/images/menubar/slideshow.gif" border="0" width="32" height="32">
+	                  <xsl:attribute name="titleResource">label.slideshow</xsl:attribute>
+	                </img>
+	              </a>
+	            </th>
 
-            <th>
-              <a href="javascript:javascript:pictureStory()">
-                <img src="/webfilesys/images/menubar/film.gif" border="0" width="32" height="32">
-                  <xsl:attribute name="titleResource">label.story</xsl:attribute>
-                </img>
-              </a>
-            </th>
+	            <th>
+	              <a href="javascript:javascript:pictureStory()">
+	                <img src="/webfilesys/images/menubar/film.gif" border="0" width="32" height="32">
+	                  <xsl:attribute name="titleResource">label.story</xsl:attribute>
+	                </img>
+	              </a>
+	            </th>
+            </xsl:if>
+
 
             <xsl:if test="not(readonly) or (readonly='false')">
               <th>
@@ -322,13 +327,15 @@
               </th>
             </xsl:if>
 
-            <th>
-              <a href="javascript:mobileVersion()">
-                <img src="/webfilesys/images/menubar/mobilePhone.gif" border="0" width="32" height="32">
-                  <xsl:attribute name="titleResource">label.mobileVersion</xsl:attribute>
-                </img>
-              </a>
-            </th>
+            <xsl:if test="not(readonly) or (readonly='false')">
+	            <th>
+	              <a href="javascript:mobileVersion()">
+	                <img src="/webfilesys/images/menubar/mobilePhone.gif" border="0" width="32" height="32">
+	                  <xsl:attribute name="titleResource">label.mobileVersion</xsl:attribute>
+	                </img>
+	              </a>
+	            </th>
+            </xsl:if>
 
             <th>
               <a target="_blank">

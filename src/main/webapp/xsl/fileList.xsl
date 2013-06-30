@@ -195,21 +195,24 @@
  
       <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
 
-      <td class="tabInactive">
-        <a class="tab" href="javascript:viewModeThumbs()" resource="label.modethumb" />
-      </td>
+	  <!-- Leonardo - hide tabs in readonly mode -->
+      <xsl:if test="not(/fileList/readonly)">
+	      <td class="tabInactive">
+	        <a class="tab" href="javascript:viewModeThumbs()" resource="label.modethumb" />
+	      </td>
       
-      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
-
-      <td class="tabInactive">
-        <a class="tab" href="javascript:viewModeStory()" resource="label.modestory" />
-      </td>
-   
-      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
-
-      <td class="tabInactive">
-        <a class="tab" href="javascript:viewModeSlideshow()" resource="label.modeSlideshow" />
-      </td>
+	      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
+	
+	      <td class="tabInactive">
+	        <a class="tab" href="javascript:viewModeStory()" resource="label.modestory" />
+	      </td>
+	   
+	      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
+	
+	      <td class="tabInactive">
+	        <a class="tab" href="javascript:viewModeSlideshow()" resource="label.modeSlideshow" />
+	      </td>
+	  </xsl:if>
 
       <xsl:if test="not(/fileList/readonly)">
         <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
@@ -503,9 +506,10 @@
                 <xsl:if test="resources/msg[@key='button.tar']">
                   <option value="tar" resource="button.tar" />
                 </xsl:if>
+                <!-- Leonardo - readonly mode without download and diff functions -->
+                <option value="download" resource="button.downloadAsZip" />
+                <option value="diff" resource="action.diff" />
               </xsl:if>
-              <option value="download" resource="button.downloadAsZip" />
-              <option value="diff" resource="action.diff" />
             </select>
           </td>
         </tr>
