@@ -9,6 +9,6 @@
 </head>
 <body>
 	<h3>Access Denied!</h3>
-	<p>But you can <a href="login.jsp">try again.</a></p>
+	<p>But you can <a href="<%=request.getContextPath()%>">try again.</a></p>
 </body>
 </html>

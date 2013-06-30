@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 /**
  * @author Frank Hoehnel
- * Encoding must be adjusted to ISO-8859-1
+ * Encoding must be adjusted to ISO-8859-1 in Eclipse
  */
 public class CommonUtils
 {
