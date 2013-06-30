@@ -1,10 +1,7 @@
-package br.nom.leonardo.usermanager;
+package de.webfilesys.user;
 
 import java.util.Date;
 import java.util.Vector;
-
-import de.webfilesys.user.TransientUser;
-import de.webfilesys.user.UserManagerBase;
 
 /**
  * @author leonardo

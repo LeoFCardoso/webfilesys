@@ -23,12 +23,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 
 	<filter> <!-- Should only be used when all real users are "readonly" ones -->
 		<filter-name>ChangeParams</filter-name>
-		<filter-class>br.nom.leonardo.filter.ChangeParameterFilter</filter-class>
+		<filter-class>de.webfilesys.servlet.ChangeParameterFilter</filter-class>
 	</filter>
 
 	<filter>
 		<filter-name>ValidateLogon</filter-name>
-		<filter-class>br.nom.leonardo.filter.ValidateLogonFilter</filter-class>
+		<filter-class>de.webfilesys.servlet.ValidateLogonFilter</filter-class>
 	</filter>
 
 	<filter-mapping>

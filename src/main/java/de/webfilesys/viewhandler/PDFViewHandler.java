@@ -1,7 +1,7 @@
 /**
  * Example for a viewhandler implementation contributed by Leonardo F. Cardoso.
  */
-package br.nom.leonardo.viewhandler;
+package de.webfilesys.viewhandler;
 
 import java.io.InputStream;
 
@@ -16,7 +16,6 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import de.webfilesys.ViewHandlerConfig;
-import de.webfilesys.viewhandler.ViewHandler;
 
 /**
  * Uses iText to implement a "stamp" with userid

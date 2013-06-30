@@ -49,7 +49,7 @@
   
   <!-- PDF File -->
   <viewHandler>
-    <class>br.nom.leonardo.viewhandler.PDFViewHandler</class>
+    <class>de.webfilesys.viewhandler.PDFViewHandler</class>
     <filePatternList>
       <filePattern>*.pdf</filePattern>
     </filePatternList>

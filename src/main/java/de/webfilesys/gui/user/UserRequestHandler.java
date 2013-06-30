@@ -523,6 +523,7 @@ public class UserRequestHandler extends ProtectedRequestHandler
                     if ((byte1 == 0xef) && (byte2 == 0xbb) && (byte3 == 0xbf)) 
                     {
                         // BOM found - UTF-8
+                    	fin.close(); //Leonardo - prevent leak
                         return "UTF-8-BOM";
                     }
                 }

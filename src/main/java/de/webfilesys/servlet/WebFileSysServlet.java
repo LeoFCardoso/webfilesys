@@ -262,7 +262,7 @@ import de.webfilesys.util.UTF8URLDecoder;
  * @author Frank Hoehnel
  */
 public class WebFileSysServlet extends HttpServlet {
-	
+
 	// we are open source now!
 	// private static char lic[] = {'l','i','c','e','n','s','e','.','t','x','t'};
 
@@ -284,9 +284,8 @@ public class WebFileSysServlet extends HttpServlet {
 
 		ServletContext context = config.getServletContext();
 
-		String realLogDirPath = context.getRealPath("/WEB-INF/log");
-
 		// this system property is used in log4j.xml to specify an absolute path for the log files
+		String realLogDirPath = "/var/log/webfilesys"; // context.getRealPath("/WEB-INF/log");
 		System.setProperty("webfilesys.log.path", realLogDirPath);
 
 		String configFileName = config.getInitParameter("config");
@@ -401,6 +400,12 @@ public class WebFileSysServlet extends HttpServlet {
 		StringBuffer logEntry = new StringBuffer();
 
 		logEntry.append(clientIP);
+		// Leonardo - add logged in user in the logs
+		logEntry.append(' ');
+		String loggedInUser = (String) ((req.getSession().getAttribute("userid") != null) ? req.getSession()
+				.getAttribute("userid") : "no user logged on");
+		logEntry.append(loggedInUser);
+		//
 		logEntry.append(' ');
 		logEntry.append(req.getMethod());
 		logEntry.append(' ');

@@ -1,4 +1,4 @@
-package br.nom.leonardo.filter;
+package de.webfilesys.servlet;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,8 +25,8 @@ import org.apache.log4j.Logger;
 public final class ChangeParameterFilter implements Filter {
 
 	/**
-	 * These commands will be redirected to "forbidden" command //TODO - check another "dangerous" commands and
-	 * add to this list
+	 * These commands will be redirected to "forbidden" command //TODO - check another "dangerous" commands
+	 * and add to this list
 	 */
 	private static final String[] disallowedCommands = { "exifThumb", "fileStatistics", "fileSysUsage",
 			"ftpBackup", "getFile", "getThumb", "getZipContentFile", "mobile", "mp3Thumb", "multiDownload",
@@ -49,8 +49,13 @@ public final class ChangeParameterFilter implements Filter {
 		if (Arrays.asList(disallowedCommands).contains(valueCommand)) {
 			HttpServletResponse responseHttp = (HttpServletResponse) response;
 			responseHttp.sendRedirect(requestHttp.getContextPath() + "/servlet?command=forbidden");
+
+			String loggedInUser = (String) ((requestHttp.getSession().getAttribute("userid") != null) ? requestHttp
+					.getSession().getAttribute("userid") : "no user logged on");
+
 			Logger.getLogger(getClass()).warn(
-					"Command " + valueCommand + " not allowed. Redirecting to forbidden.");
+					loggedInUser + " tried not allowed command: " + valueCommand
+							+ ". Redirecting to forbidden page.");
 			return;
 		}
 
