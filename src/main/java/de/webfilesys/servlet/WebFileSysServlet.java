@@ -1963,13 +1963,8 @@ public class WebFileSysServlet extends HttpServlet {
 
 		if ((userid != null) && (password != null)) {
 			if (userMgr.checkPassword(userid, password)) {
-				session = req.getSession(true);
 
-				session.setAttribute("userid", userid);
-
-				session.setAttribute("loginEvent", "true");
-
-				String browserType = req.getHeader("User-Agent");
+				session = configureSessionAfterLogin(req, userid);
 
 				String role = userMgr.getRole(userid);
 
@@ -1977,31 +1972,13 @@ public class WebFileSysServlet extends HttpServlet {
 					(new XslPictureAlbumHandler(req, resp, session, output, userid)).handleRequest();
 
 				} else {
-					if (isMobileClient(browserType)) {
+					if (isMobileClient(req.getHeader("User-Agent"))) {
 						req.setAttribute("initial", "true");
 						(new MobileFolderFileListHandler(req, resp, session, output, userid)).handleRequest();
 					} else {
 						(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal))
 								.handleRequest();
 					}
-				}
-
-				WebFileSys.getInstance().getUserMgr().setLastLoginTime(userid, new Date());
-
-				logEntry = clientIP + ": login user " + userid;
-
-				if (browserType != null) {
-					logEntry = logEntry + " [" + browserType + "]";
-				}
-
-				Logger.getLogger(getClass()).info(logEntry);
-
-				if ((WebFileSys.getInstance().getMailHost() != null)
-						&& WebFileSys.getInstance().isMailNotifyLogin()) {
-					(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(),
-							"login successful", WebFileSys.getInstance().getLogDateFormat()
-									.format(new Date())
-									+ " " + logEntry)).send();
 				}
 
 				return;
@@ -2070,6 +2047,36 @@ public class WebFileSysServlet extends HttpServlet {
 		// logon(true);
 
 		(new XslLogonHandler(req, resp, session, output, true)).handleRequest();
+	}
+
+	/**
+	 * Configure webfilesys session after a sucessfull login. Make static to be called withing a filter. Maybe
+	 * there is a better implementation
+	 * 
+	 * @param req
+	 * @param userid
+	 * @return the configured session
+	 */
+	public static HttpSession configureSessionAfterLogin(HttpServletRequest req, String userid) {
+		HttpSession session = req.getSession(true);
+		session.setAttribute("userid", userid);
+		session.setAttribute("loginEvent", "true");
+
+		WebFileSys.getInstance().getUserMgr().setLastLoginTime(userid, new Date());
+
+		String logEntry = req.getRemoteAddr() + ": login user " + userid;
+
+		if (req.getHeader("User-Agent") != null) {
+			logEntry = logEntry + " [" + req.getHeader("User-Agent") + "]";
+		}
+
+		Logger.getLogger(WebFileSysServlet.class.getClass()).info(logEntry);
+
+		if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
+			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login successful",
+					WebFileSys.getInstance().getLogDateFormat().format(new Date()) + " " + logEntry)).send();
+		}
+		return session;
 	}
 
 	public void silentLogin(HttpServletRequest req, HttpServletResponse resp, PrintWriter output,

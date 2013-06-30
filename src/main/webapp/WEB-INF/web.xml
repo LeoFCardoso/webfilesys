@@ -20,16 +20,27 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+	
+	<filter> <!-- To use with JAAS -->
+		<filter-name>JAASFilter</filter-name>
+		<filter-class>de.webfilesys.servlet.JAASSecurityFilter</filter-class>
+	</filter>
 
-	<filter> <!-- Should only be used when all real users are "readonly" ones -->
+	<filter> <!-- Should only be used when all real users are "readonly" ones. This turns 
+			webfilesys into a simple app -->
 		<filter-name>ChangeParams</filter-name>
 		<filter-class>de.webfilesys.servlet.ChangeParameterFilter</filter-class>
 	</filter>
 
-	<filter>
+	<filter> <!-- Little more security to not logged in users -->
 		<filter-name>ValidateLogon</filter-name>
 		<filter-class>de.webfilesys.servlet.ValidateLogonFilter</filter-class>
 	</filter>
+
+	<filter-mapping>
+		<filter-name>JAASFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
@@ -88,6 +99,31 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
+
+	<!-- JAAS implementation -->
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/loginError.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
+
+	<!-- Every JAAS auth user has this role -->
+	<security-role>
+		<role-name>Everyone</role-name>
+	</security-role>
+	
+	<security-constraint>
+		<display-name>Webfilesys Security</display-name>
+		<web-resource-collection>
+			<web-resource-name>Protected Area</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Everyone</role-name>
+		</auth-constraint>
+	</security-constraint>
 
 	<!-- The Welcome File List -->
 	<welcome-file-list>
