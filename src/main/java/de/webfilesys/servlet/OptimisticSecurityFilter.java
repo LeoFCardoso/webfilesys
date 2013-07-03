@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
  * @author leonardo
  * 
  */
-public final class ChangeParameterFilter implements Filter {
+public final class OptimisticSecurityFilter implements Filter {
 
 	/**
 	 * These commands will be redirected to "forbidden" command //TODO - check another "dangerous" commands

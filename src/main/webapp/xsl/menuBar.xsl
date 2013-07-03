@@ -143,6 +143,9 @@
 
         <table border="0" cellpadding="0" cellspacing="0">
           <tr>
+          
+            <!-- Leonardo - hide buttons of fastpath, bookmark and returnDir -->
+            <xsl:if test="not(readonly) or (readonly='false')">
             <th>
               <a href="javascript:fastpath()">
                 <img src="/webfilesys/images/menubar/fastpath.gif" border="0" width="32" height="32">
@@ -166,6 +169,7 @@
                 </img>
               </a>
             </th>
+            </xsl:if>
 
             <xsl:if test="/menubar/unixAdmin">
               <th>
@@ -271,9 +275,9 @@
       	<!-- Leonardo - hide hostname for security <xsl:value-of select="hostname" /> -->
         <xsl:value-of select="userid" /> @ WEBFILESYS
 
-        <xsl:if test="readonly and (readonly='true')"> (read-only)</xsl:if>
+        <xsl:if test="readonly and (readonly='true')"> (PRONTO)</xsl:if>
 
-        <xsl:if test="maintananceMode"> (maintanance mode)</xsl:if>
+        <xsl:if test="maintananceMode"> (MODO MANUTENÇÃO)</xsl:if>
       </td>
 
       <td align="right">
@@ -335,24 +339,25 @@
 	                </img>
 	              </a>
 	            </th>
+
+	            <th>
+	              <a target="_blank">
+	                <xsl:attribute name="href">/webfilesys/help/<xsl:value-of select="helpLanguage" />/help.html</xsl:attribute>
+	                <img src="/webfilesys/images/menubar/help.gif" border="0" width="32" height="32">
+	                  <xsl:attribute name="titleResource">label.help</xsl:attribute>
+	                </img>
+	              </a>
+	            </th>
+	
+	            <th>
+	              <a href="#" onclick="window.open('/webfilesys/servlet?command=versionInfo','infowindow','status=no,toolbar=no,location=no,menu=no,width=300,height=220,resizable=no,left=250,top=150,screenX=250,screenY=150')">
+	                <img src="/webfilesys/images/menubar/info.gif" border="0" width="32" height="32">
+	                  <xsl:attribute name="titleResource">label.about</xsl:attribute>
+	                </img>
+	              </a>
+	            </th>
+            
             </xsl:if>
-
-            <th>
-              <a target="_blank">
-                <xsl:attribute name="href">/webfilesys/help/<xsl:value-of select="helpLanguage" />/help.html</xsl:attribute>
-                <img src="/webfilesys/images/menubar/help.gif" border="0" width="32" height="32">
-                  <xsl:attribute name="titleResource">label.help</xsl:attribute>
-                </img>
-              </a>
-            </th>
-
-            <th>
-              <a href="#" onclick="window.open('/webfilesys/servlet?command=versionInfo','infowindow','status=no,toolbar=no,location=no,menu=no,width=300,height=220,resizable=no,left=250,top=150,screenX=250,screenY=150')">
-                <img src="/webfilesys/images/menubar/info.gif" border="0" width="32" height="32">
-                  <xsl:attribute name="titleResource">label.about</xsl:attribute>
-                </img>
-              </a>
-            </th>
             
             <th>&#160;&#160;&#160;&#160;</th>
 

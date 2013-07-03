@@ -4,34 +4,33 @@ import java.util.Date;
 import java.util.Vector;
 
 /**
- * @author leonardo
+ * Very simple user manage
+ * 
+ * @author Leonardo F. Cardoso
  * 
  */
 @SuppressWarnings("rawtypes")
-public class TestUserManager extends UserManagerBase {
+public class SimpleUserManager extends UserManagerBase {
 
 	/**
 	 * Fix for "hang" problem when shutting down context
 	 */
-	public TestUserManager() {
+	public SimpleUserManager() {
 		super();
 		this.readyForShutdown = true;
 	}
 
 	public Vector getListOfUsers() {
-		// TODO get all available users.
 		TransientUser adm = new TransientUser();
 		adm.setUserid("admin");
-		adm.setCss("sunset");
-		adm.setDocumentRoot("/");
+		adm.setCss("bluemoon");
 		adm.setLanguage("English");
 		adm.setReadonly(false);
 		adm.setEmail("a@a.com");
 
 		TransientUser usu = new TransientUser();
 		usu.setUserid("usu");
-		usu.setCss("sunset");
-		usu.setDocumentRoot("/");
+		usu.setCss("bluemoon");
 		usu.setLanguage("Portugues");
 		usu.setReadonly(true);
 		usu.setEmail("a@a.com");
@@ -44,42 +43,38 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public Vector getAdminUserEmails() {
-		// TODO implement (return emails as strings)?
 		return new Vector();
 	}
 
 	public Vector getMailAddressesByRole(String receiverRole) {
-		// TODO implement (there are 3 roles: admin, user, webspace)
 		return new Vector();
 	}
 
 	public Vector getAllMailAddresses() {
-		// TODO implement
 		return new Vector();
 	}
 
 	public boolean addUser(String userId) {
-		throw new IllegalArgumentException("M√©todo 'addUser' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'addUser' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
 	public boolean removeUser(String userId) {
-		throw new IllegalArgumentException("M√©todo 'removeUser' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'removeUser' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
 	public boolean userExists(String userId) {
-		// TODO implement
 		return true;
 	}
 
 	public String createVirtualUser(String realUser, String docRoot, String role, int expDays) {
-		throw new IllegalArgumentException("M√©todo 'createVirtualUser' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'createVirtualUser' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
 	public boolean setUserType(String userId, String type) {
-		throw new IllegalArgumentException("M√©todo 'setUserType' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setUserType' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
@@ -89,32 +84,29 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public String getFirstName(String userId) {
-		// TODO implement
-		return "Primeiro";
+		return "No Name";
 	}
 
 	public void setFirstName(String userId, String newValue) {
-		throw new IllegalArgumentException("M√©todo 'setFirstName' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setFirstName' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
 	public String getLastName(String userId) {
-		// TODO implement
-		return "Ultimo";
+		return "No Name";
 	}
 
 	public void setLastName(String userId, String newValue) {
-		throw new IllegalArgumentException("M√©todo 'setLastName' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setLastName' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
 	public String getEmail(String userId) {
-		// TODO implement
-		return "email@email.com";
+		return "noreply@thisemaildoesnotexists.com.com.br";
 	}
 
 	public void setEmail(String userId, String newValue) {
-		throw new IllegalArgumentException("M√©todo 'setEmail' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setEmail' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
@@ -123,7 +115,7 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public void setDiskQuota(String userId, long newValue) {
-		throw new IllegalArgumentException("M√©todo 'setDiskQuota' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setDiskQuota' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
@@ -135,7 +127,6 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public Date getLastLoginTime(String userId) {
-		// TODO - implement (pegar do AD)
 		return new Date();
 	}
 
@@ -143,12 +134,11 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public String getPhone(String userId) {
-		// TODO implement
-		return "2222";
+		return "2345678";
 	}
 
 	public void setPhone(String userId, String newValue) {
-		throw new IllegalArgumentException("M√©todo 'setPhone' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setPhone' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
@@ -157,12 +147,11 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public void setLanguage(String userId, String newValue) {
-		throw new IllegalArgumentException("M√©todo 'setLanguage' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setLanguage' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
 	public String getRole(String userId) {
-		// TODO implementar l√≥gica dos grupos
 		// admin, user, webspace
 		if ("admin".equalsIgnoreCase(userId)) {
 			return "admin";
@@ -175,7 +164,6 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public boolean isReadonly(String userId) {
-		// Todos s√£o readonly
 		return true;
 	}
 
@@ -191,16 +179,12 @@ public class TestUserManager extends UserManagerBase {
 	}
 
 	public void setPassword(String userId, String newPassword) {
-		throw new IllegalArgumentException("M√©todo 'setPassword' n√£o implementado em "
+		throw new IllegalArgumentException("MÈtodo 'setPassword' n„o implementado em "
 				+ this.getClass().getName());
 	}
 
 	public boolean checkPassword(String userId, String password) {
-		// TODO verificar password
-		if ("admin".equalsIgnoreCase(userId)) {
-			return "gseg123-leonardo".equalsIgnoreCase(password);
-		}
-		return true;
+		return false; // We are using JAAS
 	}
 
 	public boolean checkReadonlyPassword(String userId, String password) {
@@ -212,7 +196,7 @@ public class TestUserManager extends UserManagerBase {
 
 	public String getCSS(String userId) {
 		// fmweb, bluemoon, sunset
-		return "sunset";
+		return "bluemoon";
 	}
 
 	public void setCSS(String userId, String newCSS) {
@@ -222,14 +206,9 @@ public class TestUserManager extends UserManagerBase {
 		return new Vector();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.webfilesys.user.UserManagerBase#run()
-	 */
-
-	public synchronized void run() {
-		readyForShutdown = true;
-	}
+	//
+	// public synchronized void run() {
+	// readyForShutdown = true;
+	// }
 
 }

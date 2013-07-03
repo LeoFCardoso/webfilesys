@@ -43,7 +43,7 @@ public class WebFileSys
 {
 	private static WebFileSys instance = null;
 
-	public static final String VERSION = "Version 2.9.1 (2013/05/31)";
+	public static final String VERSION = "Version 2.9.1-Simple (2013/07/02)";
  
     public static final String THUMB_DIR = "thumbnails";
 
@@ -746,7 +746,8 @@ public class WebFileSys
                         .forName(this.userMgrClass)
                         .newInstance();
 
-                Logger.getLogger(getClass()).error("User Manager class: " + this.userMgrClass);
+                //Fix Leonardo - error -> info
+                Logger.getLogger(getClass()).info("User Manager class: " + this.userMgrClass);
             }
             catch (ClassNotFoundException cnfex)
             {

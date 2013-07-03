@@ -28,8 +28,8 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 
 	<filter> <!-- Should only be used when all real users are "readonly" ones. This turns 
 			webfilesys into a simple app -->
-		<filter-name>ChangeParams</filter-name>
-		<filter-class>de.webfilesys.servlet.ChangeParameterFilter</filter-class>
+		<filter-name>SecurityFilter</filter-name>
+		<filter-class>de.webfilesys.servlet.PessimisticSecurityFilter</filter-class>
 	</filter>
 
 	<filter> <!-- Little more security to not logged in users -->
@@ -48,7 +48,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 	</filter-mapping>
 
 	<filter-mapping>
-		<filter-name>ChangeParams</filter-name>
+		<filter-name>SecurityFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 

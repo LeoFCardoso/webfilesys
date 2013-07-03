@@ -4,6 +4,9 @@
 package de.webfilesys.viewhandler;
 
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,8 +40,10 @@ public class PDFViewHandler implements ViewHandler {
 			int numberOfPages = reader.getNumberOfPages();
 
 			PdfStamper stamper = new PdfStamper(reader, resp.getOutputStream());
-			byte[] userPass = null; //Long.toHexString(System.currentTimeMillis()).getBytes();
-			byte[] ownerPass = Long.toHexString(System.currentTimeMillis()).getBytes();
+			byte[] userPass = null;
+			String ownerPassStr = Long.toHexString(System.currentTimeMillis())
+					+ Long.toHexString((long) (Math.random() * 1000000));
+			byte[] ownerPass = ownerPassStr.getBytes();
 			stamper.setEncryption(userPass, ownerPass, PdfWriter.ALLOW_PRINTING, PdfWriter.ENCRYPTION_AES_128);
 			int index = 1;
 			PdfContentByte over;
@@ -58,20 +63,26 @@ public class PDFViewHandler implements ViewHandler {
 				float pageHeight = reader.getPageSize(index).getHeight();
 				float pageWidth = reader.getPageSize(index).getWidth();
 				double rotacao = Math.toDegrees(Math.atan(pageHeight / pageWidth));
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), pageWidth / 2,
-						pageHeight / 2, (float) rotacao);
+				float fixedX = 20;
+				// Middle
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), fixedX
+						+ (pageWidth / 2), pageHeight / 2, (float) rotacao);
 				over.setFontAndSize(bf, 80);
 				// Upper
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), pageWidth / 4,
-						(pageHeight / 4) + (pageHeight / 2), (float) rotacao);
+				Date actualDate = new Date();
+				DateFormat dfDate = DateFormat.getDateInstance(DateFormat.SHORT, new Locale("pt", "BR"));
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, dfDate.format(actualDate), fixedX
+						+ (pageWidth / 4), (pageHeight / 4) + (pageHeight / 2), (float) rotacao);
 				// Lower
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), (pageWidth / 2)
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, "BNDES", fixedX + (pageWidth / 2)
 						+ (pageWidth / 4), (pageHeight / 2) - (pageHeight / 4), (float) rotacao);
 				over.endText();
 				over.restoreState();
 				index++;
 			}
 			stamper.close();
+			reader.close();
+			resp.getOutputStream().close();
 
 		} catch (Exception e) {
 			// TODO exception handling

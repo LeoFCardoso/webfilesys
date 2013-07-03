@@ -284,7 +284,8 @@ public class WebFileSysServlet extends HttpServlet {
 
 		ServletContext context = config.getServletContext();
 
-		// this system property is used in log4j.xml to specify an absolute path for the log files
+		// this system property is used in log4j.xml to specify an absolute path for the log file
+		// TODO Leonardo - check if it is needed in JBoss AS.
 		String realLogDirPath = "/var/log/webfilesys"; // context.getRealPath("/WEB-INF/log");
 		System.setProperty("webfilesys.log.path", realLogDirPath);
 
