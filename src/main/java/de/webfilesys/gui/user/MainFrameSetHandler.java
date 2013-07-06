@@ -10,285 +10,224 @@ import javax.servlet.http.HttpSession;
 import de.webfilesys.WebFileSys;
 import de.webfilesys.WinDriveManager;
 import de.webfilesys.util.UTF8URLEncoder;
- 
+
 /**
  * The main frameset.
+ * 
  * @author Frank Hoehnel
  */
-public class MainFrameSetHandler extends UserRequestHandler
-{
+public class MainFrameSetHandler extends UserRequestHandler {
 	boolean clientIsLocal = false;
-	 
-	public MainFrameSetHandler(
-    		HttpServletRequest req, 
-    		HttpServletResponse resp,
-            HttpSession session,
-            PrintWriter output, 
-            String uid,
-            boolean clientIsLocal)
-	{
-        super(req, resp, session, output, uid);
-		
+
+	public MainFrameSetHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
+			PrintWriter output, String uid, boolean clientIsLocal) {
+		super(req, resp, session, output, uid);
+
 		this.clientIsLocal = clientIsLocal;
 	}
 
-	protected void process()
-	{
-	    session.removeAttribute("mobile");
-	    
-        String act_path = getParameter("actPath");
+	protected void process() {
+		session.removeAttribute("mobile");
 
-        if ((act_path == null) || (act_path.length() == 0))
-        {
-            if (File.separatorChar == '\\')
-            {
-                act_path = "C:\\";
+		String act_path = getParameter("actPath");
 
-                boolean existingDriveFound = false;
-                for (int i = 3; (!existingDriveFound) &&  (i <= 26); i++) {
-                    if (WinDriveManager.getInstance().getDriveLabel(i) != null) {
-                        existingDriveFound = true;
+		if ((act_path == null) || (act_path.length() == 0)) {
+			if (File.separatorChar == '\\') {
+				act_path = "C:\\";
 
-                        char driveChar = 'A';
-                        driveChar += (i - 1);
-                        act_path = driveChar + ":" + File.separator;
-                    }
-                }
-            }
-            else
-            {
-                act_path = "/";
-            }
-        }
-        
-		String viewModeParm = this.getParameter("viewMode");
-        	
-		if (viewModeParm != null)
-		{
-			try
-			{
-				int viewMode = Integer.parseInt(viewModeParm);
+				boolean existingDriveFound = false;
+				for (int i = 3; (!existingDriveFound) && (i <= 26); i++) {
+					if (WinDriveManager.getInstance().getDriveLabel(i) != null) {
+						existingDriveFound = true;
 
-                session.setAttribute("viewMode", new Integer(viewMode));
-			}
-			catch (NumberFormatException nfex)
-			{
+						char driveChar = 'A';
+						driveChar += (i - 1);
+						act_path = driveChar + ":" + File.separator;
+					}
+				}
+			} else {
+				act_path = "/";
 			}
 		}
 
-        if (WebFileSys.getInstance().isMaintananceMode())
-        {
-            if (!this.isAdminUser(false))
-            {
-                maintananceMode();
-                return;
-            }
-        }
+		String viewModeParm = this.getParameter("viewMode");
 
-        if (!accessAllowed(act_path))
-        {
-            if (File.separatorChar == '\\')
-            {
-                act_path = userMgr.getDocumentRoot(uid).replace('/', '\\');
-            }
-            else
-            {
-                act_path = userMgr.getDocumentRoot(uid);
-            }
-        }
+		if (viewModeParm != null) {
+			try {
+				int viewMode = Integer.parseInt(viewModeParm);
 
-        output.println("<html>");
-        output.println("<head>");
-        
+				session.setAttribute("viewMode", new Integer(viewMode));
+			} catch (NumberFormatException nfex) {
+			}
+		}
+
+		if (WebFileSys.getInstance().isMaintananceMode()) {
+			if (!this.isAdminUser(false)) {
+				maintananceMode();
+				return;
+			}
+		}
+
+		if (!accessAllowed(act_path)) {
+			if (File.separatorChar == '\\') {
+				act_path = userMgr.getDocumentRoot(uid).replace('/', '\\');
+			} else {
+				act_path = userMgr.getDocumentRoot(uid);
+			}
+		}
+
+		output.println("<html>");
+		output.println("<head>");
+
 		output.println("<link rel=\"SHORTCUT ICON\" href=\"/webfilesys/images/favicon.ico\">");
 
 		// global JavaScript variables needed for context menu
 		output.println("<script language=\"javascript\">");
-	
-		if (File.separatorChar == '/')
-		{
+
+		if (File.separatorChar == '/') {
 			output.println("var serverOS = 'ix';");
-		}
-		else
-		{
+		} else {
 			output.println("var serverOS = 'win';");
 		}
-	
-		if (clientIsLocal)
-		{
+
+		if (clientIsLocal) {
 			output.println("var clientIsLocal = 'true';");
-		}
-		else
-		{
+		} else {
 			output.println("var clientIsLocal = 'false';");
 		}
-	
-		if (readonly)
-		{
+
+		if (readonly) {
 			output.println("var readonly = 'true';");
-		}
-		else
-		{
+		} else {
 			output.println("var readonly = 'false';");
 		}
-	
+
 		String role = userMgr.getRole(uid);
-		if ((role != null) && role.equals("webspace"))
-		{
+		if ((role != null) && role.equals("webspace")) {
 			output.println("var webspaceUser = 'true';");
-		}
-		else
-		{
+		} else {
 			output.println("var webspaceUser = 'false';");
 		}
 
-		if (WebFileSys.getInstance().getMailHost() != null)
-		{
+		if (WebFileSys.getInstance().getMailHost() != null) {
 			output.println("var mailEnabled = 'true';");
-		}
-		else
-		{
+		} else {
 			output.println("var mailEnabled = 'false';");
 		}
-		
-		if (WebFileSys.getInstance().isAutoCreateThumbs())
-		{
+
+		if (WebFileSys.getInstance().isAutoCreateThumbs()) {
 			output.println("var autoCreateThumbs = 'true';");
-		}
-        else
-        {
+		} else {
 			output.println("var autoCreateThumbs = 'false';");
-        }
-        
-        if (isAdminUser(false))
-        {
-			output.println("var adminUser = 'true';");
-        }
-        else
-        {
-			output.println("var adminUser = 'false';");
-        }
-        
-        if (WebFileSys.getInstance().isChmodAllowed())
-        {
-			output.println("var chmodAllowed = 'true';");
-        }
-        else
-        {
-			output.println("var chmodAllowed = 'false';");
-        }
-
-        output.println("var resourceDelDirStarted = '" + getResource("msg.delDirStarted","Delete operation for folder started.") + "';");
-
-        if (!readonly)
-		{
-            if (WebFileSys.getInstance().isFolderWatch()) {
-                output.println("var watchEnabled = true;");
-            }
 		}
-		
-        output.println("var diffStarted = false;");
-        output.println("var syncStarted = false;");
-        output.println("var compStarted = false;");
-        
+
+		if (isAdminUser(false)) {
+			output.println("var adminUser = 'true';");
+		} else {
+			output.println("var adminUser = 'false';");
+		}
+
+		if (WebFileSys.getInstance().isChmodAllowed()) {
+			output.println("var chmodAllowed = 'true';");
+		} else {
+			output.println("var chmodAllowed = 'false';");
+		}
+
+		output.println("var resourceDelDirStarted = '"
+				+ getResource("msg.delDirStarted", "Delete operation for folder started.") + "';");
+
+		if (!readonly) {
+			if (WebFileSys.getInstance().isFolderWatch()) {
+				output.println("var watchEnabled = true;");
+			}
+		}
+
+		output.println("var diffStarted = false;");
+		output.println("var syncStarted = false;");
+		output.println("var compStarted = false;");
+
 		output.println("</script>");
 
-        output.println(
-            "<title> WebFilesys: "
-                + WebFileSys.getInstance().getLocalHostName()
-                + " ("
-                + WebFileSys.getInstance().getOpSysName()
-                + ") - "
-                + WebFileSys.VERSION
-                + "</title>");
+		// Leonardo - hide some server information
+		// output.println(
+		// "<title> WebFilesys: "
+		// + WebFileSys.getInstance().getLocalHostName()
+		// + " ("
+		// + WebFileSys.getInstance().getOpSysName()
+		// + ") - "
+		// + WebFileSys.VERSION
+		// + "</title>");
 
-        // output.println("<frameset rows=\"32,*\" frameborder=\"0\" framespacing=\"0\" border=\"0\">");
-        output.println("<frameset rows=\"32,*\">");
-        output.println(
-            "<frame name=\"menu\" scrolling=\"no\" src=\"/webfilesys/servlet?command=menuBar\" leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" noresize />");
+		output.println("<title>Pauta ROD - WebFilesys " + WebFileSys.VERSION + "</title>");
 
-        if (File.separatorChar == '/')
-        {
-            output.print("<frameset COLS=\"33%,*\">");
+		// output.println("<frameset rows=\"32,*\" frameborder=\"0\" framespacing=\"0\" border=\"0\">");
+		output.println("<frameset rows=\"32,*\">");
+		output.println("<frame name=\"menu\" scrolling=\"no\" src=\"/webfilesys/servlet?command=menuBar\" leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" noresize />");
 
-            output.println(
-                    "<frame name=\"DirectoryPath\" SRC=\"/webfilesys/servlet?command=exp&expandPath="
-                        + UTF8URLEncoder.encode(act_path)
-                        + "\" scrolling=\"auto\" />");
+		if (File.separatorChar == '/') {
+			output.print("<frameset COLS=\"33%,*\">");
 
-            output.print(
-                "<frame name=\"FileList\" SRC=\"/webfilesys/servlet?command=listFiles&actpath="
-                    + UTF8URLEncoder.encode(act_path)
-                    + "&mask=*\" />");
-            output.print("</frameset>");
-        }
-        else
-        {
-            output.println("<frameset cols=\"33%,*\">");
+			output.println("<frame name=\"DirectoryPath\" SRC=\"/webfilesys/servlet?command=exp&expandPath="
+					+ UTF8URLEncoder.encode(act_path) + "\" scrolling=\"auto\" />");
 
-            String docRoot = userMgr.getDocumentRoot(uid);
+			output.print("<frame name=\"FileList\" SRC=\"/webfilesys/servlet?command=listFiles&actpath="
+					+ UTF8URLEncoder.encode(act_path) + "&mask=*\" />");
+			output.print("</frameset>");
+		} else {
+			output.println("<frameset cols=\"33%,*\">");
 
-            String fastPath = getParameter("fastPath");
-            
-            if ((fastPath != null) || (docRoot.charAt(0) != '*'))
-            {
-                // return to previous folder, expand it
-                output.println(
-                        "<frame name=\"DirectoryPath\" src=\"/webfilesys/servlet?command=exp&expandPath="
-                            + UTF8URLEncoder.encode(act_path)
-                            + "\" scrolling=\"auto\" />");
-            }
-            else
-            {
-                output.println(
-                        "<frame name=\"DirectoryPath\" src=\"/webfilesys/servlet?command=winDirTree&actPath="
-                            + UTF8URLEncoder.encode(act_path)
-                            + "\" scrolling=\"auto\" />");
-            }
+			String docRoot = userMgr.getDocumentRoot(uid);
 
-            output.println(
-                "<frame name=\"FileList\" SRC=\"/webfilesys/servlet?command=listFiles&actpath="
-                    + UTF8URLEncoder.encode(act_path)
-                    + "&mask=*\" scrolling=\"auto\" />");
-            output.println("</frameset>");
-        }
+			String fastPath = getParameter("fastPath");
 
-        output.println("</frameset>");
+			if ((fastPath != null) || (docRoot.charAt(0) != '*')) {
+				// return to previous folder, expand it
+				output.println("<frame name=\"DirectoryPath\" src=\"/webfilesys/servlet?command=exp&expandPath="
+						+ UTF8URLEncoder.encode(act_path) + "\" scrolling=\"auto\" />");
+			} else {
+				output.println("<frame name=\"DirectoryPath\" src=\"/webfilesys/servlet?command=winDirTree&actPath="
+						+ UTF8URLEncoder.encode(act_path) + "\" scrolling=\"auto\" />");
+			}
 
-        output.println("</head>");
-        output.println("</html>");
-        output.flush();
-        return;
+			output.println("<frame name=\"FileList\" SRC=\"/webfilesys/servlet?command=listFiles&actpath="
+					+ UTF8URLEncoder.encode(act_path) + "&mask=*\" scrolling=\"auto\" />");
+			output.println("</frameset>");
+		}
+
+		output.println("</frameset>");
+
+		output.println("</head>");
+		output.println("</html>");
+		output.flush();
+		return;
 	}
-	
-    private void maintananceMode()
-    {
-        output.println("<html>");
-        output.println("<head>");
 
-        // output.println("<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"20; URL=/_logout\">");
+	private void maintananceMode() {
+		output.println("<html>");
+		output.println("<head>");
 
-		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/webfilesys/css/" + userMgr.getCSS(uid) + ".css\">");
+		// output.println("<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"20; URL=/_logout\">");
 
-        output.println("</head>");
-        output.println("<body>");
+		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/webfilesys/css/"
+				+ userMgr.getCSS(uid) + ".css\">");
 
-        headLine(getResource("label.maintanance.head", "Maintanance Mode"));
+		output.println("</head>");
+		output.println("<body>");
 
-        output.println("<br><br>");
+		headLine(getResource("label.maintanance.head", "Maintanance Mode"));
 
-        output.println(
-            getResource(
-                "label.maintanance.info",
-                "The server is temporary not available due to maintanance. Please try again in a few minutes!"));
+		output.println("<br><br>");
 
-        output.println("</body>");
-        output.println("</html>");
-        output.flush();
+		output.println(getResource("label.maintanance.info",
+				"The server is temporary not available due to maintanance. Please try again in a few minutes!"));
+
+		output.println("</body>");
+		output.println("</html>");
+		output.flush();
 
 		session.removeAttribute("userid");
 
-    	session.invalidate();
-    }
+		session.invalidate();
+	}
 
 }
