@@ -3,6 +3,7 @@
  */
 package de.webfilesys.viewhandler;
 
+import java.io.File;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.Date;
@@ -11,6 +12,10 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
@@ -51,8 +56,8 @@ public class PDFViewHandler implements ViewHandler {
 			BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
 
 			PdfGState gstate = new PdfGState();
-			gstate.setFillOpacity(0.3f);
-			gstate.setStrokeOpacity(0.3f);
+			gstate.setFillOpacity(0.2f);
+			gstate.setStrokeOpacity(0.2f);
 
 			while (index <= numberOfPages) {
 				over = stamper.getOverContent(index);
@@ -85,10 +90,25 @@ public class PDFViewHandler implements ViewHandler {
 			resp.getOutputStream().close();
 
 		} catch (Exception e) {
-			// TODO exception handling
-			e.printStackTrace();
+			Logger.getLogger(getClass()).error(
+					"PDF file (" + filePath + ") could not be stamped. " + e.getMessage());
+			try {
+				Document document = new Document();
+				PdfWriter.getInstance(document, resp.getOutputStream());
+				document.open();
+				File file = new File(filePath);
+				document.add(new Paragraph(
+						"O documento '"
+								+ file.getName()
+								+ "' não pode ser exibido nesta ferramenta, pois foi criado com proteção de segurança. "
+								+ "Por favor, certifique-se que foi gerado um arquivo PDF sem proteção de segurança,"
+								+ " mas não se preocupe, pois esta ferramenta somente exibe arquivos PDF com a devida proteção, gerada em tempo real."));
+				document.close();
+			} catch (Exception e1) {
+				Logger.getLogger(getClass()).error(
+						"Error PDF for (" + filePath + ") could not be generated. " + e1.getMessage());
+			}
 		}
-
 	}
 
 	public void processZipContent(String fileName, InputStream zipIn, ViewHandlerConfig viewHandlerConfig,

@@ -70,6 +70,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 		<servlet-name>webfilesys</servlet-name>
 		<servlet-class>de.webfilesys.servlet.WebFileSysServlet</servlet-class>
 		<init-param>
+			<!-- Will append "BNDES.ambiente" env var to this PATH -->
 			<param-name>config</param-name>
 			<param-value>/WEB-INF/webfilesys.conf</param-value>
 		</init-param>
