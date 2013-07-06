@@ -25,8 +25,7 @@ import org.apache.log4j.Logger;
 public final class OptimisticSecurityFilter implements Filter {
 
 	/**
-	 * These commands will be redirected to "forbidden" command //TODO - check another "dangerous" commands
-	 * and add to this list
+	 * These commands will be redirected to "forbidden" command
 	 */
 	private static final String[] disallowedCommands = { "ajaxRPC", "downloadFolder", "deleteDir",
 			"exifThumb", "fileStatistics", "fileSysUsage", "fmdelete", "ftpBackup", "getFile", "getThumb",

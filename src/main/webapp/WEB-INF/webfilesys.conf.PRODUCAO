@@ -36,7 +36,9 @@ RegistrationType=closed
 # the base directory for user home directories
 # for self-registered users
 # default: WEB-INF/userhome
-# UserDocumentRoot=/home/fmwebusers
+# -
+# Leonardo - it's used as base directory by SimpleUserManager
+UserDocumentRoot=/home/leonardo/webfilesys
 
 # show filetype-specific icons defined in 
 # iconAssignment.conf 

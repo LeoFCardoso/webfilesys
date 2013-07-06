@@ -3,6 +3,8 @@ package de.webfilesys.user;
 import java.util.Date;
 import java.util.Vector;
 
+import de.webfilesys.WebFileSys;
+
 /**
  * Very simple user manage
  * 
@@ -171,8 +173,11 @@ public class SimpleUserManager extends UserManagerBase {
 	}
 
 	public String getDocumentRoot(String userId) {
-		// TODO read from config file or context param
-		return "/tmp/webfilesys";
+		String rootPath = WebFileSys.getInstance().getUserDocRoot();
+		if (rootPath == null) {
+			throw new IllegalArgumentException("UserDocumentRoot must exist in configuration file");
+		}
+		return rootPath;
 	}
 
 	public void setDocumentRoot(String userId, String newValue) {
