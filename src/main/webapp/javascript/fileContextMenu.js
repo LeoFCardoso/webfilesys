@@ -66,8 +66,13 @@ function contextMenu(fileName) {
 							resourceBundle["label.view"], "_blank");
 		} else {
 			menuText = menuText
-					+ menuEntry("javascript:viewFile('" + scriptPreparedPath
-							+ "')", resourceBundle["label.view"], null);
+					// Leonardo - fix. IE8 cannot correctly show PDF opened by
+					// scripts without change in security settings
+					// http://itissolved.blogspot.com.br/2011/03/adobe-x-not-opening-pdf-in-ie-window.html
+					// + menuEntry("javascript2:viewFile('" + scriptPreparedPath
+					// + "')", resourceBundle["label.view"], null);
+					+ menuEntry("/webfilesys/servlet" + scriptPreparedPath,
+							resourceBundle["label.view"], "_blank");
 		}
 	}
 
@@ -82,8 +87,8 @@ function contextMenu(fileName) {
 	// + menuEntry("/webfilesys/servlet?command=getFile&filePath="
 	// + encodeURIComponent(fullPath)
 	// + "&disposition=download", downloadLabel, null);
-	//	}
-	
+	// }
+
 	if (parent.readonly != 'true') {
 		menuText = menuText
 				+ menuEntry("javascript:delFile('" + scriptPreparedFile + "')",
@@ -190,7 +195,7 @@ function contextMenu(fileName) {
 	// + insertDoubleBackslash(shortFileName) + "', '"
 	// + scriptPreparedPath + "')",
 	// resourceBundle["label.menuMore"], null);
-	//	}
+	// }
 
 	menuText = menuText + '</table>';
 

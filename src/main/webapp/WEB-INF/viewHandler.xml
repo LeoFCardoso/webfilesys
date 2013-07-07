@@ -55,7 +55,7 @@
     <filePatternList>
       <filePattern>*.pdf</filePattern>
     </filePatternList>
-  </viewHandler>
+  </viewHandler> 
 
   <!-- 
     The view handler for compiled Java class files requires the JAD decompiler.
