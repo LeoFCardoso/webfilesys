@@ -20,7 +20,8 @@ primaryLanguage=Portugues
 date.format.English=yyyy/MM/dd HH:mm:ss
 date.format.German=dd.MM.yyyy HH:mm:ss
 date.format.Portugues=dd/MM/yyyy HH:mm:ss
-
+# Windows servers must use '/' to config root. 
+# Windows Example: UserDocumentRoot=C:/Users/Leonardo/Desktop
 # date format for administration
 # US English:
 # date.format.admin=MM/dd/yy HH:mm:ss
@@ -38,6 +39,8 @@ RegistrationType=closed
 # default: WEB-INF/userhome
 # -
 # Leonardo - it's used as base directory by SimpleUserManager
+# Windows servers must use '/' to config root. 
+# Windows Example: UserDocumentRoot=C:/Users/Leonardo/Desktop
 UserDocumentRoot=/home/leonardo/webfilesys
 
 # show filetype-specific icons defined in 

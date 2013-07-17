@@ -38,6 +38,8 @@ RegistrationType=closed
 # default: WEB-INF/userhome
 # -
 # Leonardo - it's used as base directory by SimpleUserManager
+# Windows servers must use '/' to config root. 
+# Windows Example: UserDocumentRoot=C:/Users/Leonardo/Desktop
 UserDocumentRoot=/home/leonardo/webfilesys
 
 # show filetype-specific icons defined in 
