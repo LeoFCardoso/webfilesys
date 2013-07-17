@@ -69,9 +69,9 @@ function contextMenu(fileName) {
 					// Leonardo - fix. IE8 cannot correctly show PDF opened by
 					// scripts without change in security settings
 					// http://itissolved.blogspot.com.br/2011/03/adobe-x-not-opening-pdf-in-ie-window.html
-					// + menuEntry("javascript2:viewFile('" + scriptPreparedPath
+					// + menuEntry("javascript:viewFile('" + scriptPreparedPath
 					// + "')", resourceBundle["label.view"], null);
-					+ menuEntry("/webfilesys/servlet" + scriptPreparedPath,
+					+ menuEntry("/webfilesys/servlet/" + scriptPreparedPath,
 							resourceBundle["label.view"], "_blank");
 		}
 	}
