@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.w3c.dom.Element;
 
 import de.webfilesys.ClipBoard;
-import de.webfilesys.WebFileSys;
 import de.webfilesys.WinDriveManager;
 import de.webfilesys.util.UTF8URLEncoder;
 import de.webfilesys.util.XmlUtil;
@@ -19,121 +18,96 @@ import de.webfilesys.util.XmlUtil;
 /**
  * @author Frank Hoehnel
  */
-public class XslWinDirTreeHandler extends XslDirTreeHandler
-{
+public class XslWinDirTreeHandler extends XslDirTreeHandler {
 	boolean clientIsLocal = false;
-	
-	public XslWinDirTreeHandler(
-    		HttpServletRequest req, 
-    		HttpServletResponse resp,
-            HttpSession session,
-            PrintWriter output, 
-            String uid,
-            boolean clientIsLocal)
-	{
-        super(req, resp, session, output, uid);
-		
+
+	public XslWinDirTreeHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session, PrintWriter output,
+			String uid, boolean clientIsLocal) {
+		super(req, resp, session, output, uid);
+
 		this.clientIsLocal = clientIsLocal;
 	}
 
-	protected void process()
-	{
+	protected void process() {
 		String docRoot = userMgr.getDocumentRoot(uid);
 
 		char docRootDriveChar = docRoot.charAt(0);
 
-		int docRootDriveNum=0;
+		int docRootDriveNum = 0;
 
-		if (docRootDriveChar!='*')
-		{
-			if (docRootDriveChar > 'Z')
-			{
-				docRootDriveNum=docRootDriveChar - 'a' + 1;
-			}
-			else
-			{
-				docRootDriveNum=docRootDriveChar - 'A' + 1;
+		if (docRootDriveChar != '*') {
+			if (docRootDriveChar > 'Z') {
+				docRootDriveNum = docRootDriveChar - 'a' + 1;
+			} else {
+				docRootDriveNum = docRootDriveChar - 'A' + 1;
 			}
 		}
 
 		String currentPath = actPath;
-		
+
 		// Logger.getLogger(getClass()).debug("current path: " + currentPath);
 
-		if (!accessAllowed(currentPath))
-		{
+		if (!accessAllowed(currentPath)) {
 			currentPath = docRoot;
 		}
 
-        XmlUtil.setChildText(folderTreeElement, "currentPath", currentPath);
+		XmlUtil.setChildText(folderTreeElement, "currentPath", currentPath);
 
 		XmlUtil.setChildText(folderTreeElement, "encodedPath", UTF8URLEncoder.encode(currentPath));
 
-		if (currentPath.charAt(0) > 'Z')
-		{
-			char driveChar = (char) ('A' + (currentPath.charAt(0)-'a'));
+		if (currentPath.charAt(0) > 'Z') {
+			char driveChar = (char) ('A' + (currentPath.charAt(0) - 'a'));
+			actPath = driveChar + currentPath.substring(1);
+		} else {
+			actPath = currentPath;
+		}
 
-			actPath=driveChar + currentPath.substring(1);
-		}
-		else
-		{
-			actPath=currentPath;
-		}
-		
 		ClipBoard clipBoard = (ClipBoard) session.getAttribute("clipBoard");
-		
-		if ((clipBoard == null) || clipBoard.isEmpty())
-		{
+
+		if ((clipBoard == null) || clipBoard.isEmpty()) {
 			XmlUtil.setChildText(folderTreeElement, "clipBoardEmpty", "true", false);
-		}
-        else
-        {
+		} else {
 			XmlUtil.setChildText(folderTreeElement, "clipBoardEmpty", "false", false);
-        }
+		}
 
 		// XmlUtil.setChildText(folderTreeElement,"userid", uid, false);
 		XmlUtil.setChildText(folderTreeElement, "css", userMgr.getCSS(uid), false);
 
-	    XmlUtil.setChildText(folderTreeElement, "language", language, false);
-		
-        Element computerElement = doc.createElement("computer");
+		XmlUtil.setChildText(folderTreeElement, "language", language, false);
 
-        folderTreeElement.appendChild(computerElement);
-        
-        computerElement.setAttribute("name", WebFileSys.getInstance().getLocalHostName());
+		Element computerElement = doc.createElement("computer");
 
-		ArrayList existingDrives = new ArrayList();
+		folderTreeElement.appendChild(computerElement);
 
-		if (docRootDriveChar=='*')
-        {
-	        for (int i = 1; i <= 26; i++)
-	        {
-	            String driveLabel = WinDriveManager.getInstance().getDriveLabel(i);
+		// Leonardo - hide localhostname for security
+		// computerElement.setAttribute("name",
+		// WebFileSys.getInstance().getLocalHostName());
+		computerElement.setAttribute("name", "INÍCIO");
 
-	            if (driveLabel != null)
-	            {
-                    existingDrives.add(new Integer(i));
-	            }
-	        }
-        } 
-		else
-		{
-            String driveLabel = WinDriveManager.getInstance().getDriveLabel(docRootDriveNum);
+		ArrayList<Integer> existingDrives = new ArrayList<Integer>();
 
-            if (driveLabel != null)
-            {
-                existingDrives.add(new Integer(docRootDriveNum));
-            }
+		if (docRootDriveChar == '*') {
+			for (int i = 1; i <= 26; i++) {
+				String driveLabel = WinDriveManager.getInstance().getDriveLabel(i);
+
+				if (driveLabel != null) {
+					existingDrives.add(new Integer(i));
+				}
+			}
+		} else {
+			String driveLabel = WinDriveManager.getInstance().getDriveLabel(docRootDriveNum);
+
+			if (driveLabel != null) {
+				existingDrives.add(new Integer(docRootDriveNum));
+			}
 		}
-		
-		for (int i = 0; i < existingDrives.size(); i++)
-		{
-			int driveNum = ((Integer) existingDrives.get(i)).intValue();
+
+		for (int i = 0; i < existingDrives.size(); i++) {
+			int driveNum = existingDrives.get(i).intValue();
 
 			String driveLabel = WinDriveManager.getInstance().getDriveLabel(driveNum);
 
-			if (driveLabel != null)
-			{
+			if (driveLabel != null) {
 				char driveChar = 'A';
 				driveChar += (driveNum - 1);
 
@@ -143,12 +117,10 @@ public class XslWinDirTreeHandler extends XslDirTreeHandler
 
 				boolean access = accessAllowed(subdirPath);
 
-				if (access)
-				{
+				if (access) {
 					dirCounter++;
-					
-					if (subdirPath.equals(actPath))
-					{
+
+					if (subdirPath.equals(actPath)) {
 						currentDirNum = dirCounter;
 					}
 
@@ -158,17 +130,14 @@ public class XslWinDirTreeHandler extends XslDirTreeHandler
 
 					Element driveElement = doc.createElement("folder");
 
-                    if (driveNum < 3)
-                    {
+					if (driveNum < 3) {
 						driveElement.setAttribute("type", "floppy");
-                    }
-                    else
-                    {
+					} else {
 						driveElement.setAttribute("type", "drive");
-                    }
-                    
+					}
+
 					driveElement.setAttribute("name", subdirPath);
-					
+
 					driveElement.setAttribute("id", Integer.toString(dirCounter));
 
 					driveElement.setAttribute("path", encodedPath);
@@ -178,13 +147,12 @@ public class XslWinDirTreeHandler extends XslDirTreeHandler
 					driveElement.setAttribute("label", driveLabel);
 					// XmlUtil.setChildText(driveElement, "label", driveLabel);
 
-                    computerElement.appendChild(driveElement);
-                    
-                    parentElement = driveElement;
+					computerElement.appendChild(driveElement);
+
+					parentElement = driveElement;
 				}
 
-				if (dirTreeStatus.dirExpanded(subdirPath))
-				{
+				if (dirTreeStatus.dirExpanded(subdirPath)) {
 					dirSubTree(parentElement, actPath, subdirPath, access);
 				}
 			}
@@ -192,31 +160,26 @@ public class XslWinDirTreeHandler extends XslDirTreeHandler
 
 		String fastPath = getParameter("fastPath");
 
-		if (fastPath != null)
-		{
+		if (fastPath != null) {
 			XmlUtil.setChildText(folderTreeElement, "fastPath", insertDoubleBackslash(actPath));
 		}
 
-		int topOfScreenDir=0;
+		int topOfScreenDir = 0;
 
-		if (currentDirNum > 5)
-		{
-			topOfScreenDir=currentDirNum - 5;
+		if (currentDirNum > 5) {
+			topOfScreenDir = currentDirNum - 5;
 		}
 
 		int scrollPos;
-		
-		if ((browserManufacturer == BROWSER_MOZILLA))
-		{
-			scrollPos = topOfScreenDir * 18;  // pixels per line
-		}
-		else
-		{
-			scrollPos = topOfScreenDir * 17;  // pixels per line
+
+		if ((browserManufacturer == BROWSER_MOZILLA)) {
+			scrollPos = topOfScreenDir * 18; // pixels per line
+		} else {
+			scrollPos = topOfScreenDir * 17; // pixels per line
 		}
 
 		XmlUtil.setChildText(folderTreeElement, "scrollPos", "" + scrollPos);
 
-        this.processResponse("folderTree.xsl");
+		this.processResponse("folderTree.xsl");
 	}
 }

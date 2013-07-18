@@ -32,8 +32,9 @@ public class ProtectedRequestHandler extends RequestHandler {
 
 	protected UserManager userMgr = null;
 
-	public ProtectedRequestHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
-			PrintWriter output, String uid) {
+	public ProtectedRequestHandler(HttpServletRequest req,
+			HttpServletResponse resp, HttpSession session, PrintWriter output,
+			String uid) {
 		super(req, resp, session, output);
 
 		this.uid = uid;
@@ -76,7 +77,7 @@ public class ProtectedRequestHandler extends RequestHandler {
 		if (fileName.indexOf("..") >= 0) {
 			return (false);
 		}
-
+		
 		// WIN
 		if (File.separatorChar == '\\') {
 			String lowerCaseDocRoot = userMgr.getLowerCaseDocRoot(uid);
@@ -109,8 +110,21 @@ public class ProtectedRequestHandler extends RequestHandler {
 				return (formattedDocName.substring(2).startsWith(lowerCaseDocRoot.substring(2)));
 			}
 
-			return (formattedDocName.startsWith(lowerCaseDocRoot) && ((formattedDocName.length() == lowerCaseDocRoot
-					.length()) || (formattedDocName.charAt(lowerCaseDocRoot.length()) == File.separatorChar)));
+			//Leonardo - refactor to handle root drive access in Windows.
+			boolean docRootContainsOrEqualsFile = formattedDocName.startsWith(lowerCaseDocRoot);
+			boolean docRootEqualsFile = formattedDocName.equalsIgnoreCase(lowerCaseDocRoot); //(formattedDocName.length() == lowerCaseDocRoot.length())
+			boolean isDocRootARootDrive = (fileLowerCaseDocRoot.isDirectory() && lowerCaseDocRoot.length() == "*:\\".length()); //* represents any drive letter
+			boolean checkContains = false;
+			//If docRoot is a root drive, then canonical path returns a slash at the end.
+			if (isDocRootARootDrive) {
+				checkContains = (lowerCaseDocRoot.length() < formattedDocName.length()) && (formattedDocName.charAt(lowerCaseDocRoot.length()-1) == File.separatorChar);
+			} else {
+				checkContains = (lowerCaseDocRoot.length() < formattedDocName.length()) && (formattedDocName.charAt(lowerCaseDocRoot.length()) == File.separatorChar);
+			}
+			//We could use commons file to do this check
+			// http://commons.apache.org/proper/commons-io/apidocs/org/apache/commons/io/FileUtils.html
+			//  # directoryContains
+			return ( docRootContainsOrEqualsFile && ( docRootEqualsFile || checkContains ) );
 		}
 
 		String docRoot = userMgr.getDocumentRoot(uid);
@@ -140,8 +154,11 @@ public class ProtectedRequestHandler extends RequestHandler {
 			return (true);
 		}
 
-		Logger.getLogger(getClass()).warn(
-				"user " + uid + " tried to access file outside of the document root: " + fileName);
+		Logger.getLogger(getClass())
+				.warn("user "
+						+ uid
+						+ " tried to access file outside of the document root: "
+						+ fileName);
 
 		if (output == null) {
 			try {
@@ -166,10 +183,12 @@ public class ProtectedRequestHandler extends RequestHandler {
 		return (false);
 	}
 
-	public boolean copy_file(String source_filename, String dest_filename, boolean display_result) {
+	public boolean copy_file(String source_filename, String dest_filename,
+			boolean display_result) {
 		if (source_filename.equals(dest_filename)) {
-			Logger.getLogger(getClass())
-					.warn("copy_file: copy source equals destination: " + source_filename);
+			Logger.getLogger(getClass()).warn(
+					"copy_file: copy source equals destination: "
+							+ source_filename);
 			return (false);
 		}
 
@@ -189,7 +208,8 @@ public class ProtectedRequestHandler extends RequestHandler {
 
 		try {
 			f_in = new BufferedInputStream(new FileInputStream(source_filename));
-			f_out = new BufferedOutputStream(new FileOutputStream(dest_filename));
+			f_out = new BufferedOutputStream(
+					new FileOutputStream(dest_filename));
 
 			while ((count = f_in.read(buff)) >= 0) {
 				f_out.write(buff, 0, count);
@@ -210,9 +230,11 @@ public class ProtectedRequestHandler extends RequestHandler {
 
 		if (display_result) {
 			if (copy_failed) {
-				output.println("*** cannot copy " + source_filename + " to " + dest_filename + "<br>");
+				output.println("*** cannot copy " + source_filename + " to "
+						+ dest_filename + "<br>");
 			} else {
-				output.println("<nobr>" + source_filename + " successfully copied</nobr><br>");
+				output.println("<nobr>" + source_filename
+						+ " successfully copied</nobr><br>");
 			}
 
 			output.flush();
@@ -221,7 +243,8 @@ public class ProtectedRequestHandler extends RequestHandler {
 		return (!copy_failed);
 	}
 
-	public int zipTree(String actPath, String relativePath, ZipOutputStream zipOut, int fileCount) {
+	public int zipTree(String actPath, String relativePath,
+			ZipOutputStream zipOut, int fileCount) {
 		int zipFileNum = fileCount;
 
 		File actDir = new File(actPath);
@@ -290,7 +313,8 @@ public class ProtectedRequestHandler extends RequestHandler {
 						if (showStatus) {
 							output.println("<script language=\"javascript\">");
 							output.println("document.getElementById('currentDir').innerHTML=\""
-									+ insertDoubleBackslash(CommonUtils.shortName(relativeFileName, 50))
+									+ insertDoubleBackslash(CommonUtils
+											.shortName(relativeFileName, 50))
 									+ "\";");
 							output.println("document.getElementById('compressCount').innerHTML=\""
 									+ zipFileNum + "\";");
@@ -298,16 +322,19 @@ public class ProtectedRequestHandler extends RequestHandler {
 							output.flush();
 						}
 					} catch (Exception zioe) {
-						Logger.getLogger(getClass()).error("failed to zip file " + fullFileName, zioe);
-						output.println("<font color=\"red\">failed to zip file " + fullFileName
-								+ "</font><br/>");
+						Logger.getLogger(getClass()).error(
+								"failed to zip file " + fullFileName, zioe);
+						output.println("<font color=\"red\">failed to zip file "
+								+ fullFileName + "</font><br/>");
 						output.flush();
 					}
 
 					inStream.close();
 				} catch (IOException ioex) {
-					Logger.getLogger(getClass()).error("error during zipping file " + fullFileName, ioex);
-					output.println("<font color=\"red\">failed to zip file " + fullFileName + "</font><br/>");
+					Logger.getLogger(getClass()).error(
+							"error during zipping file " + fullFileName, ioex);
+					output.println("<font color=\"red\">failed to zip file "
+							+ fullFileName + "</font><br/>");
 				}
 			}
 		}
