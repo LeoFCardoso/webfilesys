@@ -16,6 +16,7 @@ import org.w3c.dom.Element;
 import de.webfilesys.DirTreeStatus;
 import de.webfilesys.SubdirExistCache;
 import de.webfilesys.TestSubDirThread;
+import de.webfilesys.WebFileSys;
 import de.webfilesys.decoration.Decoration;
 import de.webfilesys.decoration.DecorationManager;
 import de.webfilesys.graphics.ThumbnailThread;
@@ -28,8 +29,8 @@ import de.webfilesys.util.UTF8URLEncoder;
 public class XmlAjaxSubDirHandler extends XmlRequestHandlerBase {
 	DirTreeStatus dirTreeStatus = null;
 
-	public XmlAjaxSubDirHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
-			PrintWriter output, String uid) {
+	public XmlAjaxSubDirHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session, PrintWriter output,
+			String uid) {
 		super(req, resp, session, output, uid);
 	}
 
@@ -38,8 +39,7 @@ public class XmlAjaxSubDirHandler extends XmlRequestHandlerBase {
 
 		if (!accessAllowed(expandDir)) {
 			Logger.getLogger(getClass()).warn(
-					"user " + this.getUid() + " tried to access directory outside the home directory: "
-							+ expandDir);
+					"user " + this.getUid() + " tried to access directory outside the home directory: " + expandDir);
 
 			try {
 				resp.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -109,8 +109,16 @@ public class XmlAjaxSubDirHandler extends XmlRequestHandlerBase {
 		if (parentPath.charAt(parentPath.length() - 1) == File.separatorChar) {
 			parentElement.setAttribute("name", parentPath);
 		} else {
-			parentElement.setAttribute("name",
-					parentPath.substring(parentPath.lastIndexOf(File.separatorChar) + 1));
+			// Leonardo - trata origem do path UNC
+			String rootPath = WebFileSys.getInstance().getUserDocRoot();
+			boolean rootIsUNC = (rootPath.startsWith("//") || rootPath.startsWith("\\\\"));
+			if (parentPath.equals(rootPath) && rootIsUNC) {
+				// Name must be the last name from UNC path
+				File f = new File(rootPath);
+				parentElement.setAttribute("name", f.getName());
+			} else {
+				parentElement.setAttribute("name", parentPath.substring(parentPath.lastIndexOf(File.separatorChar) + 1));
+			}
 		}
 
 		if (File.separatorChar == '\\') {
@@ -154,8 +162,7 @@ public class XmlAjaxSubDirHandler extends XmlRequestHandlerBase {
 
 		if (File.separatorChar == '/') {
 			// there is no way to detect NTFS symbolic links / junctions with Java functions
-			// see
-			// http://stackoverflow.com/questions/3249117/cross-platform-way-to-detect-a-symbolic-link-junction-point
+			// see http://stackoverflow.com/questions/3249117/cross-platform-way-to-detect-a-symbolic-link-junction-point
 
 			File linkTestFile = new File(parentPath);
 

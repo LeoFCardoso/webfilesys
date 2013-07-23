@@ -247,6 +247,7 @@ import de.webfilesys.gui.xsl.XslUnixCmdLineHandler;
 import de.webfilesys.gui.xsl.XslUnixDirTreeHandler;
 import de.webfilesys.gui.xsl.XslUploadParmsHandler;
 import de.webfilesys.gui.xsl.XslWinDirTreeHandler;
+import de.webfilesys.gui.xsl.XslWinUNCDirTreeHandler;
 import de.webfilesys.gui.xsl.XslZipContentHandler;
 import de.webfilesys.gui.xsl.calendar.XslCalendarHandler;
 import de.webfilesys.gui.xsl.calendar.XslCalendarMonthHandler;
@@ -291,8 +292,7 @@ public class WebFileSysServlet extends HttpServlet {
 
 		String runningEnv = System.getProperty("BNDES.ambiente");
 		if (runningEnv == null) {
-			Logger.getLogger(getClass())
-					.warn("no running env (BNDES.ambiente). Default to DESENVOLVIMENTO.");
+			Logger.getLogger(getClass()).warn("no running env (BNDES.ambiente). Default to DESENVOLVIMENTO.");
 			runningEnv = "DESENVOLVIMENTO";
 		} else {
 			runningEnv = runningEnv.toUpperCase();
@@ -372,8 +372,7 @@ public class WebFileSysServlet extends HttpServlet {
 		super.destroy();
 	}
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-			java.io.IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, java.io.IOException {
 		PrintWriter output = null;
 
 		String command = null;
@@ -385,24 +384,22 @@ public class WebFileSysServlet extends HttpServlet {
 
 			if (File.separatorChar == '\\') {
 				if (requestPath.length() > REQUEST_PATH_LENGTH + 1) {
-					req.setAttribute("filePath",
-							UTF8URLDecoder.decode(requestPath.substring(REQUEST_PATH_LENGTH + 1)));
+					req.setAttribute("filePath", UTF8URLDecoder.decode(requestPath.substring(REQUEST_PATH_LENGTH + 1)));
 				} else {
 					Logger.getLogger(getClass()).warn("invalid request path: " + requestPath);
 				}
 			} else {
-				req.setAttribute("filePath",
-						UTF8URLDecoder.decode(requestPath.substring(REQUEST_PATH_LENGTH)));
+				req.setAttribute("filePath", UTF8URLDecoder.decode(requestPath.substring(REQUEST_PATH_LENGTH)));
 			}
 		} else {
 			command = req.getParameter("command");
 		}
 
 		if ((command == null)
-				|| ((!command.equals("exifThumb")) && (!command.equals("getFile"))
-						&& (!command.equals("getThumb")) && (!command.equals("multiDownload"))
-						&& (!command.equals("getZipContentFile")) && (!command.equals("visitorFile"))
-						&& (!command.equals("mp3Thumb")) && (!command.equals("downloadFolder")))) {
+				|| ((!command.equals("exifThumb")) && (!command.equals("getFile")) && (!command.equals("getThumb"))
+						&& (!command.equals("multiDownload")) && (!command.equals("getZipContentFile"))
+						&& (!command.equals("visitorFile")) && (!command.equals("mp3Thumb")) && (!command
+							.equals("downloadFolder")))) {
 			// resp.setCharacterEncoding("ISO-8859-1");
 			resp.setCharacterEncoding("UTF-8");
 
@@ -416,8 +413,8 @@ public class WebFileSysServlet extends HttpServlet {
 		logEntry.append(clientIP);
 		// Leonardo - add logged in user in the logs
 		logEntry.append(' ');
-		String loggedInUser = (String) ((req.getSession().getAttribute("userid") != null) ? req.getSession()
-				.getAttribute("userid") : "no user logged on");
+		String loggedInUser = (String) ((req.getSession().getAttribute("userid") != null) ? req.getSession().getAttribute(
+				"userid") : "no user logged on");
 		logEntry.append(loggedInUser);
 		//
 		logEntry.append(' ');
@@ -442,8 +439,7 @@ public class WebFileSysServlet extends HttpServlet {
 		boolean requestIsLocal = false;
 
 		if (!WebFileSys.getInstance().isSimulateRemote()) {
-			requestIsLocal = clientIP.equals(localIP)
-					|| clientIP.equals(WebFileSys.getInstance().getLoopbackAddress());
+			requestIsLocal = clientIP.equals(localIP) || clientIP.equals(WebFileSys.getInstance().getLoopbackAddress());
 		}
 
 		// prevent caching
@@ -520,13 +516,12 @@ public class WebFileSysServlet extends HttpServlet {
 		return;
 	}
 
-	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-			java.io.IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, java.io.IOException {
 		doGet(req, resp);
 	}
 
-	private boolean anonymousCommand(String command, HttpServletRequest req, HttpServletResponse resp,
-			PrintWriter output, boolean requestIsLocal) {
+	private boolean anonymousCommand(String command, HttpServletRequest req, HttpServletResponse resp, PrintWriter output,
+			boolean requestIsLocal) {
 		if (command == null) {
 			return (false);
 		}
@@ -576,8 +571,8 @@ public class WebFileSysServlet extends HttpServlet {
 		return (false);
 	}
 
-	private boolean handleCommand(String command, String userid, HttpServletRequest req,
-			HttpServletResponse resp, HttpSession session, PrintWriter output, boolean requestIsLocal) {
+	private boolean handleCommand(String command, String userid, HttpServletRequest req, HttpServletResponse resp,
+			HttpSession session, PrintWriter output, boolean requestIsLocal) {
 		if (command == null) {
 			(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 
@@ -586,13 +581,18 @@ public class WebFileSysServlet extends HttpServlet {
 
 		if (command.equals("winDirTree") || command.equals("exp") || command.equals("col")) {
 			if (File.separatorChar == '/') {
-				(new XslUnixDirTreeHandler(req, resp, session, output, userid, requestIsLocal))
-						.handleRequest();
+				(new XslUnixDirTreeHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 			} else {
-				(new XslWinDirTreeHandler(req, resp, session, output, userid, requestIsLocal))
-						.handleRequest();
+				// Leonardo - to handle UNC paths
+				String rootPath = WebFileSys.getInstance().getUserDocRoot();
+				if (rootPath.startsWith("//") || rootPath.startsWith("\\\\")) {
+					// UNC
+					(new XslWinUNCDirTreeHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
+				} else {
+					// Normal
+					(new XslWinDirTreeHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
+				}
 			}
-
 			return (true);
 		}
 
@@ -747,8 +747,7 @@ public class WebFileSysServlet extends HttpServlet {
 		}
 
 		if (command.equals("fmdelete")) {
-			(new DeleteFileRequestHandler(req, resp, session, output, userid, requestIsLocal, true))
-					.handleRequest();
+			(new DeleteFileRequestHandler(req, resp, session, output, userid, requestIsLocal, true)).handleRequest();
 
 			return (true);
 		}
@@ -913,8 +912,7 @@ public class WebFileSysServlet extends HttpServlet {
 		}
 
 		if (command.equals("delImageFromThumb")) {
-			(new DelImageFromThumbHandler(req, resp, session, output, userid, requestIsLocal))
-					.handleRequest();
+			(new DelImageFromThumbHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 
 			return (true);
 		}
@@ -950,8 +948,7 @@ public class WebFileSysServlet extends HttpServlet {
 		}
 
 		if (command.equals("transformImage")) {
-			(new ImageTransformationHandler(req, resp, session, output, userid, requestIsLocal))
-					.handleRequest();
+			(new ImageTransformationHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 
 			return (true);
 		}
@@ -1200,8 +1197,7 @@ public class WebFileSysServlet extends HttpServlet {
 		}
 
 		if (command.equals("pasteLinks")) {
-			(new PasteAsLinkRequestHandler(req, resp, session, output, userid, requestIsLocal))
-					.handleRequest();
+			(new PasteAsLinkRequestHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 
 			return (true);
 		}
@@ -1421,11 +1417,17 @@ public class WebFileSysServlet extends HttpServlet {
 			req.setAttribute("expand", path);
 
 			if (File.separatorChar == '/') {
-				(new XslUnixDirTreeHandler(req, resp, session, output, userid, requestIsLocal))
-						.handleRequest();
+				(new XslUnixDirTreeHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 			} else {
-				(new XslWinDirTreeHandler(req, resp, session, output, userid, requestIsLocal))
-						.handleRequest();
+				// Leonardo - to handle UNC paths
+				String rootPath = WebFileSys.getInstance().getUserDocRoot();
+				if (rootPath.startsWith("//") || rootPath.startsWith("\\\\")) {
+					// UNC
+					(new XslWinUNCDirTreeHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
+				} else {
+					// Normal
+					(new XslWinDirTreeHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
+				}
 			}
 
 			return (true);
@@ -1611,8 +1613,7 @@ public class WebFileSysServlet extends HttpServlet {
 		}
 
 		if (command.equals("renameLink")) {
-			(new RenameLinkRequestHandler(req, resp, session, output, userid, requestIsLocal))
-					.handleRequest();
+			(new RenameLinkRequestHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 
 			return (true);
 		}
@@ -1823,8 +1824,7 @@ public class WebFileSysServlet extends HttpServlet {
 			}
 
 			if (cmd.equals("registerUser")) {
-				(new AdminRegisterUserRequestHandler(req, resp, session, output, userid, null))
-						.handleRequest();
+				(new AdminRegisterUserRequestHandler(req, resp, session, output, userid, null)).handleRequest();
 
 				return (true);
 			}
@@ -1847,14 +1847,11 @@ public class WebFileSysServlet extends HttpServlet {
 				return (true);
 			}
 
-			if (cmd.equals("selectDocRoot") || cmd.equals("selectDocRootExp")
-					|| cmd.equals("selectDocRootCol")) {
+			if (cmd.equals("selectDocRoot") || cmd.equals("selectDocRootExp") || cmd.equals("selectDocRootCol")) {
 				if (File.separatorChar == '/') {
-					(new AdminSelectUnixFolderHandler(req, resp, session, output, userid, requestIsLocal))
-							.handleRequest();
+					(new AdminSelectUnixFolderHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 				} else {
-					(new AdminSelectWinFolderHandler(req, resp, session, output, userid, requestIsLocal))
-							.handleRequest();
+					(new AdminSelectWinFolderHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 				}
 
 				return (true);
@@ -1962,8 +1959,7 @@ public class WebFileSysServlet extends HttpServlet {
 		}
 	}
 
-	public void verifyLogin(HttpServletRequest req, HttpServletResponse resp, PrintWriter output,
-			boolean requestIsLocal) {
+	public void verifyLogin(HttpServletRequest req, HttpServletResponse resp, PrintWriter output, boolean requestIsLocal) {
 		String userid = req.getParameter("userid");
 		String password = req.getParameter("password");
 
@@ -1990,8 +1986,7 @@ public class WebFileSysServlet extends HttpServlet {
 						req.setAttribute("initial", "true");
 						(new MobileFolderFileListHandler(req, resp, session, output, userid)).handleRequest();
 					} else {
-						(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal))
-								.handleRequest();
+						(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 					}
 				}
 
@@ -2013,8 +2008,7 @@ public class WebFileSysServlet extends HttpServlet {
 					(new XslPictureAlbumHandler(req, resp, session, output, userid)).handleRequest();
 
 				} else {
-					(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal))
-							.handleRequest();
+					(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 				}
 
 				logEntry = clientIP + ": login user " + userid + " (read-only)";
@@ -2027,12 +2021,10 @@ public class WebFileSysServlet extends HttpServlet {
 
 				Logger.getLogger(getClass()).info(logEntry);
 
-				if ((WebFileSys.getInstance().getMailHost() != null)
-						&& WebFileSys.getInstance().isMailNotifyLogin()) {
-					(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(),
-							"login successful", WebFileSys.getInstance().getLogDateFormat()
-									.format(new Date())
-									+ " " + logEntry)).send();
+				if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
+					(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login successful", WebFileSys
+							.getInstance().getLogDateFormat().format(new Date())
+							+ " " + logEntry)).send();
 				}
 
 				return;
@@ -2043,8 +2035,8 @@ public class WebFileSysServlet extends HttpServlet {
 		Logger.getLogger(getClass()).warn(logEntry);
 
 		if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
-			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login failed", WebFileSys
-					.getInstance().getLogDateFormat().format(new Date())
+			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login failed", WebFileSys.getInstance()
+					.getLogDateFormat().format(new Date())
 					+ " " + logEntry)).send();
 		}
 
@@ -2064,8 +2056,8 @@ public class WebFileSysServlet extends HttpServlet {
 	}
 
 	/**
-	 * Configure webfilesys session after a sucessfull login. Make static to be called withing a filter. Maybe
-	 * there is a better implementation
+	 * Configure webfilesys session after a sucessfull login. Make static to be called withing a filter. Maybe there is a better
+	 * implementation
 	 * 
 	 * @param req
 	 * @param userid
@@ -2087,14 +2079,14 @@ public class WebFileSysServlet extends HttpServlet {
 		Logger.getLogger(WebFileSysServlet.class.getClass()).info(logEntry);
 
 		if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
-			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login successful",
-					WebFileSys.getInstance().getLogDateFormat().format(new Date()) + " " + logEntry)).send();
+			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login successful", WebFileSys.getInstance()
+					.getLogDateFormat().format(new Date())
+					+ " " + logEntry)).send();
 		}
 		return session;
 	}
 
-	public void silentLogin(HttpServletRequest req, HttpServletResponse resp, PrintWriter output,
-			boolean requestIsLocal) {
+	public void silentLogin(HttpServletRequest req, HttpServletResponse resp, PrintWriter output, boolean requestIsLocal) {
 		String requestParms = req.getQueryString();
 
 		StringTokenizer parmParser = new StringTokenizer(requestParms, "?&=");
@@ -2191,12 +2183,10 @@ public class WebFileSysServlet extends HttpServlet {
 
 				Logger.getLogger(getClass()).info(logEntry);
 
-				if ((WebFileSys.getInstance().getMailHost() != null)
-						&& WebFileSys.getInstance().isMailNotifyLogin()) {
-					(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(),
-							"login successful", WebFileSys.getInstance().getLogDateFormat()
-									.format(new Date())
-									+ " " + logEntry)).send();
+				if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
+					(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login successful", WebFileSys
+							.getInstance().getLogDateFormat().format(new Date())
+							+ " " + logEntry)).send();
 				}
 
 				if (redirectURL.length() > 0) {
@@ -2215,8 +2205,7 @@ public class WebFileSysServlet extends HttpServlet {
 					(new XslPictureAlbumHandler(req, resp, session, output, userid)).handleRequest();
 
 				} else {
-					(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal))
-							.handleRequest();
+					(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 				}
 
 				return;
@@ -2245,12 +2234,10 @@ public class WebFileSysServlet extends HttpServlet {
 
 				Logger.getLogger(getClass()).info(logEntry);
 
-				if ((WebFileSys.getInstance().getMailHost() != null)
-						&& WebFileSys.getInstance().isMailNotifyLogin()) {
-					(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(),
-							"silent login successful", WebFileSys.getInstance().getLogDateFormat()
-									.format(new Date())
-									+ " " + logEntry)).send();
+				if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
+					(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "silent login successful", WebFileSys
+							.getInstance().getLogDateFormat().format(new Date())
+							+ " " + logEntry)).send();
 				}
 
 				if (redirectURL.length() > 0) {
@@ -2268,8 +2255,7 @@ public class WebFileSysServlet extends HttpServlet {
 				if ((role != null) && role.equals("album")) {
 					(new XslPictureAlbumHandler(req, resp, session, output, userid)).handleRequest();
 				} else {
-					(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal))
-							.handleRequest();
+					(new MainFrameSetHandler(req, resp, session, output, userid, requestIsLocal)).handleRequest();
 				}
 
 				return;
@@ -2280,8 +2266,9 @@ public class WebFileSysServlet extends HttpServlet {
 		Logger.getLogger(getClass()).warn(logEntry);
 
 		if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
-			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "silent login failed",
-					WebFileSys.getInstance().getLogDateFormat().format(new Date()) + " " + logEntry)).send();
+			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "silent login failed", WebFileSys
+					.getInstance().getLogDateFormat().format(new Date())
+					+ " " + logEntry)).send();
 		}
 
 		if (WebFileSys.getInstance().getLoginErrorPage() != null) {

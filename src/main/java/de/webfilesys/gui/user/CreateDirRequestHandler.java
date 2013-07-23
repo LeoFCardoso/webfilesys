@@ -11,8 +11,10 @@ import org.apache.log4j.Logger;
 
 import de.webfilesys.DirTreeStatus;
 import de.webfilesys.SubdirExistCache;
+import de.webfilesys.WebFileSys;
 import de.webfilesys.gui.xsl.XslUnixDirTreeHandler;
 import de.webfilesys.gui.xsl.XslWinDirTreeHandler;
+import de.webfilesys.gui.xsl.XslWinUNCDirTreeHandler;
 import de.webfilesys.gui.xsl.mobile.MobileFolderFileListHandler;
 import de.webfilesys.util.UTF8URLEncoder;
 
@@ -22,8 +24,8 @@ import de.webfilesys.util.UTF8URLEncoder;
 public class CreateDirRequestHandler extends UserRequestHandler {
 	boolean clientIsLocal = false;
 
-	public CreateDirRequestHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
-			PrintWriter output, String uid, boolean clientIsLocal) {
+	public CreateDirRequestHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session, PrintWriter output,
+			String uid, boolean clientIsLocal) {
 		super(req, resp, session, output, uid);
 
 		this.clientIsLocal = clientIsLocal;
@@ -73,19 +75,16 @@ public class CreateDirRequestHandler extends UserRequestHandler {
 			output.println("<HEAD>");
 
 			output.println("<script language=\"javascript\">");
-			output.println("alert('" + getResource("alert.createDirError", "Directory could not be created.")
-					+ "\\n" + getResource("label.path", "path") + ": " + insertDoubleBackslash(actPath)
-					+ "\\n" + getResource("label.directory", "Ordner") + ": " + newDir + "');");
+			output.println("alert('" + getResource("alert.createDirError", "Directory could not be created.") + "\\n"
+					+ getResource("label.path", "path") + ": " + insertDoubleBackslash(actPath) + "\\n"
+					+ getResource("label.directory", "Ordner") + ": " + newDir + "');");
 			output.println("</script>");
 
 			if (mobile != null) {
 				output.println("<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=/webfilesys/servlet?command=mobile&cmd=folderFileList\">");
 			} else {
 				output.println("<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=/webfilesys/servlet?command=exp&actPath="
-						+ UTF8URLEncoder.encode(actPath)
-						+ "&expand="
-						+ UTF8URLEncoder.encode(actPath)
-						+ "\">");
+						+ UTF8URLEncoder.encode(actPath) + "&expand=" + UTF8URLEncoder.encode(actPath) + "\">");
 			}
 
 			output.println("</HEAD>");
@@ -126,7 +125,15 @@ public class CreateDirRequestHandler extends UserRequestHandler {
 			if (File.separatorChar == '/') {
 				(new XslUnixDirTreeHandler(req, resp, session, output, uid, clientIsLocal)).handleRequest();
 			} else {
-				(new XslWinDirTreeHandler(req, resp, session, output, uid, clientIsLocal)).handleRequest();
+				// Leonardo - to handle UNC paths
+				String rootPath = WebFileSys.getInstance().getUserDocRoot();
+				if (rootPath.startsWith("//") || rootPath.startsWith("\\\\")) {
+					// UNC
+					(new XslWinUNCDirTreeHandler(req, resp, session, output, uid, clientIsLocal)).handleRequest();
+				} else {
+					// Normal
+					(new XslWinDirTreeHandler(req, resp, session, output, uid, clientIsLocal)).handleRequest();
+				}
 			}
 		}
 	}
