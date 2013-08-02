@@ -60,12 +60,14 @@
 	border: none;
 	margin-bottom: 15px;
 	cursor: pointer;
+    /*	
 	color: #fff;
-	background-image: linear-gradient(bottom, #0047CC, #0085CC);
+    background-image: linear-gradient(bottom, #0047CC, #0085CC);
 	background-image: -o-linear-gradient(bottom, #0047CC, #0085CC);
 	background-image: -moz-linear-gradient(bottom, #0047CC, #0085CC);
 	background-image: -webkit-linear-gradient(bottom, #0047CC, #0085CC);
 	background-image: -ms-linear-gradient(bottom, #0047CC, #0085CC);
+	*/
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px -o-border-radius:3px;

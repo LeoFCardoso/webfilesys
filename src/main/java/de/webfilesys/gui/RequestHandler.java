@@ -213,13 +213,13 @@ public abstract class RequestHandler
 	 * 
 	 * @return true if browser supports XSLT for XML+XSL files and via Javascript
 	 */
-	protected boolean isBrowserXslEnabled()
-	{
-		return(((browserManufacturer == BROWSER_MSIE) ||
-                (browserManufacturer == BROWSER_GOOGLE) ||
-             // (browserManufacturer == BROWSER_SAFARI) ||
-		        (browserManufacturer == BROWSER_MOZILLA)) &&
-		       (browserVersion >= 6));
+	protected boolean isBrowserXslEnabled() {
+		// (browserManufacturer == BROWSER_SAFARI) ||
+		// Leonardo - with SSL, IE8 cannot handle XSL without header modify (cache)
+		// (browserManufacturer == BROWSER_MSIE) ||
+		return false;
+		// return (((browserManufacturer == BROWSER_GOOGLE) || (browserManufacturer == BROWSER_MOZILLA)) &&
+		// (browserVersion >= 6));
 	}
 	
 	protected int getIntParam(String paramName, int defaultValue)
