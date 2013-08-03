@@ -1,0 +1,13 @@
+<Context>
+  <Valve className="org.apache.catalina.authenticator.FormAuthenticator"
+          disableProxyCaching="false" ></Valve>
+</Context>
+<!-- 
+IE8 + SSL + XML com controle de cache nao funcionam adequadamente.
+Este flag desliga o controle de cache (headers pragma / cache-control) no contexto JBoss 4.0.5 no qual a aplicacao esta instalada.
+Referencias:
+http://daveharris.wordpress.com/2007/07/09/how-to-configure-cache-control-in-tomcat/
+https://community.jboss.org/wiki/DisableCacheControl?_sscc=t
+http://support.microsoft.com/default.aspx?scid=kb;en-us;272359
+http://faindu.wordpress.com/2008/04/18/ie7-ssl-xml-flex-error-2032-stream-error/
+ -->

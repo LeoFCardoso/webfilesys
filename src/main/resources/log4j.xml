@@ -6,7 +6,7 @@
 		<param name="File" value="/var/log/webfilesys/webfilesys.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n" />
+			<param name="ConversionPattern" value="%C [%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n" />
 		</layout>
 	</appender>
 
@@ -15,13 +15,13 @@
 		<param name="SyslogHost" value="192.168.1.2" />
 		<param name="Threshold" value="DEBUG" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n" />
+			<param name="ConversionPattern" value="%C [%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n" />
 		</layout>
 	</appender>
 
 	<appender name="WFSConsoleAppender" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n" />
+			<param name="ConversionPattern" value="%C [%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n" />
 		</layout>
 	</appender>
 

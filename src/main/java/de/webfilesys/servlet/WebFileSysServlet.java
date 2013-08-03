@@ -2076,7 +2076,7 @@ public class WebFileSysServlet extends HttpServlet {
 			logEntry = logEntry + " [" + req.getHeader("User-Agent") + "]";
 		}
 
-		Logger.getLogger(WebFileSysServlet.class.getClass()).info(logEntry);
+		Logger.getLogger(WebFileSysServlet.class.getCanonicalName()).info(logEntry);
 
 		if ((WebFileSys.getInstance().getMailHost() != null) && WebFileSys.getInstance().isMailNotifyLogin()) {
 			(new Email(WebFileSys.getInstance().getUserMgr().getAdminUserEmails(), "login successful", WebFileSys.getInstance()

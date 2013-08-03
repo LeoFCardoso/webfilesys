@@ -26,7 +26,7 @@
 }
 
 #wraper input {
-	font-family: Calibri, Arial, Helvetica;
+	/* font-family: Calibri, Arial, Helvetica; */
 }
 
 #wraper h1 {
