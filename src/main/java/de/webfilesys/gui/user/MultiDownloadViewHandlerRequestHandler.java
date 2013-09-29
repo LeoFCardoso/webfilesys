@@ -128,7 +128,7 @@ public class MultiDownloadViewHandlerRequestHandler extends UserRequestHandler {
 			String downloadFileName = "fmwebDownload-"
 					+ req.getSession().getAttribute("userid").toString().trim().toUpperCase() + ".zip";
 
-			resp.setHeader("Content-Disposition:", "attachment; filename=" + downloadFileName);
+			resp.setHeader("Content-Disposition", "attachment; filename=" + downloadFileName);
 
 			resp.setContentLength((int) tempFile.length());
 

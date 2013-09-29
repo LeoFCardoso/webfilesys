@@ -112,7 +112,7 @@ public class MultiDownloadRequestHandler extends UserRequestHandler
 			
 			resp.setContentType("application/zip");
 
-			resp.setHeader("Content-Disposition:", "attachment; filename=fmwebDownload.zip");
+			resp.setHeader("Content-Disposition", "attachment; filename=fmwebDownload.zip");
 			
 			resp.setContentLength((int) tempFile.length());
 
