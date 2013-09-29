@@ -20,14 +20,15 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	
+
 	<filter> <!-- To use with JAAS -->
 		<filter-name>JAASFilter</filter-name>
 		<filter-class>de.webfilesys.servlet.JAASSecurityFilter</filter-class>
 	</filter>
 
-	<filter> <!-- Should only be used when all real users are "readonly" ones. This turns 
-			webfilesys into a simple app -->
+	<!-- Should only be used when all real users are "readonly" ones. This turns 
+		webfilesys into a simple app -->
+	<filter>
 		<filter-name>SecurityFilter</filter-name>
 		<filter-class>de.webfilesys.servlet.PessimisticSecurityFilter</filter-class>
 	</filter>
@@ -114,7 +115,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 	<security-role>
 		<role-name>Everyone</role-name>
 	</security-role>
-	
+
 	<security-constraint>
 		<display-name>Webfilesys Security</display-name>
 		<web-resource-collection>

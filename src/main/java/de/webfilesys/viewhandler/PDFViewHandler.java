@@ -4,7 +4,9 @@
 package de.webfilesys.viewhandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -32,19 +35,44 @@ import de.webfilesys.ViewHandlerConfig;
  */
 public class PDFViewHandler implements ViewHandler {
 
+	public void processOutputStream(String filePath, HttpServletRequest req, OutputStream os) {
+		try {
+			String userid = req.getSession().getAttribute("userid").toString().trim().toUpperCase();
+			createStampedPdf(filePath, userid, os);
+			os.close();
+		} catch (Exception e) {
+			Logger.getLogger(getClass()).error(
+					"Error processing PDF View Handler for (" + filePath + "): " + e.getMessage());
+		}
+	}
+
 	public void process(String filePath, ViewHandlerConfig viewHandlerConfig, HttpServletRequest req,
 			HttpServletResponse resp) {
+		try {
+			resp.setContentType("application/pdf");
+			String userid = req.getSession().getAttribute("userid").toString().trim().toUpperCase();
+			createStampedPdf(filePath, userid, resp.getOutputStream());
+			resp.getOutputStream().close();
+		} catch (Exception e) {
+			Logger.getLogger(getClass()).error(
+					"Error processing PDF View Handler for (" + filePath + "): " + e.getMessage());
+		}
+	}
+
+	/**
+	 * @param filePath
+	 * @param userid
+	 * @param os
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
+	private void createStampedPdf(String filePath, String userid, OutputStream os) {
 
 		try {
-
-			resp.setContentType("application/pdf");
-
-			String userid = req.getSession().getAttribute("userid").toString().trim().toUpperCase();
-
 			PdfReader reader = new PdfReader(filePath);
 			int numberOfPages = reader.getNumberOfPages();
 
-			PdfStamper stamper = new PdfStamper(reader, resp.getOutputStream());
+			PdfStamper stamper = new PdfStamper(reader, os);
 			byte[] userPass = null;
 			String ownerPassStr = Long.toHexString(System.currentTimeMillis())
 					+ Long.toHexString((long) (Math.random() * 1000000));
@@ -87,14 +115,12 @@ public class PDFViewHandler implements ViewHandler {
 			}
 			stamper.close();
 			reader.close();
-			resp.getOutputStream().close();
-
 		} catch (Exception e) {
 			Logger.getLogger(getClass()).error(
 					"PDF file (" + filePath + ") could not be stamped. " + e.getMessage());
 			try {
 				Document document = new Document();
-				PdfWriter.getInstance(document, resp.getOutputStream());
+				PdfWriter.getInstance(document, os);
 				document.open();
 				File file = new File(filePath);
 				document.add(new Paragraph(

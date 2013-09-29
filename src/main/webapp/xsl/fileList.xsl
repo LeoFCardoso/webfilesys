@@ -506,10 +506,11 @@
                 <xsl:if test="resources/msg[@key='button.tar']">
                   <option value="tar" resource="button.tar" />
                 </xsl:if>
-                <!-- Leonardo - readonly mode without download and diff functions -->
-                <option value="download" resource="button.downloadAsZip" />
+                <!-- Leonardo - readonly mode without diff function -->
                 <option value="diff" resource="action.diff" />
               </xsl:if>
+              <!-- Download as Zip will try to use view handlers -->
+              <option value="download" resource="button.downloadAsZip" />
             </select>
           </td>
         </tr>

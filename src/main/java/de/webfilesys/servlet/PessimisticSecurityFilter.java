@@ -28,7 +28,8 @@ public final class PessimisticSecurityFilter implements Filter {
 	 * All but these commands will be redirected to "forbidden" command
 	 */
 	private static final String[] allowedCommands = { "admin", "ajaxCollapse", "ajaxExp", "exp", "forbidden",
-			"getResourceBundle", "listFiles", "login", "logout", "menuBar", "refresh", "setScreenSize" };
+			"getResourceBundle", "listFiles", "login", "logout", "menuBar", "multiDownload",
+			"multiFileDownloadPrompt", "refresh", "setScreenSize" };
 
 	/*
 	 * (non-Javadoc)
