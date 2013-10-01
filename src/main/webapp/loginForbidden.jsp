@@ -1,5 +1,4 @@
 <%@page import="de.webfilesys.servlet.JAASSecurityFilter"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -81,13 +80,16 @@
 <body>
 	<div id="wraper">
 		<h1>Pauta ROD Login</h1>
-		<label>As credenciais de acesso não foram aceitas.</label> <label><a
-			href="<%=request.getContextPath()%>/">Tente novamente.</a></label> <label>Se
-			o erro persistir, contacte o Service Desk.</label>
+		<label>As credenciais de acesso estão corretas, mas você ainda
+			deve solicitar acesso a este sistema via Service Desk. Após a
+			confirmação da concessão do acesso <a
+			href="<%=request.getContextPath()%>/">tente novamente.</a>
+		</label>
 	</div>
 	<%
-		String user = request.getParameter("j_username");
-		JAASSecurityFilter.doWarnLog("Bad login attempt for user '" + user + "'");
+		String user = request.getRemoteUser();
+		JAASSecurityFilter.doWarnLog("User '" + user
+				+ "' did a sucessfull login but doesn't have proper role to access this system.");
 		session.invalidate();
 	%>
 </body>

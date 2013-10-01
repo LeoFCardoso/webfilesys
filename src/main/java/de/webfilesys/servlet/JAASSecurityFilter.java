@@ -51,4 +51,13 @@ public final class JAASSecurityFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) {
 	}
+
+	/**
+	 * Just write a warn message to log. Called from JSPs.
+	 * @param message
+	 */
+	public static void doWarnLog(String message) {
+		Logger.getLogger(JAASSecurityFilter.class.getCanonicalName()).warn(message);
+	}
+
 }
