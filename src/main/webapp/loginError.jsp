@@ -1,3 +1,4 @@
+<%@page import="java.security.MessageDigest"%>
 <%@page import="de.webfilesys.servlet.JAASSecurityFilter"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -87,7 +88,22 @@
 	</div>
 	<%
 		String user = request.getParameter("j_username");
-		JAASSecurityFilter.doWarnLog("Bad login attempt for user '" + user + "'");
+		String userMd5 = "";
+		try {
+			byte[] bytesOfMessage = user.getBytes();
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] digest = md.digest(bytesOfMessage);
+			//byte[] para string -> http://stackoverflow.com/questions/415953/generate-md5-hash-in-java
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < digest.length; ++i) {
+				sb.append(Integer.toHexString((digest[i] & 0xFF) | 0x100).substring(1, 3));
+			}
+			userMd5 = sb.toString();
+		} catch (Exception e) {
+			JAASSecurityFilter.doWarnLog("Error generatind MD5 sum: " + e.getMessage());
+			userMd5 = "";
+		}
+		JAASSecurityFilter.doWarnLog("Bad login attempt for username with MD5 sum: " + userMd5);
 		session.invalidate();
 	%>
 </body>
