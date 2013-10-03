@@ -103,7 +103,8 @@
 			JAASSecurityFilter.doWarnLog("Error generatind MD5 sum: " + e.getMessage());
 			userMd5 = "";
 		}
-		JAASSecurityFilter.doWarnLog("Bad login attempt for username with MD5 sum: " + userMd5);
+		JAASSecurityFilter.doWarnLog("Bad login attempt from " + request.getRemoteAddr() + ":"
+				+ request.getRemotePort() + " for username with MD5 sum: " + userMd5);
 		session.invalidate();
 	%>
 </body>
