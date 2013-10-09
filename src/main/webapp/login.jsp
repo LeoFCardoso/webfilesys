@@ -1,4 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="de.webfilesys.LanguageManager"%>
+<%@page import="de.webfilesys.WebFileSys"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -27,6 +29,7 @@
 
 #wraper input {
 	/* font-family: Calibri, Arial, Helvetica; */
+	
 }
 
 #wraper h1 {
@@ -60,7 +63,7 @@
 	border: none;
 	margin-bottom: 15px;
 	cursor: pointer;
-    /*	
+	/*	
 	color: #fff;
     background-image: linear-gradient(bottom, #0047CC, #0085CC);
 	background-image: -o-linear-gradient(bottom, #0047CC, #0085CC);
@@ -81,14 +84,26 @@
 <body>
 	<div id="wraper">
 		<form method="post" action="j_security_check">
-			<h1>Pauta ROD Login</h1>
-			<label>Usuário:</label>
+			<h1>
+				<%
+					out.print(WebFileSys.getInstance().getJAASAppName());
+				%>
+				Login
+			</h1>
+			<label><%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "label.userid", "Userid")%>:</label>
 			<input type="text" name="j_username"
-				placeholder="Entre com seu usuário da rede..." /> <label>Senha da rede:</label>
+				placeholder="<%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "label.userid.tip", "Type your userid...")%>" />
+			<label><%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "label.password", "Password")%>:</label>
 			<input type="password" name="j_password"
-				placeholder="Digite a sua senha da rede..." />
-				<input type="submit"
-				name="submit" value="Entrar" />
+				placeholder="<%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "label.password.tip",
+					"Type your password...")%>" />
+			<input type="submit" name="submit"
+				value="<%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "label.logon", "Ok")%>" />
 		</form>
 	</div>
 </body>

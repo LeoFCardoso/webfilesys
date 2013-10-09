@@ -8,7 +8,9 @@
 # common labels
 label.login.title=WebFileSys Login
 label.userid=Userid
+label.userid.tip=Type your userid...
 label.password=Password
+label.password.tip=Type your password...
 label.logon=Logon
 label.file=file
 label.files=files
@@ -988,3 +990,10 @@ calender.reminderSubjectPrefix=WebFileSys Reminder
 
 # WebReminder plugin labels
 plugin.webreminder.title=WebReminder Calendar and Organizer
+
+# Jaas Pages
+label.tryAgain=Try again
+alert.wrongPassword1=Bad username/password combination.
+alert.wrongPassword2=Or contact Service Desk.
+alert.noRole1=You don't have the correct role to access this system.
+alert.noRole2=after ask for the correct role.

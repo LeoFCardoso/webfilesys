@@ -236,3 +236,9 @@ DiskQuotaDefaultMB=64
 # UserManagerClass=SqlUserManager
 # For more information see the readme-src.txt file in the source directory.
 UserManagerClass=de.webfilesys.user.SimpleUserManager
+
+# Use with custom PDF View Handler
+PDFViewHandlerWatermark=DSV
+
+# JAAS pages and app name
+JAASAppName=Comite TESTE DSV

@@ -27,6 +27,7 @@ import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import de.webfilesys.ViewHandlerConfig;
+import de.webfilesys.WebFileSys;
 
 /**
  * Uses iText to implement a "stamp" with userid
@@ -109,8 +110,9 @@ public class PDFViewHandler implements ViewHandler {
 				over.showTextAligned(PdfContentByte.ALIGN_CENTER, dfDate.format(actualDate), fixedX
 						+ (pageWidth / 4), (pageHeight / 4) + (pageHeight / 2), (float) rotacao);
 				// Lower
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, "BNDES", fixedX + (pageWidth / 2)
-						+ (pageWidth / 4), (pageHeight / 2) - (pageHeight / 4), (float) rotacao);
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, WebFileSys.getInstance()
+						.getPdfViewHandlerWatermark(), fixedX + (pageWidth / 2) + (pageWidth / 4),
+						(pageHeight / 2) - (pageHeight / 4), (float) rotacao);
 				over.endText();
 				over.restoreState();
 				index++;

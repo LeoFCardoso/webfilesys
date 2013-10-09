@@ -7,9 +7,11 @@
 
 # common labels
 label.login.title=WebFileSys Login
-label.userid=Userid
-label.password=Senha
-label.logon=Logon
+label.userid=Usuário
+label.userid.tip=Entre com seu usuário da rede...
+label.password=Senha da rede
+label.password.tip=Digite a sua senha da rede...
+label.logon=Entrar
 label.file=arquivo
 label.files=arquivos
 label.mask=filtro
@@ -828,3 +830,11 @@ confirm.print=Deseja imprimir esta imagem?
 
 # WebReminder plugin labels
 plugin.webreminder.title=WebReminder CalendÃ¡rio e Agenda
+
+# Jaas Pages
+label.tryAgain=Tente novamente
+alert.wrongPassword1=As credenciais de acesso não foram aceitas.
+alert.wrongPassword2=Se o erro persistir, contacte o Service Desk.
+alert.noRole1=As credenciais de acesso estão corretas, mas você ainda deve solicitar acesso a este sistema via Service Desk. 
+alert.noRole2=após a confirmação da concessão do acesso.
+

@@ -1,4 +1,7 @@
 <%@page import="de.webfilesys.servlet.JAASSecurityFilter"%>
+<%@page import="de.webfilesys.WebFileSys"%>
+<%@page import="de.webfilesys.LanguageManager"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -79,12 +82,20 @@
 
 <body>
 	<div id="wraper">
-		<h1>Pauta ROD Login</h1>
-		<label>As credenciais de acesso estão corretas, mas você ainda
-			deve solicitar acesso a este sistema via Service Desk. Após a
-			confirmação da concessão do acesso <a
-			href="<%=request.getContextPath()%>/">tente novamente.</a>
-		</label>
+		<h1>
+			<%
+				out.print(WebFileSys.getInstance().getJAASAppName());
+			%>
+			Login
+		</h1>
+		<label><%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "alert.noRole1",
+					"You don't have the correct role to access this system.")%><a
+			href="<%=request.getContextPath()%>/"><%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "label.tryAgain", "Try again.")%></a>
+			<%=LanguageManager.getInstance().getResource(
+					WebFileSys.getInstance().getPrimaryLanguage(), "alert.noRole2",
+					"after ask for proper role.")%></label>
 	</div>
 	<%
 		String user = request.getRemoteUser();

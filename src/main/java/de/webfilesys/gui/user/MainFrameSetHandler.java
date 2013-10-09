@@ -158,7 +158,8 @@ public class MainFrameSetHandler extends UserRequestHandler {
 		// + WebFileSys.VERSION
 		// + "</title>");
 
-		output.println("<title>Pauta ROD - WebFilesys " + WebFileSys.VERSION + "</title>");
+		output.println("<title>" + WebFileSys.getInstance().getJAASAppName() + " - WebFilesys "
+				+ WebFileSys.VERSION + "</title>");
 
 		// output.println("<frameset rows=\"32,*\" frameborder=\"0\" framespacing=\"0\" border=\"0\">");
 		output.println("<frameset rows=\"32,*\">");
