@@ -290,9 +290,19 @@ public class WebFileSysServlet extends HttpServlet {
 		// String realLogDirPath = "/var/log/webfilesys"; // context.getRealPath("/WEB-INF/log");
 		// System.setProperty("webfilesys.log.path", realLogDirPath);
 
-		String runningEnv = System.getProperty("BNDES.ambiente");
+		String envVarName = config.getInitParameter("varRunningEnv");
+		if (envVarName == null || "".equals(envVarName)) {
+			final String envDefault = "ENV_DEFAULT";
+			Logger.getLogger(getClass()).warn(
+					"no varRunningEnv as config parameter. Default to " + envDefault + ".");
+			envVarName = envDefault;
+		}
+		Logger.getLogger(getClass()).info("varRunningEnv is " + envVarName);
+
+		String runningEnv = System.getProperty(envVarName);
 		if (runningEnv == null) {
-			Logger.getLogger(getClass()).warn("no running env (BNDES.ambiente). Default to DESENVOLVIMENTO.");
+			Logger.getLogger(getClass()).warn(
+					"no running env (" + envVarName + "). Default to DESENVOLVIMENTO.");
 			runningEnv = "DESENVOLVIMENTO";
 		} else {
 			runningEnv = runningEnv.toUpperCase();

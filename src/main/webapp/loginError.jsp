@@ -100,6 +100,9 @@
 	</div>
 	<%
 		String user = request.getParameter("j_username");
+		if (user != null) {
+			user = user.toUpperCase();
+		}
 		String userMd5 = "";
 		try {
 			byte[] bytesOfMessage = user.getBytes();
@@ -116,7 +119,7 @@
 			userMd5 = "";
 		}
 		JAASSecurityFilter.doWarnLog("Bad login attempt from " + request.getRemoteAddr() + ":"
-				+ request.getRemotePort() + " for username with MD5 sum: " + userMd5);
+				+ request.getRemotePort() + " for username in UPPERCASE with MD5 sum: " + userMd5);
 		session.invalidate();
 	%>
 </body>
