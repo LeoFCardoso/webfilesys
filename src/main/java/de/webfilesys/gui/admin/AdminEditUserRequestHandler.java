@@ -48,11 +48,11 @@ public class AdminEditUserRequestHandler extends AdminRequestHandler
 			output.println("</script>");
 		}
 
-		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/webfilesys/css/" + userMgr.getCSS(uid) + ".css\">");
+		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\""+req.getContextPath()+"/css/" + userMgr.getCSS(uid) + ".css\">");
 
 		output.println("<script language=\"javascript\">");
 		output.println("function selectDocRoot()");
-		output.println("{docRootWin=open('/webfilesys/servlet?command=admin&cmd=selectDocRoot','docRootWin','status=no,toolbar=no,menu=no,width=550,height=500,resizable=yes,scrollbars=yes,left=100,top=50,screenX=100,screenY=50');docRootWin.focus();}");
+		output.println("{docRootWin=open('"+req.getContextPath()+"/servlet?command=admin&cmd=selectDocRoot','docRootWin','status=no,toolbar=no,menu=no,width=550,height=500,resizable=yes,scrollbars=yes,left=100,top=50,screenX=100,screenY=50');docRootWin.focus();}");
 		output.println("</script>");
 
 		output.print("</HEAD>");
@@ -62,7 +62,7 @@ public class AdminEditUserRequestHandler extends AdminRequestHandler
 
 		output.println("<br>");
 
-		output.println("<form accept-charset=\"utf-8\" method=\"post\" action=\"/webfilesys/servlet\">");
+		output.println("<form accept-charset=\"utf-8\" method=\"post\" action=\""+req.getContextPath()+"/servlet\">");
 		output.println("<input type=\"hidden\" name=\"command\" value=\"admin\">");
 		output.println("<input type=\"hidden\" name=\"cmd\" value=\"changeUser\">");
 		output.println("<input type=\"hidden\" name=\"username\" value=\"" + login + "\">");
@@ -405,7 +405,7 @@ public class AdminEditUserRequestHandler extends AdminRequestHandler
 		output.println("<tr><td class=\"formButton\">");
 		output.println("<input type=\"submit\" name=\"changebutton\" value=\"&nbsp;Save&nbsp;\">");
 		output.println("</td><td class=\"formButton\" align=\"right\">");
-		output.println("<input type=\"button\" value=\"&nbsp;Cancel&nbsp;\" onclick=\"javascript:window.location.href='/webfilesys/servlet?command=admin&cmd=userList'\">");
+		output.println("<input type=\"button\" value=\"&nbsp;Cancel&nbsp;\" onclick=\"javascript:window.location.href='"+req.getContextPath()+"/servlet?command=admin&cmd=userList'\">");
 		output.println("</td></tr>");    
 
 		output.println("</table>");

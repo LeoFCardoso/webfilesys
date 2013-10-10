@@ -48,17 +48,17 @@ public class UserListRequestHandler extends AdminRequestHandler
 		output.println("<SCRIPT LANGUAGE=\"JavaScript\">");
 		output.println("function confirmDelete(delUser)");
 		output.println("{if (confirm(\"Are you sure you want to delete user \" + delUser + \" ?\"))");
-		output.println("    {window.location=\"/webfilesys/servlet?command=admin&cmd=deleteUser&userToBeDeleted=\" + delUser ;");
+		output.println("    {window.location=\""+req.getContextPath()+"/servlet?command=admin&cmd=deleteUser&userToBeDeleted=\" + delUser ;");
 		output.println("    }");
 		output.println("}");
 
-		output.println("function diskQuota(userid) {window.open('/webfilesys/servlet?command=diskQuota&userid=' + encodeURIComponent(userid) + '&random=' + new Date().getTime(),'quotaWin','scrollbars=no,resizable=no,width=400,height=230,left=100,top=100,screenX=100,screenY=100');}");
+		output.println("function diskQuota(userid) {window.open('"+req.getContextPath()+"/servlet?command=diskQuota&userid=' + encodeURIComponent(userid) + '&random=' + new Date().getTime(),'quotaWin','scrollbars=no,resizable=no,width=400,height=230,left=100,top=100,screenX=100,screenY=100');}");
 
 		output.println("</SCRIPT>");
 
 		output.print("<TITLE> WebFileSys User Administration </TITLE>");
 
-		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/webfilesys/css/" + userMgr.getCSS(uid) + ".css\">");
+		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\""+req.getContextPath()+"/css/" + userMgr.getCSS(uid) + ".css\">");
 
 		output.println("</HEAD>");
 		output.println("<BODY>");
@@ -185,7 +185,7 @@ public class UserListRequestHandler extends AdminRequestHandler
             session.removeAttribute(SESSION_KEY_USER_LIST_SORT_FIELD);
         }
 
-		output.println("<form accept-charset=\"utf-8\" method=\"get\" action=\"/webfilesys/servlet\">");
+		output.println("<form accept-charset=\"utf-8\" method=\"get\" action=\""+req.getContextPath()+"/servlet\">");
 
 		output.println("<input type=\"hidden\" name=\"command\" value=\"admin\">");
 		output.println("<input type=\"hidden\" name=\"cmd\" value=\"userList\">");
@@ -293,7 +293,7 @@ public class UserListRequestHandler extends AdminRequestHandler
 
 			output.print("<td class=\"data\" align=\"left\" valign=\"top\" nowrap>");
 			output.print("<a href=\"javascript:confirmDelete('" + actUser.getUserid() + "')\"><img src=\"images/trash.gif\" alt=\"Delete User\" border=\"0\"></a>");
-			output.print("<a href=\"/webfilesys/servlet?command=admin&cmd=editUser&username=" + UTF8URLEncoder.encode(actUser.getUserid()) + "\"><img src=\"images/edit2.gif\" alt=\"Edit User\" border=0></a>");
+			output.print("<a href=\""+req.getContextPath()+"/servlet?command=admin&cmd=editUser&username=" + UTF8URLEncoder.encode(actUser.getUserid()) + "\"><img src=\"images/edit2.gif\" alt=\"Edit User\" border=0></a>");
 
 			if (actUser.getDiskQuota() > 0)
 			{
@@ -435,12 +435,12 @@ public class UserListRequestHandler extends AdminRequestHandler
 			}
 			else
 			{
-				output.print("<a href=\"/webfilesys/servlet?command=admin&cmd=userList&startIndex=0\">");
+				output.print("<a href=\""+req.getContextPath()+"/servlet?command=admin&cmd=userList&startIndex=0\">");
 				output.println("<img src=\"images/first.gif\" border=\"0\"></a>");
 
 				output.println("&nbsp;");
 
-				output.print("<a href=\"/webfilesys/servlet?command=admin&cmd=userList&startIndex=" + paging.getPrevStartIndex() + "\">");
+				output.print("<a href=\""+req.getContextPath()+"/servlet?command=admin&cmd=userList&startIndex=" + paging.getPrevStartIndex() + "\">");
 				output.println("<img src=\"images/previous.gif\" border=\"0\"></a>");
 			}
 
@@ -468,7 +468,7 @@ public class UserListRequestHandler extends AdminRequestHandler
 					if (((pageCounter-1) % pageStep == 0) ||
 						(!startIndices.hasMoreElements()))
 					{
-						output.print("<a class=\"fn\" href=\"/webfilesys/servlet?command=admin&cmd=userList&startIndex=" + idx + "\">");
+						output.print("<a class=\"fn\" href=\""+req.getContextPath()+"/servlet?command=admin&cmd=userList&startIndex=" + idx + "\">");
 						output.print(pageCounter);
 						output.print("</a>");
 					}
@@ -489,12 +489,12 @@ public class UserListRequestHandler extends AdminRequestHandler
 
 			if (!paging.isLastPage())
 			{
-				output.print("<a href=\"/webfilesys/servlet?command=admin&cmd=userList&startIndex=" + paging.getNextStartIndex() + "\">");
+				output.print("<a href=\""+req.getContextPath()+"/servlet?command=admin&cmd=userList&startIndex=" + paging.getNextStartIndex() + "\">");
 				output.println("<img src=\"images/next.gif\" border=\"0\"></a>");
 
 				output.println("&nbsp;");
 				
-				output.print("<a href=\"/webfilesys/servlet?command=admin&cmd=userList&startIndex=" + paging.getLastPageStartIndex() + "\">");
+				output.print("<a href=\""+req.getContextPath()+"/servlet?command=admin&cmd=userList&startIndex=" + paging.getLastPageStartIndex() + "\">");
 				output.println("<img src=\"images/last.gif\" border=\"0\"></a>");
 			}
 			else
@@ -515,11 +515,11 @@ public class UserListRequestHandler extends AdminRequestHandler
 
 		output.println("<form accept-charset=\"utf-8\" style=\"margin-top:20px;\">");
 
-		output.println("<input type=\"button\" value=\"Add new user\" onclick=\"window.location.href='/webfilesys/servlet?command=admin&cmd=registerUser'\">");
+		output.println("<input type=\"button\" value=\"Add new user\" onclick=\"window.location.href='"+req.getContextPath()+"/servlet?command=admin&cmd=registerUser'\">");
 
 		output.println("&nbsp;&nbsp;&nbsp;");
 
-		output.println("<input type=\"button\" value=\"Return\" onclick=\"window.location.href='/webfilesys/servlet?command=admin&cmd=menu'\">");
+		output.println("<input type=\"button\" value=\"Return\" onclick=\"window.location.href='"+req.getContextPath()+"/servlet?command=admin&cmd=menu'\">");
 
 		output.println("</form>");
 

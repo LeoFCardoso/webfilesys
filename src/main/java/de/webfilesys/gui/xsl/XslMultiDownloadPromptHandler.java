@@ -49,7 +49,7 @@ public class XslMultiDownloadPromptHandler extends XslRequestHandlerBase
 			
 		doc.appendChild(downloadElement);
 			
-		ProcessingInstruction xslRef = doc.createProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"/webfilesys/xsl/multiDownload.xsl\"");
+		ProcessingInstruction xslRef = doc.createProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\""+req.getContextPath()+"/xsl/multiDownload.xsl\"");
 
 		doc.insertBefore(xslRef, downloadElement);
 
