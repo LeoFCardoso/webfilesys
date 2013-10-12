@@ -2,6 +2,8 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">	
 <xsl:output method="html" indent="yes" omit-xml-declaration="yes" encoding="UTF-8"/>
 
+<xsl:param name="contextPath"/>
+
 <xsl:template name="insDoubleBackslash">
   <xsl:param name="string" />
     <xsl:if test="contains($string, '%5C')">
@@ -35,10 +37,10 @@
           <xsl:attribute name="href">javascript:col('<xsl:value-of select="@id" />', '<xsl:value-of select="@lastInLevel='true'" />')</xsl:attribute>
 
           <xsl:if test="@lastInLevel='true'">
-            <img src="/webfilesys/images/minusLast.gif" class="expCol" />
+            <img src="{$contextPath}/images/minusLast.gif" class="expCol" />
           </xsl:if>
           <xsl:if test="not(@lastInLevel='true')">
-            <img src="/webfilesys/images/minusMore.gif" class="expCol" />
+            <img src="{$contextPath}/images/minusMore.gif" class="expCol" />
           </xsl:if>
         </a>
       </xsl:if>
@@ -50,10 +52,10 @@
             <xsl:attribute name="href">javascript:exp('<xsl:value-of select="@id" />', '<xsl:value-of select="@lastInLevel='true'" />')</xsl:attribute>
 
             <xsl:if test="@lastInLevel='true'">
-              <img src="/webfilesys/images/plusLast.gif" class="expCol" />
+              <img src="{$contextPath}/images/plusLast.gif" class="expCol" />
             </xsl:if>
             <xsl:if test="not(@lastInLevel='true')">
-              <img src="/webfilesys/images/plusMore.gif" class="expCol" />
+              <img src="{$contextPath}/images/plusMore.gif" class="expCol" />
             </xsl:if>
           </a>
 
@@ -61,10 +63,10 @@
         
         <xsl:if test="@leaf">
           <xsl:if test="@lastInLevel='true'">
-            <img src="/webfilesys/images/branchLast.gif" class="expCol" />
+            <img src="{$contextPath}/images/branchLast.gif" class="expCol" />
           </xsl:if>
           <xsl:if test="not(@lastInLevel='true')">
-            <img src="/webfilesys/images/branch.gif" class="expCol" />
+            <img src="{$contextPath}/images/branch.gif" class="expCol" />
           </xsl:if>
         </xsl:if>
       </xsl:if>
@@ -73,7 +75,7 @@
       <xsl:attribute name="href">javascript:dirContextMenu('<xsl:value-of select="@id" />')</xsl:attribute>
       
       <xsl:if test="@type='drive'">
-        <img src="/webfilesys/images/miniDisk.gif" border="0" width="17" height="14">
+        <img src="{$contextPath}/images/miniDisk.gif" border="0" width="17" height="14">
           <xsl:if test="@label">
             <xsl:attribute name="title"><xsl:value-of select="@label"/></xsl:attribute>
           </xsl:if>
@@ -81,7 +83,7 @@
       </xsl:if>
 
       <xsl:if test="@type='floppy'">
-        <img src="/webfilesys/images/miniFloppy.gif" border="0" width="18" height="16">
+        <img src="{$contextPath}/images/miniFloppy.gif" border="0" width="18" height="16">
           <xsl:if test="@label">
             <xsl:attribute name="title"><xsl:value-of select="@label"/></xsl:attribute>
           </xsl:if>
@@ -91,15 +93,15 @@
       <xsl:if test="not(@type)">
         <xsl:if test="@icon">
           <img class="icon">
-            <xsl:attribute name="src">/webfilesys/icons/<xsl:value-of select="@icon"/></xsl:attribute>
+            <xsl:attribute name="src"><xsl:value-of select="$contextPath"/>/icons/<xsl:value-of select="@icon"/></xsl:attribute>
           </img>
         </xsl:if>
         <xsl:if test="not(@icon)">
           <xsl:if test="@current">
-            <img src="/webfilesys/images/folder1.gif" class="folder" />
+            <img src="{$contextPath}/images/folder1.gif" class="folder" />
           </xsl:if>
           <xsl:if test="not(@current)">
-            <img src="/webfilesys/images/folder.gif" class="folder" />
+            <img src="{$contextPath}/images/folder.gif" class="folder" />
           </xsl:if>
         </xsl:if>
       </xsl:if>
@@ -169,10 +171,10 @@
          <xsl:attribute name="href">javascript:exp('<xsl:value-of select="@id" />', '<xsl:value-of select="@lastInLevel='true'" />')</xsl:attribute>
 
          <xsl:if test="position()=last()">
-          <img src="/webfilesys/images/plusLast.gif" class="expCol" />
+          <img src="{$contextPath}/images/plusLast.gif" class="expCol" />
         </xsl:if>
         <xsl:if test="position()!=last()">
-          <img src="/webfilesys/images/plusMore.gif" class="expCol" />
+          <img src="{$contextPath}/images/plusMore.gif" class="expCol" />
         </xsl:if>
       </a>
 
@@ -180,10 +182,10 @@
       
     <xsl:if test="@leaf">
       <xsl:if test="position()=last()">
-        <img src="/webfilesys/images/branchLast.gif" class="expCol" />
+        <img src="{$contextPath}/images/branchLast.gif" class="expCol" />
       </xsl:if>
       <xsl:if test="position()!=last()">
-        <img src="/webfilesys/images/branch.gif" class="expCol" />
+        <img src="{$contextPath}/images/branch.gif" class="expCol" />
       </xsl:if>
     </xsl:if>
 
@@ -192,11 +194,11 @@
 
       <xsl:if test="@icon">
         <img class="icon">
-          <xsl:attribute name="src">/webfilesys/icons/<xsl:value-of select="@icon"/></xsl:attribute>
+          <xsl:attribute name="src"><xsl:value-of select="$contextPath"/>/icons/<xsl:value-of select="@icon"/></xsl:attribute>
         </img>
       </xsl:if>
       <xsl:if test="not(@icon)">
-        <img src="/webfilesys/images/folder.gif" class="folder" />
+        <img src="{$contextPath}/images/folder.gif" class="folder" />
       </xsl:if>
     </a>
 

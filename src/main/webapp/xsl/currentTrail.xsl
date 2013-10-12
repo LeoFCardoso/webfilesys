@@ -2,6 +2,8 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">	
   <xsl:output method="html" indent="yes" omit-xml-declaration="yes" encoding="UTF-8"/>
 
+  <xsl:param name="contextPath"/>
+
   <xsl:template name="currentTrail">
 
     <div class="currentTrail">
@@ -11,7 +13,7 @@
     
       <xsl:for-each select="pathElem">
         <a class="currentTrail">
-          <xsl:attribute name="href">/webfilesys/servlet?command=exp&amp;expandPath=<xsl:value-of select="@path"/>&amp;fastPath=true</xsl:attribute>
+          <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/servlet?command=exp&amp;expandPath=<xsl:value-of select="@path"/>&amp;fastPath=true</xsl:attribute>
           <xsl:attribute name="target">DirectoryPath</xsl:attribute>
           <xsl:value-of select="@name"/> 
         </a>

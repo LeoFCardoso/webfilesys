@@ -7,6 +7,8 @@
 
 <xsl:variable name="apos">'</xsl:variable>
 
+<xsl:param name="contextPath"/>
+
 <!-- root node-->
 <xsl:template match="/">
 
@@ -17,32 +19,32 @@
 <meta http-equiv="Content-Type" name="text/html; charset=UTF-8" />
 
 <link rel="stylesheet" type="text/css">
-  <xsl:attribute name="href">/webfilesys/css/<xsl:value-of select="/fileList/css" />.css</xsl:attribute>
+  <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/css/<xsl:value-of select="/fileList/css" />.css</xsl:attribute>
 </link>
 
 <xsl:if test="not(fileList/browserXslEnabled)">
-  <script src="/webfilesys/javascript/ajaxslt/util.js" type="text/javascript"></script>
-  <script src="/webfilesys/javascript/ajaxslt/xmltoken.js" type="text/javascript"></script>
-  <script src="/webfilesys/javascript/ajaxslt/dom.js" type="text/javascript"></script>
-  <script src="/webfilesys/javascript/ajaxslt/xpath.js" type="text/javascript"></script>
-  <script src="/webfilesys/javascript/ajaxslt/xslt.js" type="text/javascript"></script>
+  <script src="{$contextPath}/javascript/ajaxslt/util.js" type="text/javascript"></script>
+  <script src="{$contextPath}/javascript/ajaxslt/xmltoken.js" type="text/javascript"></script>
+  <script src="{$contextPath}/javascript/ajaxslt/dom.js" type="text/javascript"></script>
+  <script src="{$contextPath}/javascript/ajaxslt/xpath.js" type="text/javascript"></script>
+  <script src="{$contextPath}/javascript/ajaxslt/xslt.js" type="text/javascript"></script>
 </xsl:if>
 
-<script src="/webfilesys/javascript/browserCheck.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/util.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/fmweb.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/viewMode.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/ajaxCommon.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/ajax.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/fileContextMenu.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/linkContextMenu.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/contextMenuMouse.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/jsFileMenu.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/keyFileList.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/crypto.js" type="text/javascript"></script>
-<script src="/webfilesys/javascript/resourceBundle.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/browserCheck.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/util.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/fmweb.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/viewMode.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/ajaxCommon.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/ajax.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/fileContextMenu.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/linkContextMenu.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/contextMenuMouse.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/jsFileMenu.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/keyFileList.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/crypto.js" type="text/javascript"></script>
+<script src="{$contextPath}/javascript/resourceBundle.js" type="text/javascript"></script>
 <script type="text/javascript">
-  <xsl:attribute name="src">/webfilesys/servlet?command=getResourceBundle&amp;lang=<xsl:value-of select="/fileList/language" /></xsl:attribute>
+  <xsl:attribute name="src"><xsl:value-of select="$contextPath"/>/servlet?command=getResourceBundle&amp;lang=<xsl:value-of select="/fileList/language" /></xsl:attribute>
 </script>
 
 <script language="javascript">
@@ -122,7 +124,7 @@
   
   function uploadParms()
   {
-      window.location.href='/webfilesys/servlet?command=uploadParms&amp;actpath='+encodeURIComponent('<xsl:value-of select="/fileList/menuPath" />');  
+      window.location.href='<xsl:value-of select="$contextPath"/>/servlet?command=uploadParms&amp;actpath='+encodeURIComponent('<xsl:value-of select="/fileList/menuPath" />');  
   }
   
   function addBookmark()
@@ -189,11 +191,11 @@
   <!-- tabs start -->
   <table class="tabs" cellspacing="0">
     <tr>
-      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="13" height="1" /></td>
+      <td class="bottomLine"><img src="{$contextPath}/images/space.gif" border="0" width="13" height="1" /></td>
       
       <td class="tabActive" resource="label.modelist" />
  
-      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
+      <td class="bottomLine"><img src="{$contextPath}/images/space.gif" border="0" width="4" height="1" /></td>
 
 	  <!-- Leonardo - hide tabs in readonly mode -->
       <xsl:if test="not(/fileList/readonly)">
@@ -201,13 +203,13 @@
 	        <a class="tab" href="javascript:viewModeThumbs()" resource="label.modethumb" />
 	      </td>
       
-	      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
+	      <td class="bottomLine"><img src="{$contextPath}/images/space.gif" border="0" width="4" height="1" /></td>
 	
 	      <td class="tabInactive">
 	        <a class="tab" href="javascript:viewModeStory()" resource="label.modestory" />
 	      </td>
 	   
-	      <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
+	      <td class="bottomLine"><img src="{$contextPath}/images/space.gif" border="0" width="4" height="1" /></td>
 	
 	      <td class="tabInactive">
 	        <a class="tab" href="javascript:viewModeSlideshow()" resource="label.modeSlideshow" />
@@ -215,7 +217,7 @@
 	  </xsl:if>
 
       <xsl:if test="not(/fileList/readonly)">
-        <td class="bottomLine"><img src="/webfilesys/images/space.gif" border="0" width="4" height="1" /></td>
+        <td class="bottomLine"><img src="{$contextPath}/images/space.gif" border="0" width="4" height="1" /></td>
 
         <td class="tabInactive">
           <a class="tab" href="javascript:fileStats()" resource="label.fileStats" />
@@ -223,14 +225,14 @@
       </xsl:if>
 
       <td class="bottomLine" width="90%">
-        <img src="/webfilesys/images/space.gif" border="0" width="5" height="1" />
+        <img src="{$contextPath}/images/space.gif" border="0" width="5" height="1" />
       </td>
     </tr>
   </table>
   <!-- tabs end -->
   
 
-  <form accept-charset="utf-8" name="sortform" method="get" action="/webfilesys/servlet" style="padding:0px;margin:0px;">
+  <form accept-charset="utf-8" name="sortform" method="get" action="{$contextPath}/servlet" style="padding:0px;margin:0px;">
     <input type="hidden" name="command" value="listFiles" />
   
     <table class="topLess" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-bottom-style:none">
@@ -331,7 +333,7 @@
     </table>    
   </form>
 
-  <form accept-charset="utf-8" name="form1" method="post" action="/webfilesys/servlet" style="padding:0px;margin:0px;">
+  <form accept-charset="utf-8" name="form1" method="post" action="{$contextPath}/servlet" style="padding:0px;margin:0px;">
 
     <input type="hidden" name="command" value="multiFileOp" />
 
@@ -353,7 +355,7 @@
           </th>
           <th class="fileList fileListIcon">
             <img border="0" width="16" height="16">
-              <xsl:attribute name="src">/webfilesys/images/space.gif</xsl:attribute>
+              <xsl:attribute name="src"><xsl:value-of select="$contextPath"/>/images/space.gif</xsl:attribute>
             </img>
           </th>
           <th class="fileList fileListName">
@@ -411,7 +413,7 @@
             <td>
               <xsl:attribute name="class">fileList fileListIcon <xsl:if test="not(description)">sepBot</xsl:if></xsl:attribute>
               <img border="0" width="16" height="16">
-                <xsl:attribute name="src">/webfilesys/icons/<xsl:value-of select="@icon" /></xsl:attribute>
+                <xsl:attribute name="src"><xsl:value-of select="$contextPath"/>/icons/<xsl:value-of select="@icon" /></xsl:attribute>
               </img>
             </td>
             
@@ -529,12 +531,12 @@
 
               <xsl:if test="not(/fileList/clipBoardEmpty)">
                 <input type="button" resource="button.paste">
-                  <xsl:attribute name="onclick">javascript:window.location.href='/webfilesys/servlet?command=pasteFiles';</xsl:attribute>
+                  <xsl:attribute name="onclick">javascript:window.location.href='<xsl:value-of select="$contextPath"/>/servlet?command=pasteFiles';</xsl:attribute>
                 </input> 
                   
                 <xsl:if test="/fileList/copyOperation">
                   <input type="button" resource="button.pasteLink">
-                    <xsl:attribute name="onclick">javascript:window.location.href='/webfilesys/servlet?command=pasteLinks';</xsl:attribute>
+                    <xsl:attribute name="onclick">javascript:window.location.href='<xsl:value-of select="$contextPath"/>/servlet?command=pasteLinks';</xsl:attribute>
                   </input> 
                 </xsl:if>
                   

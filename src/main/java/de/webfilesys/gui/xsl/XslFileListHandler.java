@@ -150,7 +150,7 @@ public class XslFileListHandler extends XslFileListHandlerBase
 			iconMgr = IconManager.getInstance();
 		}
 
-		ProcessingInstruction xslRef = doc.createProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\"/webfilesys/xsl/fileList.xsl\"");
+		ProcessingInstruction xslRef = doc.createProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" href=\""+req.getContextPath()+"/xsl/fileList.xsl\"");
 
 		Element fileListElement = doc.createElement("fileList");
 			

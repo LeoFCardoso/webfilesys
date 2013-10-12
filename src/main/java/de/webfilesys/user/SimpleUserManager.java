@@ -3,6 +3,7 @@ package de.webfilesys.user;
 import java.util.Date;
 import java.util.Vector;
 
+import de.webfilesys.LanguageManager;
 import de.webfilesys.WebFileSys;
 
 /**
@@ -145,7 +146,7 @@ public class SimpleUserManager extends UserManagerBase {
 	}
 
 	public String getLanguage(String userId) {
-		return "Portugues";
+		return LanguageManager.getInstance().getDefaultLanguage();
 	}
 
 	public void setLanguage(String userId, String newValue) {

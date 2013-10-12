@@ -20,7 +20,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-	
+
 	<filter> <!-- To use with JAAS -->
 		<filter-name>JAASFilter</filter-name>
 		<filter-class>de.webfilesys.servlet.JAASSecurityFilter</filter-class>
@@ -86,10 +86,8 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<!--servlet>
-		<servlet-name>upload</servlet-name>
-		<servlet-class>de.webfilesys.servlet.UploadServlet</servlet-class>
-	</servlet -->
+	<!--servlet> <servlet-name>upload</servlet-name> <servlet-class>de.webfilesys.servlet.UploadServlet</servlet-class> 
+		</servlet -->
 
 	<!-- Action Servlet Mapping -->
 	<servlet-mapping>
@@ -97,10 +95,18 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 		<url-pattern>/servlet/*</url-pattern>
 	</servlet-mapping>
 
-	<!-- servlet-mapping>
-		<servlet-name>upload</servlet-name>
-		<url-pattern>/upload/*</url-pattern>
-	</servlet-mapping -->
+	<!-- servlet-mapping> <servlet-name>upload</servlet-name> <url-pattern>/upload/*</url-pattern> 
+		</servlet-mapping -->
+
+	<!-- To make context path dynamic inside JS & CSS files -->
+	<servlet-mapping>
+		<servlet-name>jsp</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>jsp</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
 
 	<session-config>
 		<session-timeout>30</session-timeout>
@@ -119,11 +125,11 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 	<security-role>
 		<role-name>Empregados</role-name>
 	</security-role>
-	
+
 	<security-role>
 		<role-name>Empregados2</role-name>
 	</security-role>
-	
+
 	<security-constraint>
 		<display-name>Webfilesys Security</display-name>
 		<web-resource-collection>
@@ -138,12 +144,12 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 
 	<!-- The Welcome File List -->
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-    
+
 	<error-page>
 		<error-code>403</error-code>
 		<location>/loginForbidden.jsp</location>
 	</error-page>
-	 
+
 </web-app>

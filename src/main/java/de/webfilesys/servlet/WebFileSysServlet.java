@@ -276,8 +276,6 @@ public class WebFileSysServlet extends HttpServlet {
 
 	static boolean initialized = false;
 
-	private static int REQUEST_PATH_LENGTH = "/webfilesys/servlet".length();
-
 	public void init(ServletConfig config) throws ServletException {
 		if (initialized) {
 			return;
@@ -384,11 +382,14 @@ public class WebFileSysServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
 			java.io.IOException {
+
 		PrintWriter output = null;
 
 		String command = null;
 
 		String requestPath = req.getRequestURI();
+
+		final int REQUEST_PATH_LENGTH = (req.getContextPath() + "/servlet").length();
 
 		if (requestPath.length() > REQUEST_PATH_LENGTH) {
 			command = "getFile";
@@ -495,7 +496,7 @@ public class WebFileSysServlet extends HttpServlet {
 				if (output == null) {
 					output = new PrintWriter(new OutputStreamWriter(resp.getOutputStream(), "UTF-8"));
 				}
-				redirectToLogin(output);
+				redirectToLogin(output, req);
 			}
 		} else {
 			session = req.getSession(true);
@@ -520,7 +521,7 @@ public class WebFileSysServlet extends HttpServlet {
 				return;
 			}
 
-			redirectToLogin(output);
+			redirectToLogin(output, req);
 		}
 
 		if (output != null) {
@@ -1975,7 +1976,7 @@ public class WebFileSysServlet extends HttpServlet {
 
 		session.invalidate();
 
-		String logoutPage = "/webfilesys/servlet";
+		String logoutPage = req.getContextPath() + "/servlet";
 
 		if (WebFileSys.getInstance().getLogoutURL() != null) {
 			logoutPage = WebFileSys.getInstance().getLogoutURL();
@@ -2327,14 +2328,14 @@ public class WebFileSysServlet extends HttpServlet {
 		(new XslLogonHandler(req, resp, session, output, true)).handleRequest();
 	}
 
-	private void redirectToLogin(PrintWriter output) {
+	private void redirectToLogin(PrintWriter output, HttpServletRequest req) {
 		output.println("<html>");
 		output.println("<head>");
 		output.println("<meta http-equiv=\"expires\" content=\"0\">");
 
 		output.println("<script language=\"javascript\">");
 
-		output.println("  top.location.href='/webfilesys/servlet?command=loginForm';");
+		output.println("  top.location.href='" + req.getContextPath() + "/servlet?command=loginForm';");
 
 		output.println("</script>");
 

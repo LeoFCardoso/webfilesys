@@ -79,7 +79,7 @@ public class MainFrameSetHandler extends UserRequestHandler {
 		output.println("<html>");
 		output.println("<head>");
 
-		output.println("<link rel=\"SHORTCUT ICON\" href=\"/webfilesys/images/favicon.ico\">");
+		output.println("<link rel=\"SHORTCUT ICON\" href=\""+req.getContextPath()+"/images/favicon.ico\">");
 
 		// global JavaScript variables needed for context menu
 		output.println("<script language=\"javascript\">");
@@ -163,15 +163,15 @@ public class MainFrameSetHandler extends UserRequestHandler {
 
 		// output.println("<frameset rows=\"32,*\" frameborder=\"0\" framespacing=\"0\" border=\"0\">");
 		output.println("<frameset rows=\"32,*\">");
-		output.println("<frame name=\"menu\" scrolling=\"no\" src=\"/webfilesys/servlet?command=menuBar\" leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" noresize />");
+		output.println("<frame name=\"menu\" scrolling=\"no\" src=\""+req.getContextPath()+"/servlet?command=menuBar\" leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" noresize />");
 
 		if (File.separatorChar == '/') {
 			output.print("<frameset COLS=\"33%,*\">");
 
-			output.println("<frame name=\"DirectoryPath\" SRC=\"/webfilesys/servlet?command=exp&expandPath="
+			output.println("<frame name=\"DirectoryPath\" SRC=\""+req.getContextPath()+"/servlet?command=exp&expandPath="
 					+ UTF8URLEncoder.encode(act_path) + "\" scrolling=\"auto\" />");
 
-			output.print("<frame name=\"FileList\" SRC=\"/webfilesys/servlet?command=listFiles&actpath="
+			output.print("<frame name=\"FileList\" SRC=\""+req.getContextPath()+"/servlet?command=listFiles&actpath="
 					+ UTF8URLEncoder.encode(act_path) + "&mask=*\" />");
 			output.print("</frameset>");
 		} else {
@@ -183,14 +183,14 @@ public class MainFrameSetHandler extends UserRequestHandler {
 
 			if ((fastPath != null) || (docRoot.charAt(0) != '*')) {
 				// return to previous folder, expand it
-				output.println("<frame name=\"DirectoryPath\" src=\"/webfilesys/servlet?command=exp&expandPath="
+				output.println("<frame name=\"DirectoryPath\" src=\""+req.getContextPath()+"/servlet?command=exp&expandPath="
 						+ UTF8URLEncoder.encode(act_path) + "\" scrolling=\"auto\" />");
 			} else {
-				output.println("<frame name=\"DirectoryPath\" src=\"/webfilesys/servlet?command=winDirTree&actPath="
+				output.println("<frame name=\"DirectoryPath\" src=\""+req.getContextPath()+"/servlet?command=winDirTree&actPath="
 						+ UTF8URLEncoder.encode(act_path) + "\" scrolling=\"auto\" />");
 			}
 
-			output.println("<frame name=\"FileList\" SRC=\"/webfilesys/servlet?command=listFiles&actpath="
+			output.println("<frame name=\"FileList\" SRC=\""+req.getContextPath()+"/servlet?command=listFiles&actpath="
 					+ UTF8URLEncoder.encode(act_path) + "&mask=*\" scrolling=\"auto\" />");
 			output.println("</frameset>");
 		}
@@ -209,7 +209,7 @@ public class MainFrameSetHandler extends UserRequestHandler {
 
 		// output.println("<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"20; URL=/_logout\">");
 
-		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"/webfilesys/css/"
+		output.println("<link rel=\"stylesheet\" type=\"text/css\" href=\""+req.getContextPath()+"/css/"
 				+ userMgr.getCSS(uid) + ".css\">");
 
 		output.println("</head>");

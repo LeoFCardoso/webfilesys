@@ -1,3 +1,5 @@
+// Comment to prevent Eclipse Validation
+// <%@ page language="java" contentType="text/javascript" %>
 function hideMenu() {
 	document.getElementById('contextMenu').style.visibility = 'hidden';
 }
@@ -60,7 +62,7 @@ function contextMenu(fileName) {
 		if (fileExt == ".URL") {
 			menuText = menuText
 					+ menuEntry(
-							"/webfilesys/servlet?command=openUrlFile&actPath="
+							"<%=request.getContextPath()%>/servlet?command=openUrlFile&actPath="
 									+ encodeURIComponent(fullPath) + "&random="
 									+ (new Date().getTime()),
 							resourceBundle["label.view"], "_blank");
@@ -71,7 +73,7 @@ function contextMenu(fileName) {
 					// http://itissolved.blogspot.com.br/2011/03/adobe-x-not-opening-pdf-in-ie-window.html
 					// + menuEntry("javascript:viewFile('" + scriptPreparedPath
 					// + "')", resourceBundle["label.view"], null);
-					+ menuEntry("/webfilesys/servlet/" + scriptPreparedPath,
+					+ menuEntry("<%=request.getContextPath()%>/servlet/" + scriptPreparedPath,
 							resourceBundle["label.view"], "_blank");
 		}
 	}
@@ -248,7 +250,7 @@ function extendedFileMenu(shortFileName, path) {
 					|| (fileExt == ".BAT") || (fileExt == ".CMD")) {
 				menuText = menuText
 						+ menuEntry(
-								"/webfilesys/servlet?command=execProgram&progname="
+								"<%=request.getContextPath() %>/servlet?command=execProgram&progname="
 										+ encodeURIComponent(fullPath),
 								resourceBundle["label.run"], null);
 			} else {

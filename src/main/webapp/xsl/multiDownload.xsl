@@ -5,6 +5,8 @@
 
 <xsl:strip-space elements="download" />
 
+<xsl:param name="contextPath"/>
+
 <!-- root node-->
 <xsl:template match="/">
 
@@ -14,7 +16,7 @@
 <meta http-equiv="expires" content="0" />
 
 <link rel="stylesheet" type="text/css">
-  <xsl:attribute name="href">/webfilesys/css/<xsl:value-of select="/download/css" />.css</xsl:attribute>
+  <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/css/<xsl:value-of select="/download/css" />.css</xsl:attribute>
 </link>
 
 
@@ -28,7 +30,7 @@
 
   <div class="info" style="width:100%;padding:10px;text-align:center">
     <a class="dirtree" style="text-decoration:underline">
-      <xsl:attribute name="href">/webfilesys/servlet?command=multiDownload&amp;actPath=<xsl:value-of select="/download/path" /></xsl:attribute>
+      <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/servlet?command=multiDownload&amp;actPath=<xsl:value-of select="/download/path" /></xsl:attribute>
       <xsl:value-of select="/download/resources/msg[@key='label.download.link']/@value" />
     </a>
     <br/><br/>
