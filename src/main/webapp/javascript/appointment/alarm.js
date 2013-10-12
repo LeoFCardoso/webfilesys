@@ -1,6 +1,8 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function checkAlarm() 
 {
-	var url = "/webfilesys/servlet?command=calendar&cmd=checkAlarm";
+	var url = "<%=request.getContextPath()%>/servlet?command=calendar&cmd=checkAlarm";
 	xmlRequest(url, handleAlarmResult);
 }
 
@@ -147,7 +149,7 @@ function delayOrCloseReminder(eventId)
         return;
 	}
 
-	var url = "/webfilesys/servlet?command=calendar&cmd=delay&eventId=" + eventId + "&delayMinutes=" + remindAgainSel.value;
+	var url = "<%=request.getContextPath()%>/servlet?command=calendar&cmd=delay&eventId=" + eventId + "&delayMinutes=" + remindAgainSel.value;
 	xmlRequest(url, handleDelayResult);
 }
 

@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function multiFileFunction()
 {
     idx=document.form2.cmd.selectedIndex;
@@ -61,7 +63,7 @@ function compare()
 {
     if (checkSelected())
     {
-	compareWin=window.open('/webfilesys/servlet?command=blank','compareWin','width=screen.width,height=screen.height-30,scrollbars=no,resizable=yes,status=no,menubar=no,toolbar=no,location=no,directories=no,screenX=0,screenY=0,left=0,top=0');
+	compareWin=window.open('<%=request.getContextPath()%>/servlet?command=blank','compareWin','width=screen.width,height=screen.height-30,scrollbars=no,resizable=yes,status=no,menubar=no,toolbar=no,location=no,directories=no,screenX=0,screenY=0,left=0,top=0');
         
         if (!compareWin)
         {
@@ -156,7 +158,7 @@ function multiImageCopyMove()
     {
         document.form2.command.value='multiImageCopyMove';
 
-        xmlRequestPost("/webfilesys/servlet", getFormData(document.form2), showCopyResult);
+        xmlRequestPost("<%=request.getContextPath()%>/servlet", getFormData(document.form2), showCopyResult);
     
 	document.form2.command.value='compareImg';
     }
@@ -203,7 +205,7 @@ function multiImageDownload()
     {
         xpos = (screen.width - 400) / 2;
     
-        downloadWin = window.open("/webfilesys/servlet?command=blank","downloadWin","status=no,toolbar=no,location=no,menu=no,width=400,height=240,resizable=no,left=" + xpos + ",top=100,screenX=" + xpos + ",screenY=100");
+        downloadWin = window.open("<%=request.getContextPath()%>/servlet?command=blank","downloadWin","status=no,toolbar=no,location=no,menu=no,width=400,height=240,resizable=no,left=" + xpos + ",top=100,screenX=" + xpos + ",screenY=100");
  
         document.form2.target='downloadWin';
         document.form2.command.value='multiImageDownloadPrompt';

@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 var TIMETABLE_COLOR = "#80ffff";
 
 function clearAppointmentCont()
@@ -650,7 +652,7 @@ function deleteAppointment(eventId)
 	{
 		return;
 	}
-	var url = "/webfilesys/servlet?command=calendar&cmd=delAppointment&eventId=" + eventId;
+	var url = "<%=request.getContextPath()%>/servlet?command=calendar&cmd=delAppointment&eventId=" + eventId;
 	xmlRequest(url, showDeleteResult);
 }
 
@@ -689,7 +691,7 @@ function showDeleteResult()
 
 function moveAppointment(eventId)
 {
-	var url = "/webfilesys/servlet?command=calendar&cmd=moveAppointment&eventId=" + eventId;
+	var url = "<%=request.getContextPath()%>/servlet?command=calendar&cmd=moveAppointment&eventId=" + eventId;
 	xmlRequest(url, showMoveResult);
 }
 
@@ -713,7 +715,7 @@ function showMoveResult()
 
 function pasteAppointment(year, month, dayOfMonth)
 {
-	var url = "/webfilesys/servlet?command=calendar&cmd=pasteAppointment&year=" + year + "&month=" + month + "&dayOfMonth=" + dayOfMonth;
+	var url = "<%=request.getContextPath()%>/servlet?command=calendar&cmd=pasteAppointment&year=" + year + "&month=" + month + "&dayOfMonth=" + dayOfMonth;
 	xmlRequest(url, showPasteResult);
 }
 
@@ -746,7 +748,7 @@ function changeAppointment()
 	
 	formData = formData + "command=calendar&cmd=changeAppointment";
 	
-	xmlRequestPost("/webfilesys/servlet", formData, showChangeResult)	
+	xmlRequestPost("<%=request.getContextPath()%>/servlet", formData, showChangeResult)	
 }
 
 function showChangeResult()
@@ -812,7 +814,7 @@ function createAppointment()
 	
 	formData = formData + "&year=" + selectedDay.year + "&month=" + selectedDay.month + "&day=" + selectedDay.dayOfMonth;
 	
-	xmlRequestPost("/webfilesys/servlet", formData, showCreateResult)	
+	xmlRequestPost("<%=request.getContextPath()%>/servlet", formData, showCreateResult)	
 }
 
 function showCreateResult()
@@ -871,7 +873,7 @@ function showCreateResult()
 
 function reloadMonth()
 {
-    window.location.href = "/webfilesys/servlet?command=calendar&cmd=month&year=" + selectedDay.year + "&month=" + selectedDay.month;
+    window.location.href = "<%=request.getContextPath()%>/servlet?command=calendar&cmd=month&year=" + selectedDay.year + "&month=" + selectedDay.month;
 }
 
 function getAppointmentById(dayOfMonth, appointmentId)

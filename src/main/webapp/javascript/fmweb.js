@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function selectAll()
 {
     allSelected = true;
@@ -43,7 +45,7 @@ function multiDownload()
 {
     xpos = (screen.width - 400) / 2;
     
-    downloadWin = window.open("/webfilesys/servlet?command=blank","downloadWin","status=no,toolbar=no,location=no,menu=no,width=400,height=240,resizable=no,left=" + xpos + ",top=100,screenX=" + xpos + ",screenY=100");
+    downloadWin = window.open("<%=request.getContextPath()%>/servlet?command=blank","downloadWin","status=no,toolbar=no,location=no,menu=no,width=400,height=240,resizable=no,left=" + xpos + ",top=100,screenX=" + xpos + ",screenY=100");
  
     document.form1.command.value = 'multiFileDownloadPrompt';
     document.form1.target='downloadWin';
@@ -119,7 +121,7 @@ function multiFileCopyMove(cmd)
 {
     document.form1.command.value='multiFileCopyMove';
 
-    xmlRequestPost("/webfilesys/servlet", getFormData(document.form1), showCopyResult);
+    xmlRequestPost("<%=request.getContextPath()%>/servlet", getFormData(document.form1), showCopyResult);
     
     document.form1.command.value='multiFileOp';
 }
@@ -128,7 +130,7 @@ function diffCompare()
 {
     if (checkTwoFilesSelected())
     {
-	compareWin = window.open('/webfilesys/servlet?command=blank','compareWin','width=' + (screen.width - 20) + ',height=' + (screen.height - 80) + ',scrollbars=yes,resizable=yes,status=no,menubar=no,toolbar=no,location=no,directories=no,screenX=0,screenY=0,left=0,top=0');
+	compareWin = window.open('<%=request.getContextPath()%>/servlet?command=blank','compareWin','width=' + (screen.width - 20) + ',height=' + (screen.height - 80) + ',scrollbars=yes,resizable=yes,status=no,menubar=no,toolbar=no,location=no,directories=no,screenX=0,screenY=0,left=0,top=0');
         compareWin.focus();
         document.form1.command.value = 'diff';
         document.form1.target = 'compareWin';
@@ -311,7 +313,7 @@ function checkFileNameSyntax(str)
        
         if ((c == '\'') || (c == '\"') || (c == '*') || (c == '/') || (c == '\\') ||
             (c == '%') || (c == ':') || (c == '+')  || (c == '#') || (c == ';') ||
-            (c == ',') || (c == '§') || (c == '&') || (c == '?') || (c == '@'))
+            (c == ',') || (c == 'ï¿½') || (c == '&') || (c == '?') || (c == '@'))
         {
             return(false);
         } 
@@ -384,7 +386,7 @@ function validateBookmarkName(errorMsg)
 
     if (bookmarkName != '')
     {
-        var createBookmarkUrl = '/webfilesys/servlet?command=createBookmark&path=' + encodeURIComponent(document.bookmarkForm.currentPath.value) + '&bookmarkName=' + encodeURIComponent(document.bookmarkForm.bookmarkName.value);
+        var createBookmarkUrl = '<%=request.getContextPath()%>/servlet?command=createBookmark&path=' + encodeURIComponent(document.bookmarkForm.currentPath.value) + '&bookmarkName=' + encodeURIComponent(document.bookmarkForm.bookmarkName.value);
     
         xmlRequestSynchron(createBookmarkUrl);   
         
@@ -428,7 +430,7 @@ function submitSwitchReadWrite()
 
 function switchFolderWatch(path)
 {
-    var url = "/webfilesys/servlet?command=switchFolderWatch&path=" + encodeURIComponent(path);
+    var url = "<%=request.getContextPath()%>/servlet?command=switchFolderWatch&path=" + encodeURIComponent(path);
     
     xmlRequestSynchron(url);    
     
@@ -457,11 +459,11 @@ function bookmark(path)
 {
     if (path && (path.length > 0))
     {
-        showPrompt('/webfilesys/servlet?command=addBookmark&path=' + encodeURIComponent(path), '/webfilesys/xsl/addBookmark.xsl', 320, 190);
+        showPrompt('<%=request.getContextPath()%>/servlet?command=addBookmark&path=' + encodeURIComponent(path), '<%=request.getContextPath()%>/xsl/addBookmark.xsl', 320, 190);
     }
     else
     {
-        showPrompt('/webfilesys/servlet?command=addBookmark', '/webfilesys/xsl/addBookmark.xsl', 320, 190);
+        showPrompt('<%=request.getContextPath()%>/servlet?command=addBookmark', '<%=request.getContextPath()%>/xsl/addBookmark.xsl', 320, 190);
     }
     
     document.bookmarkForm.bookmarkName.focus();
@@ -636,7 +638,7 @@ function showPromptDialog(htmlFragmentURL, boxWidth, boxHeight)
 
 function renameLink(linkName)
 {
-	var promptDialog = showPromptDialog("/webfilesys/html/renameLink.html", 360);	
+	var promptDialog = showPromptDialog("<%=request.getContextPath()%>/html/renameLink.html", 360);	
 	
 	document.getElementById("oldLinkName").value = linkName;
 	document.getElementById("oldLinkNameShort").innerHTML = shortText(linkName, 35);

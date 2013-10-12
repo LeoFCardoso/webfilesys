@@ -1,10 +1,12 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function ajaxRotate(path, degrees, domId)
 {
     hideMenu();
 
-    var xmlUrl = '/webfilesys/servlet?command=xformImage&action=rotate&degrees=' + degrees + '&imgName=' + encodeURIComponent(path) + '&domId=' + domId;
+    var xmlUrl = '<%=request.getContextPath()%>/servlet?command=xformImage&action=rotate&degrees=' + degrees + '&imgName=' + encodeURIComponent(path) + '&domId=' + domId;
 
-    var xslUrl = "/webfilesys/xsl/transformImageResult.xsl";
+    var xslUrl = "<%=request.getContextPath()%>/xsl/transformImageResult.xsl";
 
     var newHtml = browserXslt(xmlUrl, xslUrl);
     
@@ -21,7 +23,7 @@ function ajaxRotate(path, degrees, domId)
 
 function checkLossless(path)
 {
-    var xmlUrl = '/webfilesys/servlet?command=checkLossless&imgPath=' + encodeURIComponent(path);
+    var xmlUrl = '<%=request.getContextPath()%>/servlet?command=checkLossless&imgPath=' + encodeURIComponent(path);
 
     var responseXml = xmlRequestSynchron(xmlUrl);
     
@@ -45,7 +47,7 @@ function autoImgRotate()
 
     showHourGlass();
 
-    var xmlUrl = '/webfilesys/servlet?command=autoImgRotate';
+    var xmlUrl = '<%=request.getContextPath()%>/servlet?command=autoImgRotate';
 
     var responseXml = xmlRequest(xmlUrl, autoImgRotateResult);
 }
@@ -63,7 +65,7 @@ function autoImgRotateResult()
                           
              if (anyRotated == "true")
              {
-                 window.location.href = '/webfilesys/servlet?command=thumbnail';
+                 window.location.href = '<%=request.getContextPath()%>/servlet?command=thumbnail';
                  return
              }
              

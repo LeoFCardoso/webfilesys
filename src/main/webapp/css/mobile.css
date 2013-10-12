@@ -1,3 +1,4 @@
+/* <%@page contentType="text/css" %> */
   body.mobile {margin:0px;font-size:12pt;font-family:Arial,Helvetica;background-color:#ffffff;}
   div.albumPath {padding:0;padding-left:2px;text-align:left;}
   a.currentPath {font-size:12pt;color:black;font-family:Arial,Helvetica;font-weight:bold;text-decoration:none;vertical-align:middle;}
@@ -75,7 +76,7 @@
   
   a.button 
   {
-      background: transparent url('/webfilesys/images/buttonRight.gif') no-repeat scroll top right;
+      background: transparent url('<%=request.getContextPath()%>/images/buttonRight.gif') no-repeat scroll top right;
       color: #444;
       display: block;
       float: left;
@@ -88,7 +89,7 @@
 
   a.button span 
   {
-      background: transparent url('/webfilesys/images/buttonLeft.gif') no-repeat;
+      background: transparent url('<%=request.getContextPath()%>/images/buttonLeft.gif') no-repeat;
       display: block;
       line-height: 14px;
       padding: 5px 0 5px 18px;

@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
     function albumImg(imgName)
     {
         if (browserMSIE)
@@ -11,7 +13,7 @@
             windowHeight = window.innerHeight;
         }    
     
-        window.location.href = '/webfilesys/servlet?command=albumImg&imgName=' + encodeURIComponent(imgName) + '&windowWidth=' + windowWidth + '&windowHeight=' + windowHeight;
+        window.location.href = '<%=request.getContextPath()%>/servlet?command=albumImg&imgName=' + encodeURIComponent(imgName) + '&windowWidth=' + windowWidth + '&windowHeight=' + windowHeight;
     }
 
     function albumLinkedImg(realPath)
@@ -27,5 +29,5 @@
             windowHeight = window.innerHeight;
         }    
     
-        window.location.href = '/webfilesys/servlet?command=albumImg&realPath=' + encodeURIComponent(realPath) + '&windowWidth=' + windowWidth + '&windowHeight=' + windowHeight;
+        window.location.href = '<%=request.getContextPath()%>/servlet?command=albumImg&realPath=' + encodeURIComponent(realPath) + '&windowWidth=' + windowWidth + '&windowHeight=' + windowHeight;
     }

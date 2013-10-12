@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
       var MAX_ZOOM_END_SIZE = 500;
       var zoomActive = false;
 
@@ -263,7 +265,7 @@
 
           var zoomImgObj = document.getElementById('zoomPic');
 
-          zoomImgObj.src = '/webfilesys/images/space.gif';
+          zoomImgObj.src = '<%=request.getContextPath()%>/images/space.gif';
 
           firstCall = true;
         

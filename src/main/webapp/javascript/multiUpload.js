@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
       var firefoxDragDrop = existFileReader();
 
       var SINGLE_FILE_MAX_SIZE;
@@ -249,7 +251,7 @@
           xhr.upload.addEventListener("progress", updateProgress, false);
           xhr.upload.addEventListener("load", uploadComplete, false);
          
-          xhr.open("POST", "/webfilesys/upload/singleBinary/" + encodeURIComponent(fileName), true);  
+          xhr.open("POST", "<%=request.getContextPath()%>/upload/singleBinary/" + encodeURIComponent(fileName), true);  
           xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');  
          
           if (firefoxDragDrop) {
@@ -276,7 +278,7 @@
                       new SingleFileBinaryUpload(file)
                   } else {
                       if (firefoxDragDrop || uploadStartedByButton) {
-                          window.location.href = '/webfilesys/servlet?command=listFiles&keepListStatus=true';
+                          window.location.href = '<%=request.getContextPath()%>/servlet?command=listFiles&keepListStatus=true';
                       } else {
                           document.getElementById('lastUploadedFile').innerHTML = lastUploadedFile;
                           document.getElementById('lastUploaded').style.visibility = 'visible';

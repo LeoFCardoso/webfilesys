@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function contextMenu(fileName)
 {
     menuDiv = document.getElementById('contextMenu');    
@@ -50,7 +52,7 @@ function contextMenu(fileName)
 	if (fileExt == ".URL")
 	{
             menuText = menuText 
-                     + menuEntry("/webfilesys/servlet?command=openUrlFile&actPath=" + encodeURIComponent(fullPath) + "&random=" + (new Date().getTime()),resourceBundle["menuView"],"_blank");
+                     + menuEntry("<%=request.getContextPath()%>/servlet?command=openUrlFile&actPath=" + encodeURIComponent(fullPath) + "&random=" + (new Date().getTime()),resourceBundle["menuView"],"_blank");
 	}
 	else
 	{
@@ -69,7 +71,7 @@ function contextMenu(fileName)
     }
 
     menuText = menuText 
-             + menuEntry("/webfilesys/servlet?command=getFile&filePath=" + encodeURIComponent(fullPath) + "&disposition=download",downloadLabel,null);
+             + menuEntry("<%=request.getContextPath()%>/servlet?command=getFile&filePath=" + encodeURIComponent(fullPath) + "&disposition=download",downloadLabel,null);
 
     if (readonly != 'true')
     {

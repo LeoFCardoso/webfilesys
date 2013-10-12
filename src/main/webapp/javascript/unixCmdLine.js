@@ -1,6 +1,8 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function submitCmd()
 {
-    var ajaxUrl = '/webfilesys/servlet';
+    var ajaxUrl = '<%=request.getContextPath()%>/servlet';
 
     xmlRequestPost(ajaxUrl, getFormData(document.form1), showCmdOutput);
 }

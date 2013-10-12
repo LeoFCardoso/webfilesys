@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function hideMenu() {
 	document.getElementById('contextMenu').style.visibility = 'hidden';
 }
@@ -290,7 +292,7 @@ function extendedDirMenu(shortPath, path) {
 	if (((parent.serverOS == 'win') && (path.length > 3))
 			|| ((parent.serverOS == 'ix') && (path.length > 1))) {
 		menuText = menuText
-				+ menuEntry("/webfilesys/servlet?command=downloadFolder&path="
+				+ menuEntry("<%=request.getContextPath()%>/servlet?command=downloadFolder&path="
 						+ encodeURIComponent(path),
 						resourceBundle["label.downloadFolder"], null);
 	}

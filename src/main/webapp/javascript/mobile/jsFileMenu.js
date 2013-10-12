@@ -1,32 +1,34 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function editMetaInfo(fileName)
 {
-    window.location.href = "/webfilesys/servlet?command=editMetaInf&fileName=" + encodeURIComponent(fileName) + "&mobile=true&random=" + new Date().getTime();
+    window.location.href = "<%=request.getContextPath()%>/servlet?command=editMetaInf&fileName=" + encodeURIComponent(fileName) + "&mobile=true&random=" + new Date().getTime();
 }
 
 function comments(path)
 { 
-    window.location.href = '/webfilesys/servlet?command=listComments&actPath=' + encodeURIComponent(path);
+    window.location.href = '<%=request.getContextPath()%>/servlet?command=listComments&actPath=' + encodeURIComponent(path);
 }
 
 function viewZip(path)
 {
-    unzipWin=window.open("/webfilesys/servlet?command=viewZip&filePath=" + encodeURIComponent(path),"unzipWin","status=no,toolbar=no,menu=yes,width=500,height=580,resizable=yes,scrollbars=yes,left=100,top=40,screenX=100,screenY=40");
+    unzipWin=window.open("<%=request.getContextPath()%>/servlet?command=viewZip&filePath=" + encodeURIComponent(path),"unzipWin","status=no,toolbar=no,menu=yes,width=500,height=580,resizable=yes,scrollbars=yes,left=100,top=40,screenX=100,screenY=40");
     unzipWin.focus();
 }
 
 function zipFile(path)
 {
-    window.location.href="/webfilesys/servlet?command=zipFile&filePath=" + encodeURIComponent(path);
+    window.location.href="<%=request.getContextPath()%>/servlet?command=zipFile&filePath=" + encodeURIComponent(path);
 }
 
 function editMP3(path)
 {
-    window.location.href = "/webfilesys/servlet?command=editMP3&path=" + encodeURIComponent(path);
+    window.location.href = "<%=request.getContextPath()%>/servlet?command=editMP3&path=" + encodeURIComponent(path);
 }
 
 function renameFile(fileName)
 {   
-    showPrompt('/webfilesys/servlet?command=renameFilePrompt&mobile=true&fileName=' + encodeURIComponent(fileName), '/webfilesys/xsl/renameFile.xsl', 360);
+    showPrompt('<%=request.getContextPath()%>/servlet?command=renameFilePrompt&mobile=true&fileName=' + encodeURIComponent(fileName), '<%=request.getContextPath()%>/xsl/renameFile.xsl', 360);
     
     document.renameForm.newFileName.focus();
     
@@ -45,7 +47,7 @@ function cutToClipboard(fileName)
 
 function editRemote(fileName)
 {
-    window.location.href = '/webfilesys/servlet?command=mobile&cmd=editFile&filename=' + encodeURIComponent(fileName) + '&screenHeight=' + screen.height;
+    window.location.href = '<%=request.getContextPath()%>/servlet?command=mobile&cmd=editFile&filename=' + encodeURIComponent(fileName) + '&screenHeight=' + screen.height;
 }
 
 function viewFile(path)
@@ -76,11 +78,11 @@ function viewFile(path)
     
     if (path.charAt(0) == '/')
     {
-       viewPath = '/webfilesys/servlet' + URLEncode(path);
+       viewPath = '<%=request.getContextPath()%>/servlet' + URLEncode(path);
     }
     else
     {
-       viewPath = '/webfilesys/servlet/' + URLEncode(path);
+       viewPath = '<%=request.getContextPath()%>/servlet/' + URLEncode(path);
     }
     
     // window.open(viewPath,"_blank","status=yes,toolbar=yes,menubar=yes,location=yes,resizable=yes,scrollbars=yes");
@@ -90,7 +92,7 @@ function viewFile(path)
 
 function showImage(imgPath, windowWidth, windowHeight)
 {
-    var url = '/webfilesys/servlet?command=mobile&cmd=showImg&imgPath=' + encodeURIComponent(imgPath);
+    var url = '<%=request.getContextPath()%>/servlet?command=mobile&cmd=showImg&imgPath=' + encodeURIComponent(imgPath);
     
     if (windowWidth)
     {
@@ -102,23 +104,23 @@ function showImage(imgPath, windowWidth, windowHeight)
 
 function delFile(fileName)
 {
-    showPrompt('/webfilesys/servlet?command=ajaxRPC&method=deleteFilePrompt&param1=' + encodeURIComponent(fileName), '/webfilesys/xsl/mobile/confirmDeleteFile.xsl', 320, 130);
+    showPrompt('<%=request.getContextPath()%>/servlet?command=ajaxRPC&method=deleteFilePrompt&param1=' + encodeURIComponent(fileName), '<%=request.getContextPath()%>/xsl/mobile/confirmDeleteFile.xsl', 320, 130);
 }
 
 function deleteFile(fileName)
 {
-    window.location.href = "/webfilesys/servlet?command=fmdelete&fileName=" + fileName + "&deleteRO=yes&mobile=true";
+    window.location.href = "<%=request.getContextPath()%>/servlet?command=fmdelete&fileName=" + fileName + "&deleteRO=yes&mobile=true";
 }
 
 function accessRights(path)
 {
-    rightWin = window.open("/webfilesys/servlet?command=unixRights&actpath=" + encodeURIComponent(path) + "&isDirectory=false&random=" + (new Date()).getTime(),"rightWin","status=no,toolbar=no,menu=no,resizable=yes,scrollbars=yes,height=500,width=350,left=300,top=100,screenX=300,screenY=100");
+    rightWin = window.open("<%=request.getContextPath()%>/servlet?command=unixRights&actpath=" + encodeURIComponent(path) + "&isDirectory=false&random=" + (new Date()).getTime(),"rightWin","status=no,toolbar=no,menu=no,resizable=yes,scrollbars=yes,height=500,width=350,left=300,top=100,screenX=300,screenY=100");
     rightWin.focus();
 }
 
 function sendFile(fileName)
 {
-    showPrompt('/webfilesys/servlet?command=emailFilePrompt&fileName=' + encodeURIComponent(fileName), '/webfilesys/xsl/emailFile.xsl', 400, 210);
+    showPrompt('<%=request.getContextPath()%>/servlet?command=emailFilePrompt&fileName=' + encodeURIComponent(fileName), '<%=request.getContextPath()%>/xsl/emailFile.xsl', 400, 210);
     
     document.emailForm.receiver.focus();
     
@@ -127,17 +129,17 @@ function sendFile(fileName)
 
 function delLink(linkName)
 {
-    window.location.href="/webfilesys/servlet?command=deleteLink&linkName=" + encodeURIComponent(linkName);
+    window.location.href="<%=request.getContextPath()%>/servlet?command=deleteLink&linkName=" + encodeURIComponent(linkName);
 }
 
 function switchReadWrite(path)
 {   
-    showPrompt('/webfilesys/servlet?command=switchReadWrite&filePath=' + encodeURIComponent(path), '/webfilesys/xsl/switchReadWrite.xsl', 360);
+    showPrompt('<%=request.getContextPath()%>/servlet?command=switchReadWrite&filePath=' + encodeURIComponent(path), '<%=request.getContextPath()%>/xsl/switchReadWrite.xsl', 360);
 }
 
 function associatedProg(path)
 {
-    parent.parent.menu.document.getElementById('download').src="/webfilesys/servlet?command=runAssociatedProgram&filePath=" + encodeURIComponent(path);
+    parent.parent.menu.document.getElementById('download').src="<%=request.getContextPath()%>/servlet?command=runAssociatedProgram&filePath=" + encodeURIComponent(path);
 }
 
 function URLEncode(path)

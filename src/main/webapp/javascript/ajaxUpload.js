@@ -1,6 +1,8 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function getUploadStatus()
 {
-    url = "/webfilesys/servlet?command=uploadStatus";
+    url = "<%=request.getContextPath()%>/servlet?command=uploadStatus";
 
     resp = xmlRequestSynchron(url);
 
@@ -23,7 +25,7 @@ function getUploadStatus()
     if (browserMSIE) {
         // workaround for MSIE hanging on the upload status screen
         if (resp.getElementsByTagName("success")[0].firstChild.nodeValue == 'true') {
-            window.location.href = '/webfilesys/servlet?command=listFiles';        
+            window.location.href = '<%=request.getContextPath()%>/servlet?command=listFiles';        
         }        
     }     
              

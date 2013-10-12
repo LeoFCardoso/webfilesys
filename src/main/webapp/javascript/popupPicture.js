@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
       var ZOOM_MIN_SIZE = 200;
       
       var  currentPicture = '';
@@ -168,7 +170,7 @@
 
           var zoomImgObj = document.getElementById('zoomPic');
 
-          zoomImgObj.src = '/webfilesys/images/space.gif';
+          zoomImgObj.src = '<%=request.getContextPath()%>/images/space.gif';
 
           currentPicture = '';
       }

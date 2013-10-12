@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function jsLinkMenu(linkName, realPath)
 {
     menuDiv = document.getElementById('contextMenu');    
@@ -31,7 +33,7 @@ function jsLinkMenu(linkName, realPath)
 	if (fileExt == ".URL")
 	{
             menuText = menuText 
-                     + menuEntry("/webfilesys/servlet?command=openUrlFile&actPath=" + encodeURIComponent(realPath) + "&random=" + (new Date().getTime()),resourceBundle["menuView"],"_blank");
+                     + menuEntry("<%=request.getContextPath()%>/servlet?command=openUrlFile&actPath=" + encodeURIComponent(realPath) + "&random=" + (new Date().getTime()),resourceBundle["menuView"],"_blank");
 	}
 	else
 	{
@@ -53,7 +55,7 @@ function jsLinkMenu(linkName, realPath)
     }
 
     menuText = menuText 
-             + menuEntry("/webfilesys/servlet?command=getFile&filePath=" + encodeURIComponent(realPath) + "&disposition=download",downloadLabel,null);
+             + menuEntry("<%=request.getContextPath()%>/servlet?command=getFile&filePath=" + encodeURIComponent(realPath) + "&disposition=download",downloadLabel,null);
 
     if (readonly != 'true')
     {
@@ -163,17 +165,17 @@ function jsLinkMenu(linkName, realPath)
 
 function editRemoteLink(path)
 {
-    window.location.href = '/webfilesys/servlet?command=mobile&cmd=editFile&filePath=' + encodeURIComponent(path) + '&screenHeight=' + screen.height;
+    window.location.href = '<%=request.getContextPath()%>/servlet?command=mobile&cmd=editFile&filePath=' + encodeURIComponent(path) + '&screenHeight=' + screen.height;
 }
 
 function origDir(path)
 {
-    window.location.href = "/webfilesys/servlet?command=mobile&cmd=folderFileList&absPath=" + encodeURIComponent(path);
+    window.location.href = "<%=request.getContextPath()%>/servlet?command=mobile&cmd=folderFileList&absPath=" + encodeURIComponent(path);
 }
 
 function emailLink(filePath)
 {
-    showPrompt('/webfilesys/servlet?command=emailFilePrompt&filePath=' + encodeURIComponent(filePath), '/webfilesys/xsl/emailFile.xsl', 400, 210);
+    showPrompt('<%=request.getContextPath()%>/servlet?command=emailFilePrompt&filePath=' + encodeURIComponent(filePath), '<%=request.getContextPath()%>/xsl/emailFile.xsl', 400, 210);
     
     document.emailForm.receiver.focus();
     

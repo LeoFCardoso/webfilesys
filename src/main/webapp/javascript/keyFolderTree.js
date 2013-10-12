@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 // not used because only working with Firefox
 // other browsers require very different DOM manipulation operations
 
@@ -362,13 +364,13 @@
             
                       if (prevFolderImg)
                       {
-                          prevFolderImg.src = "/webfilesys/images/folder1.gif";
+                          prevFolderImg.src = "<%=request.getContextPath()%>/images/folder1.gif";
                       
                           var currentFolderImg = locateFolderImage(currentDirDiv);
                       
                           if (currentFolderImg) 
                           {
-                              currentFolderImg.src = "/webfilesys/images/folder.gif";
+                              currentFolderImg.src = "<%=request.getContextPath()%>/images/folder.gif";
                               currentDirId = dirDiv.id;
                               return true;
                           }
@@ -393,11 +395,11 @@
       {
           if (newSelectedImg.src.indexOf("miniDisk") > 0) 
           {
-              newSelectedImg.src = "/webfilesys/images/miniDisk2.gif";
+              newSelectedImg.src = "<%=request.getContextPath()%>/images/miniDisk2.gif";
           }
           else
           {
-              newSelectedImg.src = "/webfilesys/images/folder1.gif";
+              newSelectedImg.src = "<%=request.getContextPath()%>/images/folder1.gif";
           }
                       
           var currentFolderImg = locateFolderImage(currentDirDiv);
@@ -406,11 +408,11 @@
           {
               if (currentFolderImg.src.indexOf("miniDisk") > 0) 
               {
-                  currentFolderImg.src = "/webfilesys/images/miniDisk.gif";
+                  currentFolderImg.src = "<%=request.getContextPath()%>/images/miniDisk.gif";
               }
               else
               {
-                  currentFolderImg.src = "/webfilesys/images/folder.gif";
+                  currentFolderImg.src = "<%=request.getContextPath()%>/images/folder.gif";
               }
               currentDirId = newSelectedDiv.id;
               return true;
@@ -459,13 +461,13 @@
             
                   if (nextFolderImg)
                   {
-                      nextFolderImg.src = "/webfilesys/images/folder1.gif";
+                      nextFolderImg.src = "<%=request.getContextPath()%>/images/folder1.gif";
                       
                       var currentFolderImg = locateFolderImage(currentDirDiv);
                       
                       if (currentFolderImg) 
                       {
-                          currentFolderImg.src = "/webfilesys/images/folder.gif";
+                          currentFolderImg.src = "<%=request.getContextPath()%>/images/folder.gif";
                           currentDirId = dirDiv.id;
                           return true;
                       }

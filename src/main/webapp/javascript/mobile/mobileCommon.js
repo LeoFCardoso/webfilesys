@@ -1,3 +1,5 @@
+// <%-- Comment to prevent Eclipse Validation --%>
+// <%@ page language="java" contentType="text/javascript" %>
 function mobileFunctionSelected() 
 {
     var functionSelect = document.getElementById("functionSelect");
@@ -13,24 +15,24 @@ function mobileFunctionSelected()
 
     if (cmd == '1')
     {
-        window.location.href = "/webfilesys/servlet?command=bookmarks";
+        window.location.href = "<%=request.getContextPath()%>/servlet?command=bookmarks";
         return;
     }
 
     if (cmd == '2')
     {
-        window.open('/webfilesys/servlet?command=versionInfo','infowindow','status=no,toolbar=no,location=no,menu=no,width=300,height=220,resizable=no,left=50,top=20,screenX=50,screenY=20');
+        window.open('<%=request.getContextPath()%>/servlet?command=versionInfo','infowindow','status=no,toolbar=no,location=no,menu=no,width=300,height=220,resizable=no,left=50,top=20,screenX=50,screenY=20');
     }
     
     if (cmd == '3')
     {
-        window.location.href = "/webfilesys/servlet";
+        window.location.href = "<%=request.getContextPath()%>/servlet";
         return;
     }
     
     if (cmd == '4')
     {
-        window.location.href = "/webfilesys/servlet?command=logout";
+        window.location.href = "<%=request.getContextPath()%>/servlet?command=logout";
         return;
     }
     
