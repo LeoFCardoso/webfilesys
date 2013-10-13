@@ -1,7 +1,7 @@
 <div class="promptHead" resource="label.renameLink"></div>
     
 <form accept-charset="utf-8" name="renameForm" id="renameLinkForm" method="post" 
-    action="/webfilesys/servlet" style="display:inline;">
+    action="<%=request.getContextPath()%>/servlet" style="display:inline;">
   
   <input type="hidden" name="command" value="renameLink" />
   <input type="hidden" id="oldLinkName" name="oldLinkName" />

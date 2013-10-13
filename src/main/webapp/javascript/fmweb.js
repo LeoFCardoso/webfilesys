@@ -638,7 +638,7 @@ function showPromptDialog(htmlFragmentURL, boxWidth, boxHeight)
 
 function renameLink(linkName)
 {
-	var promptDialog = showPromptDialog("<%=request.getContextPath()%>/html/renameLink.html", 360);	
+	var promptDialog = showPromptDialog("<%=request.getContextPath()%>/html/renameLink.jsp", 360);	
 	
 	document.getElementById("oldLinkName").value = linkName;
 	document.getElementById("oldLinkNameShort").innerHTML = shortText(linkName, 35);

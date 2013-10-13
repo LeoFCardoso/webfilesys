@@ -74,7 +74,7 @@ function fileSizeStatistics(path)
     }
     else 
     {
-        statWin=open("<%=request.getContextPath()%>/html/waitFileSizeStats.html?command=fileStatistics&cmd=sizeStats&actpath=" + encodeURIComponent(path) + "&random=" + (new Date()).getTime(),"Statistics","scrollbars=yes,resizable=yes,width=700,height=500");
+        statWin=open("<%=request.getContextPath()%>/html/waitFileSizeStats.jsp?command=fileStatistics&cmd=sizeStats&actpath=" + encodeURIComponent(path) + "&random=" + (new Date()).getTime(),"Statistics","scrollbars=yes,resizable=yes,width=700,height=500");
     }
     statWin.focus();
 }
@@ -89,7 +89,7 @@ function fileTypeStatistics(path)
     }
     else 
     {
-        statWin=open("<%=request.getContextPath()%>/html/waitFileTypeStats.html?command=fileStatistics&cmd=typeStats&actpath=" + encodeURIComponent(path) + "&random=" + (new Date()).getTime(),"Statistics","scrollbars=yes,resizable=yes,width=700,height=500");
+        statWin=open("<%=request.getContextPath()%>/html/waitFileTypeStats.jsp?command=fileStatistics&cmd=typeStats&actpath=" + encodeURIComponent(path) + "&random=" + (new Date()).getTime(),"Statistics","scrollbars=yes,resizable=yes,width=700,height=500");
     }
 
     statWin.focus();
@@ -105,7 +105,7 @@ function fileAgeStatistics(path)
     }
     else 
     {
-        statWin=open("<%=request.getContextPath()%>/html/waitFileAgeStats.html?command=fileStatistics&cmd=ageStats&actpath=" + encodeURIComponent(path) + "&random=" + (new Date()).getTime(),"Statistics","scrollbars=yes,resizable=yes,width=700,height=500");
+        statWin=open("<%=request.getContextPath()%>/html/waitFileAgeStats.jsp?command=fileStatistics&cmd=ageStats&actpath=" + encodeURIComponent(path) + "&random=" + (new Date()).getTime(),"Statistics","scrollbars=yes,resizable=yes,width=700,height=500");
     }
     statWin.focus();
 }
