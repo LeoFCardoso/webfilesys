@@ -480,7 +480,7 @@ public class UploadServlet extends WebFileSysServlet
             output.println("</script>");
 
 			output.print(
-				"<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=/webfilesys/servlet?command=listFiles\">");
+				"<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL="+req.getContextPath()+"/servlet?command=listFiles\">");
 
             output.print("</HEAD>");
             output.println("</html>");

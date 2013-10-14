@@ -275,7 +275,7 @@
       <td class="plaintext" align="center">
       
       	<!-- Leonardo - hide hostname for security <xsl:value-of select="hostname" /> -->
-        <xsl:value-of select="userid" /> @ WEBFILESYS
+        <xsl:value-of select="userid" /> @ <xsl:value-of select="JAASAppName" />
 
         <xsl:if test="readonly and (readonly='true')"> (PRONTO)</xsl:if>
 

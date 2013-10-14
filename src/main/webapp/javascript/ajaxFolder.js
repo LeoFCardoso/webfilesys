@@ -1,6 +1,12 @@
 // Comment to prevent Eclipse Validation
 // <%@ page language="java" contentType="text/javascript" %>
 
+//ReplaceAll in JS
+// http://geekvigarista.com/dev/criando-uma-funcao-replaceall-em-javascript-sem-loop-infinito
+String.prototype.replaceAll = function(de, para) {
+	return this.replace(new RegExp(de, 'g'), para);
+};
+
 // var browserIsFirefox = /a/[-1]=='a';
 var browserIsFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
@@ -401,23 +407,16 @@ function exp(parentDivId, lastInLevel) {
 
 	if (window.ActiveXObject) {
 		// MSIE
-
 		xslUrl = "<%=request.getContextPath()%>/xsl/subFolder.xsl";
-
 		expMSIE(parentDiv, xmlUrl, xslUrl);
 	} else {
 		if (browserIsFirefox || browserIsChrome) {
-			// Firefox & Chrome
-
 			xslUrl = "<%=request.getContextPath()%>/xsl/subFolder.xsl";
-
 			expMozilla(parentDiv, xmlUrl, xslUrl);
 		} else {
 			// XSLT with Javascript (google ajaxslt)
-
 			xslUrl = "<%=request.getContextPath()%>/xsl/subFolder.xsl";
-
-			expJavascriptXslt(parentDiv, xmlUrl, xslUrl)
+			expJavascriptXslt(parentDiv, xmlUrl, xslUrl);
 		}
 	}
 
@@ -507,6 +506,14 @@ function expJavascriptXslt(parentDiv, xmlUrl, xslUrl) {
 	// browser-independend client-side XSL transformation with google ajaxslt
 
 	var html = xsltProcess(xmlDoc, xslStyleSheet);
+
+	// xslt on Javascript seems to now allow parameter passing before
+	// processing.
+	// This is a workaround that must work only for this method.
+	// I'll try to change every "/images" to "/<<context>>/images"
+	// Should consider upgrade ajaxslt to latest version
+	html = html.replaceAll('"/images/',
+			'"<%=request.getContextPath()%>/images/');
 
 	parentDiv.outerHTML = html;
 
