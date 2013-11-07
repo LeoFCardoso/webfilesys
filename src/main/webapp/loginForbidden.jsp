@@ -91,7 +91,7 @@
 		<label><%=LanguageManager.getInstance().getResource(
 					WebFileSys.getInstance().getPrimaryLanguage(), "alert.noRole1",
 					"You don't have the correct role to access this system.")%><a
-			href="<%=request.getContextPath()%>/"><%=LanguageManager.getInstance().getResource(
+			href="<%=request.getContextPath()%>/servlet"><%=LanguageManager.getInstance().getResource(
 					WebFileSys.getInstance().getPrimaryLanguage(), "label.tryAgain", "Try again.")%></a>
 			<%=LanguageManager.getInstance().getResource(
 					WebFileSys.getInstance().getPrimaryLanguage(), "alert.noRole2",

@@ -83,7 +83,7 @@
 
 <body>
 	<div id="wraper">
-		<form method="post" action="j_security_check">
+		<form method="post" action="j_security_check" autocomplete="off">
 			<h1>
 				<%
 					out.print(WebFileSys.getInstance().getJAASAppName());

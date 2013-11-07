@@ -92,7 +92,7 @@
 		<label><%=LanguageManager.getInstance().getResource(
 					WebFileSys.getInstance().getPrimaryLanguage(), "alert.wrongPassword1",
 					"Bad userid/password")%></label> <label><a
-			href="<%=request.getContextPath()%>/"><%=LanguageManager.getInstance().getResource(
+			href="<%=request.getContextPath()%>/servlet"><%=LanguageManager.getInstance().getResource(
 					WebFileSys.getInstance().getPrimaryLanguage(), "label.tryAgain", "Try again.")%>.</a></label>
 		<label><%=LanguageManager.getInstance().getResource(
 					WebFileSys.getInstance().getPrimaryLanguage(), "alert.wrongPassword2",
@@ -100,7 +100,7 @@
 	</div>
 	<%
 		String user = request.getParameter("j_username");
-		if (user != null) {
+		if (user != null) { 
 			user = user.toUpperCase();
 		}
 		String userMd5 = "";
