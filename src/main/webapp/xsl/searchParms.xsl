@@ -302,7 +302,7 @@
 
       <tr>
         <td colspan="2" class="formParm1">
-          <input id="resultAsTree" type="checkbox" name="resultAsTree" class="cb5" checked="true"/>
+          <input id="resultAsTree" type="checkbox" name="resultAsTree" class="cb5" disabled="true"/>
           &#160;
           <span resource="label.searchResultAsTree" />
         </td>
