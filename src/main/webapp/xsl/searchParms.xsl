@@ -205,15 +205,15 @@
         </td>
       </tr>
 
-      <tr>
+      <tr style="display:none;">
         <td class="formParm1" resource="label.searcharg" />
         <td class="formParm2">
-          <input id="searchArg" type="text" name="SearchArg" maxlength="256" disabled="true"
+          <input id="searchArg" type="input" name="SearchArg" maxlength="256" disabled="true"
               style="width:250px" onchange="switchCheckboxes()" onkeyup="switchCheckboxes()" />
         </td>
       </tr>
 
-      <tr>
+      <tr style="display:none;">
         <td colspan="2" class="formParm2" style="padding-left:30px">
           <span resource="label.argdesc1" />
           <br/>
@@ -229,7 +229,7 @@
         </td>
       </tr>
 
-      <tr>
+      <tr style="display:none;">
         <td colspan="2" class="formParm1">
           <input id="includeDesc" type="checkbox" name="includeDesc" class="cb5" disabled="disabled" />
           &#160;
@@ -237,7 +237,7 @@
         </td>
       </tr>
 
-      <tr>
+      <tr style="display:none;">
         <td colspan="2" class="formParm1">
           <input id="descOnly" type="checkbox" name="descOnly" class="cb5" disabled="disabled"/>
           &#160;
@@ -284,7 +284,7 @@
         </td>
       </tr>
 
-      <tr>
+      <tr style="display:none;">
         <td class="formParm1" resource="label.assignedToCategory" />
         <td class="formParm2">
           <select name="category" disabled="true">
