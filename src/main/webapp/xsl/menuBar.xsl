@@ -65,7 +65,7 @@
 
   function searchParms()
   {
-      searchWin=open('<xsl:value-of select="$contextPath"/>/servlet?command=search','searchWin','scrollbars=yes,resizable=yes,width=500,height=480,left=100,top=60,screenX=100,screenY=60');
+      searchWin=open('<xsl:value-of select="$contextPath"/>/servlet?command=search','searchWin','scrollbars=yes,resizable=yes,width=520,height=530,left=100,top=60,screenX=100,screenY=60');
       searchWin.focus();
   }
 
@@ -285,16 +285,14 @@
       <td align="right">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr>
-
+			<th>
+              <a href="javascript:searchParms()">
+                <img src="{$contextPath}/images/menubar/search.gif" border="0" width="32" height="32">
+                  <xsl:attribute name="titleResource">label.search</xsl:attribute>
+                </img>
+              </a>
+            </th>
             <xsl:if test="not(readonly) or (readonly='false')">
-	            <th>
-	              <a href="javascript:searchParms()">
-	                <img src="{$contextPath}/images/menubar/search.gif" border="0" width="32" height="32">
-	                  <xsl:attribute name="titleResource">label.search</xsl:attribute>
-	                </img>
-	              </a>
-	            </th>
-
 	            <th>
 	              <a href="javascript:slideshow()">
 	                <img src="{$contextPath}/images/menubar/slideshow.gif" border="0" width="32" height="32">

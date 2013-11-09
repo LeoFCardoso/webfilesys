@@ -3,6 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">	
 <xsl:output method="html" indent="yes" omit-xml-declaration="yes" encoding="UTF-8" />
 
+<xsl:param name="contextPath"/>
+
 <xsl:strip-space elements="searchResult folder" />
 
 <!-- root node-->
@@ -14,7 +16,7 @@
   <meta http-equiv="expires" content="0" />
 
   <link rel="stylesheet" type="text/css">
-    <xsl:attribute name="href">/webfilesys/css/<xsl:value-of select="/searchResult/css" />.css</xsl:attribute>
+    <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/css/<xsl:value-of select="/searchResult/css" />.css</xsl:attribute>
   </link>
 
   <style type="text/css">
@@ -97,7 +99,7 @@
       <xsl:if test="@file">
         <xsl:attribute name="class">dirtree</xsl:attribute>
         <xsl:attribute name="target">_blank</xsl:attribute>
-        <xsl:attribute name="href">/webfilesys/servlet?command=getFile&amp;filePath=<xsl:value-of select="@path"/></xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/servlet?command=getFile&amp;filePath=<xsl:value-of select="@path"/></xsl:attribute>
       </xsl:if>
       <xsl:if test="not(@file)">
         <xsl:attribute name="class">tab</xsl:attribute>
