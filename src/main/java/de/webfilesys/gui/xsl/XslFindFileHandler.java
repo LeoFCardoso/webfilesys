@@ -39,8 +39,8 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 
 	MetaInfManager metaInfMgr = null;
 
-	public XslFindFileHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
-			PrintWriter output, String uid) {
+	public XslFindFileHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session, PrintWriter output,
+			String uid) {
 		super(req, resp, session, output, uid);
 
 		metaInfMgr = MetaInfManager.getInstance();
@@ -70,8 +70,7 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 
 		Date fromDate = new Date(0L);
 
-		if ((fromYear.trim().length() > 0) && (fromMonth.trim().length() > 0)
-				&& (fromDay.trim().length() > 0)) {
+		if ((fromYear.trim().length() > 0) && (fromMonth.trim().length() > 0) && (fromDay.trim().length() > 0)) {
 			try {
 				int year = Integer.parseInt(fromYear);
 				int month = Integer.parseInt(fromMonth);
@@ -126,23 +125,21 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 
 		XmlUtil.setChildText(searchResultElement, "fileNamePattern", fileNamePattern);
 
-		XmlUtil.setChildText(searchResultElement, "shortPath",
-				CommonUtils.shortName(getHeadlinePath(actPath), 40));
+		XmlUtil.setChildText(searchResultElement, "shortPath", CommonUtils.shortName(getHeadlinePath(actPath), 40));
 
 		docRootTokenCount = getDocRootTokenCount();
 
 		filesFoundNum = 0;
 
-		findFile(actPath, fileNamePattern, (includeSubdirs != null), fromDate.getTime(), toDate.getTime(),
-				category);
+		findFile(actPath, fileNamePattern, (includeSubdirs != null), fromDate.getTime(), toDate.getTime(), category);
 
 		XmlUtil.setChildText(searchResultElement, "matchCount", Integer.toString(filesFoundNum));
 
 		processResponse("findFileResult.xsl", false);
 	}
 
-	public void findFile(String actPath, String fileNamePattern, boolean includeSubdirs, long fromDate,
-			long toDate, Category category) {
+	public void findFile(String actPath, String fileNamePattern, boolean includeSubdirs, long fromDate, long toDate,
+			Category category) {
 		boolean filePatternGiven = (!fileNamePattern.equals("*")) && (!fileNamePattern.equals("*.*"));
 
 		File dirFile = new File(actPath);
@@ -174,10 +171,8 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 							// if any file with given date range is searched, ignore the metainf files
 
 							if ((tempFile.lastModified() >= fromDate) && (tempFile.lastModified() <= toDate)) {
-								if ((category == null)
-										|| metaInfMgr.isCategoryAssigned(actPath, fileList[i], category)) {
-									String viewLink = "" + req.getContextPath()
-											+ "/servlet?command=getFile&filePath="
+								if ((category == null) || metaInfMgr.isCategoryAssigned(actPath, fileList[i], category)) {
+									String viewLink = "" + req.getContextPath() + "/servlet?command=getFile&filePath="
 											+ UTF8URLEncoder.encode(tempFile.getAbsolutePath());
 
 									String iconImg = "doc.gif";
@@ -274,7 +269,15 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 				}
 
 				if (!nodeFound) {
-					String encodedPath = UTF8URLEncoder.encode(path);
+
+					// Little hack to handle UNC path - Leonardo
+					String rootPath = WebFileSys.getInstance().getUserDocRoot();
+					if ((File.separatorChar == '\\') && (rootPath.startsWith("//") || rootPath.startsWith("\\\\"))
+							&& !path.startsWith("\\\\")) {
+						path = "\\\\\\\\" + path; // UNC prefix twice to honnor servlet direct "getFile"
+					}
+
+					// String encodedPath = UTF8URLEncoder.encode(path);
 
 					subFolderElem = doc.createElement("folder");
 
@@ -286,7 +289,8 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 
 					subFolderElem.setAttribute("name", partOfPath);
 
-					subFolderElem.setAttribute("path", encodedPath);
+					// LCARD - direct access (without getFile)
+					subFolderElem.setAttribute("path", path);
 
 					String lowerCasePartOfPath = partOfPath.toLowerCase();
 

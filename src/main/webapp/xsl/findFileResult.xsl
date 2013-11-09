@@ -99,7 +99,7 @@
       <xsl:if test="@file">
         <xsl:attribute name="class">dirtree</xsl:attribute>
         <xsl:attribute name="target">_blank</xsl:attribute>
-        <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/servlet?command=getFile&amp;filePath=<xsl:value-of select="@path"/></xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$contextPath"/>/servlet/<xsl:value-of select="@path"/></xsl:attribute>
       </xsl:if>
       <xsl:if test="not(@file)">
         <xsl:attribute name="class">tab</xsl:attribute>
