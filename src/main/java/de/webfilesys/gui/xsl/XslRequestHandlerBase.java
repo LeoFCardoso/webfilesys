@@ -237,7 +237,7 @@ public class XslRequestHandlerBase extends UserRequestHandler {
 				long end = System.currentTimeMillis();
 
 				Logger.getLogger(getClass()).debug(
-						"server-side XSLTC transformation in " + (end - start) + " ms");
+						"server-side XSLTC (" + xslFile + ") transformation in " + (end - start) + " ms");
 			} catch (TransformerConfigurationException tex) {
 				Logger.getLogger(getClass()).warn(tex);
 			} catch (TransformerException tex) {

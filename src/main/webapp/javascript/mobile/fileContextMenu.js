@@ -70,9 +70,11 @@ function contextMenu(fileName)
         downloadLabel = resourceBundle["menuDownload"];
     }
 
-    menuText = menuText 
-             + menuEntry("<%=request.getContextPath()%>/servlet?command=getFile&filePath=" + encodeURIComponent(fullPath) + "&disposition=download",downloadLabel,null);
-
+    if (readonly != 'true') {
+	    menuText = menuText 
+	             + menuEntry("<%=request.getContextPath()%>/servlet?command=getFile&filePath=" + encodeURIComponent(fullPath) + "&disposition=download",downloadLabel,null);
+    }
+    
     if (readonly != 'true')
     {
         menuText = menuText 
@@ -120,9 +122,11 @@ function contextMenu(fileName)
         
     }
     
-    menuText = menuText 
-             + menuEntry("javascript:comments('" + scriptPreparedPath + "')",resourceBundle["menuComments"],null);
-        
+    if (readonly != 'true') {
+	    menuText = menuText 
+	             + menuEntry("javascript:comments('" + scriptPreparedPath + "')",resourceBundle["menuComments"],null);
+    }
+    
     menuText = menuText + '</table>'; 
 
     menuDiv.innerHTML = menuText;

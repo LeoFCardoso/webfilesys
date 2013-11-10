@@ -331,14 +331,15 @@
               </th>
             </xsl:if>
 
+            <th>
+              <a href="javascript:mobileVersion()">
+                <img src="{$contextPath}/images/menubar/mobilePhone.gif" border="0" width="32" height="32">
+                  <xsl:attribute name="titleResource">label.mobileVersion</xsl:attribute>
+                </img>
+              </a>
+            </th>
+
             <xsl:if test="not(readonly) or (readonly='false')">
-	            <th>
-	              <a href="javascript:mobileVersion()">
-	                <img src="{$contextPath}/images/menubar/mobilePhone.gif" border="0" width="32" height="32">
-	                  <xsl:attribute name="titleResource">label.mobileVersion</xsl:attribute>
-	                </img>
-	              </a>
-	            </th>
 
 	            <th>
 	              <a target="_blank">
