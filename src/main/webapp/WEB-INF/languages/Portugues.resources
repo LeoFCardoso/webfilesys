@@ -56,6 +56,7 @@ label.story=Histórico de Imagens
 label.ftpBackup=FTP Backup de pasta
 label.downloadCommentStats=Estatísticas de Download e Comentários
 label.commentStats=Estatisticas de Comentários
+label.mobileVersion=versão móvel
 label.help=Ajuda
 label.about=Sobre WebFileSys
 label.logout=Sair
@@ -736,13 +737,14 @@ button.decrypt=Decrypt
 alert.illegalCryptoKey=The format of the secret key is invalid!
 
 # mobile version
-label.mobileWindowTitle=WebFileSys mobile version
-menuView=view file
-menuViewZip=view ZIP content
+label.mobileWindowTitle=Versão móvel
+classicView=Versão desktop
+menuView=visualizar
+menuViewZip=ver ZIP
 menuDownload=download
-menuComments=comments
-menuPlay=play
-menuDelete=delete
+menuComments=comentários
+menuPlay=tocar
+menuDelete=apagar
 menuEditDesc=edit meta info
 menuRename=rename
 menuCopy=copy
@@ -763,7 +765,7 @@ menuRenameDir=rename folder
 menuSearch=search
 menuCreateFile=create new file
 menuZipDir=create ZIP archive
-folderIsEmpty=no files or subfolders in this directory matching the filter criteria
+folderIsEmpty=não há arquivos para exibir (verifique os filtros aplicados ou se há acentuação no nome da pasta)
 
 # alert messages
 alert.regsuccess=Novo usuário registrado com sucesso.
