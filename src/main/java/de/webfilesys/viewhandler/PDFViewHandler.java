@@ -78,8 +78,12 @@ public class PDFViewHandler implements ViewHandler {
 			String ownerPassStr = Long.toHexString(System.currentTimeMillis())
 					+ Long.toHexString((long) (Math.random() * 1000000));
 			byte[] ownerPass = ownerPassStr.getBytes();
-			stamper.setEncryption(userPass, ownerPass,
-					(PdfWriter.ALLOW_PRINTING + PdfWriter.ALLOW_MODIFY_ANNOTATIONS),
+			// This commented code does not permit text extraction from PDF's
+			// stamper.setEncryption(userPass, ownerPass,
+			// (PdfWriter.ALLOW_PRINTING + PdfWriter.ALLOW_MODIFY_ANNOTATIONS),
+			// PdfWriter.ENCRYPTION_AES_128);
+			stamper.setEncryption(userPass, ownerPass, (PdfWriter.ALLOW_PRINTING
+					+ PdfWriter.ALLOW_MODIFY_ANNOTATIONS + PdfWriter.ALLOW_COPY),
 					PdfWriter.ENCRYPTION_AES_128);
 			int index = 1;
 			PdfContentByte over;

@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 /**
  * This filter modifies some functions of WebFileSys to prevent some features to be used.
  * 
- * It should be complemented by user interface maintenance to hide these options forbidden
+ * It should be complemented by user interface maintenance to hide these options
  * 
  * @author leonardo
  * 
