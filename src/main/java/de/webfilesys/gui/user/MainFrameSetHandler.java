@@ -75,7 +75,8 @@ public class MainFrameSetHandler extends UserRequestHandler {
 				act_path = userMgr.getDocumentRoot(uid);
 			}
 		}
-
+		
+		output.println("<!DOCTYPE html>");
 		output.println("<html>");
 		output.println("<head>");
 

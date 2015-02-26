@@ -36,6 +36,8 @@ public class UploadServlet extends WebFileSysServlet
 	public void doPost ( HttpServletRequest req, HttpServletResponse resp )
     throws ServletException, java.io.IOException
     {
+		/* Leonardo - Comment all code to avoid accidental execution
+		 * 
         // prevent caching
 		resp.setDateHeader("expires", 0l); 
     	
@@ -539,9 +541,13 @@ public class UploadServlet extends WebFileSysServlet
 					}
 				}
         	}
+        	
         }
 
 		session.setAttribute(Constants.UPLOAD_COUNTER, new Integer(0));
+		
+       	*/
+
     }
     
     public void handleSingleBinaryUpload(HttpServletRequest req, HttpServletResponse resp)

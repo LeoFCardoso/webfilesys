@@ -42,7 +42,7 @@ import de.webfilesys.watch.FolderWatchManager;
 public class WebFileSys {
 	private static WebFileSys instance = null;
 
-	public static final String VERSION = "Version 2.9.2-Simple (2013/10/08)";
+	public static final String VERSION = "Version 2.9.3-Simple (2015/02/25)";
 
 	public static final String THUMB_DIR = "thumbnails";
 

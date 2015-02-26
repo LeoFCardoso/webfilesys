@@ -174,6 +174,11 @@ public class FastPathManager extends Thread
     
     public synchronized void run()
     {
+
+    	Logger.getLogger(getClass()).debug("FastPathManager disabled. Thread exiting...");
+
+    	/* Leonardo - not used in this application
+    	
     	Logger.getLogger(getClass()).debug("FastPathManager started");
     	
     	boolean stop = false;
@@ -196,6 +201,7 @@ public class FastPathManager extends Thread
                 Logger.getLogger(getClass()).debug("FastPathManager ready for shutdown");
             }
         }
+        */
     }
 
 }
