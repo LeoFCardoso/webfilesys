@@ -27,14 +27,13 @@ public final class PessimisticSecurityFilter implements Filter {
 	/**
 	 * All but these commands will be redirected to "forbidden" command
 	 */
-	private static final String[] allowedCommands = { "admin", "ajaxCollapse", "ajaxExp", "exp",
-			"findFileTree", "fmfindfile", "forbidden", "getResourceBundle", "listFiles", "login", "logout",
-			"menuBar", "mobile", "multiDownload", "multiFileDownloadPrompt", "refresh", "search",
-			"setScreenSize" };
+	private static final String[] allowedCommands = { "admin", "ajaxCollapse", "ajaxExp", "downloadFolder", "exp",
+			"findFileTree", "fmfindfile", "forbidden", "getResourceBundle", "listFiles", "login", "logout", "menuBar",
+			"mobile", "multiDownload", "multiFileDownloadPrompt", "refresh", "search", "setScreenSize" };
 
 	/**
-	 * All but these cmds will be redirected to "forbidden" command. CMD are somethig like a complementary
-	 * command. Each entry must have this form: command(cmd)
+	 * All but these cmds will be redirected to "forbidden" command. CMD are somethig like a complementary command. Each
+	 * entry must have this form: command(cmd)
 	 */
 	private static final String[] allowedCmds = { "mobile(folderFileList)", "multiFileDownloadPrompt(download)" };
 
@@ -81,12 +80,11 @@ public final class PessimisticSecurityFilter implements Filter {
 		HttpServletResponse responseHttp = (HttpServletResponse) response;
 		responseHttp.sendRedirect(requestHttp.getContextPath() + "/servlet?command=forbidden");
 
-		String loggedInUser = (String) ((requestHttp.getSession().getAttribute("userid") != null) ? requestHttp
-				.getSession().getAttribute("userid") : "no user logged on");
+		String loggedInUser = (String) ((requestHttp.getSession().getAttribute("userid") != null)
+				? requestHttp.getSession().getAttribute("userid") : "no user logged on");
 
-		Logger.getLogger(getClass()).warn(
-				loggedInUser + " tried not allowed command (cmd): " + valueCommand + " (" + valueCmd
-						+ "). Redirecting to forbidden page.");
+		Logger.getLogger(getClass()).warn(loggedInUser + " tried not allowed command (cmd): " + valueCommand + " ("
+				+ valueCmd + "). Redirecting to forbidden page.");
 	}
 
 	public void destroy() {

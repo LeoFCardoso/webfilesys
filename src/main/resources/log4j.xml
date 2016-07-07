@@ -12,7 +12,7 @@
 
 	<appender name="WFSSyslogAppender" class="org.apache.log4j.net.SyslogAppender">
 		<param name="Facility" value="USER" />
-		<param name="SyslogHost" value="192.168.1.2" />
+		<param name="SyslogHost" value="192.168.1.22" />
 		<param name="Threshold" value="DEBUG" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%C [%d{yyyy-MM-dd HH:mm:ss}] %-5p - %m%n" />

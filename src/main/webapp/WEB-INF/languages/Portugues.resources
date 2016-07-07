@@ -128,6 +128,7 @@ label.cloneFile=Clonar Arquivo
 label.hexView=Visualizador Hexa
 label.encrypt=Encriptar (AES)
 label.decrypt=Decriptar (AES)
+label.downloadFolder=Download como zip
 
 # directory tree tooltips
 tooltip.folder=abrir menu de contexto do diretório

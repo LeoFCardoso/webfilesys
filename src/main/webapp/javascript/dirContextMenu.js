@@ -30,10 +30,9 @@ function extractDirNameFromPath(path) {
 
 function dirContextMenu(domId) {
 	parentDiv = document.getElementById(domId);
-
+	
 	if (!parentDiv) {
 		alert('Element with id ' + domId + ' not found');
-
 		return;
 	}
 
@@ -178,10 +177,20 @@ function dirContextMenu(domId) {
 						+ "')", resourceBundle["label.winCmdLine"], null);
 	}
 
+	// Menu Refresh
 	menuText = menuText
 			+ menuEntry("javascript:refresh('" + scriptPreparedPath + "')",
 					resourceBundle["label.refresh"], null);
 
+	//Menu DownloadFolder
+	if (((parent.serverOS == 'win') && (path.length > 3))
+			|| ((parent.serverOS == 'ix') && (path.length > 1))) {
+		menuText = menuText
+				+ menuEntry("<%=request.getContextPath()%>/servlet?command=downloadFolder&path="
+						+ encodeURIComponent(path),
+						resourceBundle["label.downloadFolder"], null);
+	}
+	
 	if ((parent.serverOS == 'win') && (path.length <= 3)) {
 		menuText = menuText
 				+ menuEntry("javascript:driveInfo('" + scriptPreparedPath
