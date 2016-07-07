@@ -51,7 +51,7 @@ ShowAssignedIcons=true
 ShowDescriptionsInline=false
 
 # number of picture thumbnails displayed at a time
-PageThumbnailNumber=12
+PageThumbnailNumber=32
 
 # Automatically create thumbnail files for large JPEG picture files when browsing through
 # a directory. This gives performance improvements for the thumbnail preview function

@@ -44,7 +44,7 @@ public class MobileFolderFileListHandler extends XslRequestHandlerBase
 {
 	private static final int MOBILE_FILE_PAGE_SIZE = 8;
 	
-	private static final int MAX_FILENAME_DISPLAY_LENGTH = 28;
+	private static final int MAX_FILENAME_DISPLAY_LENGTH = 200;
 	
 	private static final String[] FILTER_ALL_FILES = new String[] {"*"};
 

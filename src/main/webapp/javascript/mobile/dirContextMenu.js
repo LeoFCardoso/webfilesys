@@ -1,4 +1,4 @@
-function folderContextMenu(path, folderName)
+function folderContextMenu(path, folderName, basePath)
 {
     var shortFolderName = folderName;
     
@@ -46,6 +46,11 @@ function folderContextMenu(path, folderName)
 
     menuText = menuText 
              + menuEntry("javascript:search('" + scriptPreparedPath + "')",resourceBundle["menuSearch"],null);
+    
+	menuText = menuText
+				+ menuEntry("<%=request.getContextPath()%>/servlet?command=downloadFolder&path="
+						+ encodeURIComponent(basePath+'/'+folderName),
+						resourceBundle["label.downloadFolder"], null);
 
     if (readonly != 'true')
     {
