@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import de.webfilesys.stats.DirStatsByAge;
 import de.webfilesys.util.CommonUtils;
 import de.webfilesys.viewhandler.PDFViewHandler;
 
@@ -59,12 +60,28 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 			dirName = path.substring(lastSepIdx + 1);
 		}
 
+		// Check if max number of zip files is reached.
+		DirStatsByAge dsba = new DirStatsByAge();
+		dsba.determineStatistics(path);
+		int maxFilesForDownload = 100;
+		int maxSizeForDownload = maxFilesForDownload * 1024 * 1024;
+		if ((dsba.getFilesInTree() > maxFilesForDownload) || (dsba.getTreeFileSize() > maxSizeForDownload)) {
+			errorMsg = "Muitos arquivos foram selecionados para download (" + dsba.getFilesInTree() + " arquivos, "
+					+ dsba.getTreeFileSize() + " bytes). <br>O máximo é " + maxFilesForDownload + " arquivos, " + maxSizeForDownload
+					+ " bytes. Pasta " + folderFile.getName() + ".<br>Por favor, retorne e tente novamente!";
+		}
+
 		if (errorMsg != null) {
 			Logger.getLogger(getClass()).warn(errorMsg);
 			resp.setStatus(404);
+			resp.setContentType("text/html");
 			try {
 				PrintWriter output = new PrintWriter(resp.getWriter());
+				output.println("<html>");
+				output.println("<body>");
 				output.println(errorMsg);
+				output.println("</body>");
+				output.println("</html>");	
 				output.flush();
 				return;
 			} catch (IOException ioEx) {
@@ -121,7 +138,7 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 					zipOut.putNextEntry(newZipEntry);
 
 					FileInputStream inStream = null;
-					
+
 					File tempStampedPdf = File.createTempFile("fmwebPdFStamp", null);
 
 					try {
@@ -150,9 +167,9 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 					} catch (Exception zioe) {
 						Logger.getLogger(getClass()).warn("failed to zip file " + fullFileName, zioe);
 					} finally {
-						
+
 						tempStampedPdf.delete();
-						
+
 						if (inStream != null) {
 							try {
 								inStream.close();

@@ -102,7 +102,15 @@ public class DirStatsByAge {
     public long getSizeSumCategoryMax() {
         return sizeSumCategoryMax;
     }
-	
+    
+	public long getFilesInTree() {
+		return filesInTree;
+	}
+
+	public long getTreeFileSize() {
+		return treeFileSize;
+	}
+
 	/**
 	 * @return List of SizeCategory objects.
 	 */

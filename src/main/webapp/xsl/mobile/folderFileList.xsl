@@ -379,7 +379,7 @@
           &#160;
           <a>
             <xsl:attribute name="href">javascript:folderContextMenu(decodeURIComponent('<xsl:value-of select="$pathForScript" />'), '<xsl:value-of select="@name" />', '<xsl:value-of select="/folderFileList/menuPath" />')</xsl:attribute>
-            <img src="{$contextPath}/images/edit2.gif" border="0" width="20" height="18" style="vertical-align:middle"/>
+            <img src="{$contextPath}/images/next.png" border="0" width="20" height="18" style="vertical-align:middle"/>
           </a>
         </td>
       </tr>
