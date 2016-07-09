@@ -243,3 +243,7 @@ PDFViewHandlerWatermark=PRODUCAO
 
 # JAAS pages and app name
 JAASAppName=Comite TESTE
+
+# Download Folder Limit
+DownloadFolderFileLimit=100
+DownloadFolderSizeLimitInBytes=104857600

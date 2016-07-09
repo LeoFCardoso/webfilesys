@@ -200,6 +200,10 @@ public class WebFileSys {
 
 	private String jaasAppName = "simple webfilesys";
 
+	private int downloadFolderFileLimit = 100;
+	
+	private long downloadFolderSizeLimitInBytes = 100 * 1024 * 1024;
+	
 	private boolean licensed = false;
 
 	private SimpleDateFormat logDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -623,7 +627,27 @@ public class WebFileSys {
 			jaasAppName = temp;
 			Logger.getLogger(getClass()).info("JAAS App Name: " + jaasAppName);
 		}
+		
+		// Download Folder File Limits
+		temp = config.getProperty("DownloadFolderFileLimit");
+		if (temp != null) {
+			downloadFolderFileLimit = Integer.valueOf(temp);
+			Logger.getLogger(getClass()).info("Download Folder File Limit (number of files): " + downloadFolderFileLimit);
+		}
+		temp = config.getProperty("DownloadFolderSizeLimitInBytes");
+		if (temp != null) {
+			downloadFolderSizeLimitInBytes = Long.valueOf(temp);
+			Logger.getLogger(getClass()).info("Download Folder File Limit (bytes): " + downloadFolderSizeLimitInBytes);
+		}
 
+	}
+	
+	public int getDownloadFolderFileLimit() {
+		return downloadFolderFileLimit;
+	}
+
+	public long getDownloadFolderSizeLimitInBytes() {
+		return downloadFolderSizeLimitInBytes;
 	}
 
 	public void initialize(Properties config) {

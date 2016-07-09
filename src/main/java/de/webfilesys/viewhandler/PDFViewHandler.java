@@ -42,8 +42,8 @@ public class PDFViewHandler implements ViewHandler {
 			createStampedPdf(filePath, userid, os);
 			os.close();
 		} catch (Exception e) {
-			Logger.getLogger(getClass()).error(
-					"Error processing PDF View Handler for (" + filePath + "): " + e.getMessage());
+			Logger.getLogger(getClass())
+					.error("Error processing PDF View Handler for (" + filePath + "): " + e.getMessage());
 		}
 	}
 
@@ -55,8 +55,8 @@ public class PDFViewHandler implements ViewHandler {
 			createStampedPdf(filePath, userid, resp.getOutputStream());
 			resp.getOutputStream().close();
 		} catch (Exception e) {
-			Logger.getLogger(getClass()).error(
-					"Error processing PDF View Handler for (" + filePath + "): " + e.getMessage());
+			Logger.getLogger(getClass())
+					.error("Error processing PDF View Handler for (" + filePath + "): " + e.getMessage());
 		}
 	}
 
@@ -82,8 +82,8 @@ public class PDFViewHandler implements ViewHandler {
 			// stamper.setEncryption(userPass, ownerPass,
 			// (PdfWriter.ALLOW_PRINTING + PdfWriter.ALLOW_MODIFY_ANNOTATIONS),
 			// PdfWriter.ENCRYPTION_AES_128);
-			stamper.setEncryption(userPass, ownerPass, (PdfWriter.ALLOW_PRINTING
-					+ PdfWriter.ALLOW_MODIFY_ANNOTATIONS + PdfWriter.ALLOW_COPY),
+			stamper.setEncryption(userPass, ownerPass,
+					(PdfWriter.ALLOW_PRINTING + PdfWriter.ALLOW_MODIFY_ANNOTATIONS + PdfWriter.ALLOW_COPY),
 					PdfWriter.ENCRYPTION_AES_128);
 			int index = 1;
 			PdfContentByte over;
@@ -105,18 +105,18 @@ public class PDFViewHandler implements ViewHandler {
 				double rotacao = Math.toDegrees(Math.atan(pageHeight / pageWidth));
 				float fixedX = 20;
 				// Middle
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), fixedX
-						+ (pageWidth / 2), pageHeight / 2, (float) rotacao);
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, userid.toUpperCase(), fixedX + (pageWidth / 2),
+						pageHeight / 2, (float) rotacao);
 				over.setFontAndSize(bf, 80);
 				// Upper
 				Date actualDate = new Date();
 				DateFormat dfDate = DateFormat.getDateInstance(DateFormat.SHORT, new Locale("pt", "BR"));
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, dfDate.format(actualDate), fixedX
-						+ (pageWidth / 4), (pageHeight / 4) + (pageHeight / 2), (float) rotacao);
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, dfDate.format(actualDate), fixedX + (pageWidth / 4),
+						(pageHeight / 4) + (pageHeight / 2), (float) rotacao);
 				// Lower
-				over.showTextAligned(PdfContentByte.ALIGN_CENTER, WebFileSys.getInstance()
-						.getPdfViewHandlerWatermark(), fixedX + (pageWidth / 2) + (pageWidth / 4),
-						(pageHeight / 2) - (pageHeight / 4), (float) rotacao);
+				over.showTextAligned(PdfContentByte.ALIGN_CENTER, WebFileSys.getInstance().getPdfViewHandlerWatermark(),
+						fixedX + (pageWidth / 2) + (pageWidth / 4), (pageHeight / 2) - (pageHeight / 4),
+						(float) rotacao);
 				over.endText();
 				over.restoreState();
 				index++;
@@ -124,23 +124,23 @@ public class PDFViewHandler implements ViewHandler {
 			stamper.close();
 			reader.close();
 		} catch (Exception e) {
-			Logger.getLogger(getClass()).error(
-					"PDF file (" + filePath + ") could not be stamped. " + e.getMessage());
+			Logger.getLogger(getClass()).error("PDF file (" + filePath + ") could not be stamped. " + e.getMessage());
 			try {
 				Document document = new Document();
 				PdfWriter.getInstance(document, os);
 				document.open();
 				File file = new File(filePath);
+				document.add(new Paragraph("O documento '" + file.getName()
+						+ "' não pode ser exibido nesta ferramenta, pois foi criado com proteção de segurança (ou contém caracteres inválidos no seu nome). "));
 				document.add(new Paragraph(
-						"O documento '"
-								+ file.getName()
-								+ "' não pode ser exibido nesta ferramenta, pois foi criado com proteção de segurança. "
-								+ "Por favor, certifique-se que foi gerado um arquivo PDF sem proteção de segurança,"
-								+ " mas não se preocupe, pois esta ferramenta somente exibe arquivos PDF com a devida proteção, gerada em tempo real."));
+						"Por favor, certifique-se que foi gerado um arquivo PDF sem proteção de segurança e que não existam caracteres inválidos "
+								+ "no nome do arquivo (por exemplo, '+')."));
+				document.add(new Paragraph(
+						"Não se preocupe, pois esta ferramenta somente exibe arquivos PDF com a devida proteção, gerada em tempo real."));
 				document.close();
 			} catch (Exception e1) {
-				Logger.getLogger(getClass()).error(
-						"Error PDF for (" + filePath + ") could not be generated. " + e1.getMessage());
+				Logger.getLogger(getClass())
+						.error("Error PDF for (" + filePath + ") could not be generated. " + e1.getMessage());
 			}
 		}
 	}

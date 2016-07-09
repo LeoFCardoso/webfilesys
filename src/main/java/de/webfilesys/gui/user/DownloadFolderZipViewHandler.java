@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -15,12 +17,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import de.webfilesys.WebFileSys;
 import de.webfilesys.stats.DirStatsByAge;
 import de.webfilesys.util.CommonUtils;
 import de.webfilesys.viewhandler.PDFViewHandler;
 
 /**
- * Use view handlers to put content inside Zip file
+ * Use PDF view handler to put content inside Zip file
  * 
  * @author Leonardo F. Cardoso, based on original by Frank Hoehnel
  */
@@ -63,12 +66,14 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 		// Check if max number of zip files is reached.
 		DirStatsByAge dsba = new DirStatsByAge();
 		dsba.determineStatistics(path);
-		int maxFilesForDownload = 100;
-		int maxSizeForDownload = maxFilesForDownload * 1024 * 1024;
+		int maxFilesForDownload = WebFileSys.getInstance().getDownloadFolderFileLimit();
+		long maxSizeForDownload = WebFileSys.getInstance().getDownloadFolderSizeLimitInBytes();
 		if ((dsba.getFilesInTree() > maxFilesForDownload) || (dsba.getTreeFileSize() > maxSizeForDownload)) {
 			errorMsg = "Muitos arquivos foram selecionados para download (" + dsba.getFilesInTree() + " arquivos, "
-					+ dsba.getTreeFileSize() + " bytes). <br>O máximo é " + maxFilesForDownload + " arquivos, " + maxSizeForDownload
-					+ " bytes. Pasta " + folderFile.getName() + ".<br>Por favor, retorne e tente novamente!";
+					+ dsba.getTreeFileSize() / (1024 * 1024) + " megabytes). <br>Os máximos são " + maxFilesForDownload
+					+ " arquivos ou " + maxSizeForDownload / (1024 * 1024) + " megabytes.<br>Pasta selecionada '"
+					+ folderFile.getName()
+					+ "'.<br>Por favor, <a href='javascript:history.go(-1)'>retorne</a> e tente novamente!";
 		}
 
 		if (errorMsg != null) {
@@ -81,7 +86,7 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 				output.println("<body>");
 				output.println(errorMsg);
 				output.println("</body>");
-				output.println("</html>");	
+				output.println("</html>");
 				output.flush();
 				return;
 			} catch (IOException ioEx) {
@@ -99,7 +104,25 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 		try {
 			byteOut = resp.getOutputStream();
 			zipOut = new ZipOutputStream(byteOut);
+
+			// Add metadata file to identify zip file and start download quickly
+			String infoText = "User: " + req.getSession().getAttribute("userid").toString().trim().toUpperCase();
+			infoText += "; generated on " + DateFormat.getDateTimeInstance().format(new Date());
+			ZipEntry newZipEntry = new ZipEntry("INFO.TXT");
+			zipOut.putNextEntry(newZipEntry);
+			zipOut.write(infoText.getBytes());
+			zipOut.flush(); // Sinalize browser to start downloading
+
+			// Test code to simulate slow zip compression
+			// try {
+			// Thread.sleep(10000);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+
 			zipFolderTree(path, "", zipOut);
+
 		} catch (IOException ioEx) {
 			Logger.getLogger(getClass()).warn(ioEx);
 		} finally {
@@ -136,17 +159,12 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 				try {
 					ZipEntry newZipEntry = new ZipEntry(relativeFileName);
 					zipOut.putNextEntry(newZipEntry);
-
 					FileInputStream inStream = null;
-
 					File tempStampedPdf = File.createTempFile("fmwebPdFStamp", null);
-
 					try {
 						File originalFile = new File(fullFileName);
-
 						Logger.getLogger(getClass())
 								.info("User " + getUid() + " requested this file on multi download: " + originalFile);
-
 						if (CommonUtils.getFileExtension(originalFile.getName()).equalsIgnoreCase(".pdf")) {
 							// Will use view handler logic for PDFs
 							PDFViewHandler pdfHandler = new PDFViewHandler();
@@ -160,16 +178,14 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 
 						byte buff[] = new byte[4096];
 						int count;
-
 						while ((count = inStream.read(buff)) >= 0) {
 							zipOut.write(buff, 0, count);
 						}
+
 					} catch (Exception zioe) {
 						Logger.getLogger(getClass()).warn("failed to zip file " + fullFileName, zioe);
 					} finally {
-
 						tempStampedPdf.delete();
-
 						if (inStream != null) {
 							try {
 								inStream.close();

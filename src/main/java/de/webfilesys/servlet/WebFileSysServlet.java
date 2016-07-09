@@ -618,18 +618,13 @@ public class WebFileSysServlet extends HttpServlet {
 
 		if (command.equals("listFiles")) {
 			String mobile = (String) session.getAttribute("mobile");
-
 			if (mobile != null) {
 				(new MobileFolderFileListHandler(req, resp, session, output, userid)).handleRequest();
 				return true;
 			}
-
 			boolean initial = false;
-
 			int viewMode = Constants.VIEW_MODE_LIST;
-
 			String viewModeParm = req.getParameter("viewMode");
-
 			if (viewModeParm != null) {
 				try {
 					viewMode = Integer.parseInt(viewModeParm);
@@ -637,7 +632,6 @@ public class WebFileSysServlet extends HttpServlet {
 				}
 			} else {
 				Integer sessionViewMode = (Integer) session.getAttribute("viewMode");
-
 				if (sessionViewMode != null) {
 					viewMode = sessionViewMode.intValue();
 				}
