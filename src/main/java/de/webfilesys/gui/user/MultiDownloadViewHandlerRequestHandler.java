@@ -78,7 +78,7 @@ public class MultiDownloadViewHandlerRequestHandler extends UserRequestHandler {
 			// Add metadata file to identify zip file and start download quickly
 			String infoText = "User: " + req.getSession().getAttribute("userid").toString().trim().toUpperCase();
 			infoText += "; generated on " + DateFormat.getDateTimeInstance().format(new Date());
-			ZipEntry newZipEntry = new ZipEntry("INFO.TXT");
+			ZipEntry newZipEntry = new ZipEntry("_INFO.TXT");
 			zip_out.putNextEntry(newZipEntry);
 			zip_out.write(infoText.getBytes());
 			zip_out.flush(); // Sinalize browser to start downloading

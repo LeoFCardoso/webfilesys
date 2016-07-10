@@ -108,7 +108,7 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 			// Add metadata file to identify zip file and start download quickly
 			String infoText = "User: " + req.getSession().getAttribute("userid").toString().trim().toUpperCase();
 			infoText += "; generated on " + DateFormat.getDateTimeInstance().format(new Date());
-			ZipEntry newZipEntry = new ZipEntry("INFO.TXT");
+			ZipEntry newZipEntry = new ZipEntry("_INFO.TXT");
 			zipOut.putNextEntry(newZipEntry);
 			zipOut.write(infoText.getBytes());
 			zipOut.flush(); // Sinalize browser to start downloading
