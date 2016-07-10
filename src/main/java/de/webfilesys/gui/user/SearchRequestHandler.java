@@ -402,11 +402,11 @@ public class SearchRequestHandler extends UserRequestHandler {
 
 							if ((temp_file.lastModified() >= fromDate) && (temp_file.lastModified() <= toDate)) {
 								if ((category == null) || metaInfMgr.isCategoryAssigned(act_path, file_list[i], category)) {
-									// String viewLink = "" + req.getContextPath()
-									// + "/servlet?command=getFile&filePath="
-									// + UTF8URLEncoder.encode(temp_file.getAbsolutePath());
 
-									String viewLink = "" + req.getContextPath() + "/servlet/" + temp_file.getAbsolutePath();
+									// LCARD - direct access (without getFile) and handling special chars
+									String encodedPath = UTF8URLEncoder.encode(temp_file.getAbsolutePath());
+									encodedPath = encodedPath.replaceAll("%2F", "/"); //to detect file download
+									String viewLink = "" + req.getContextPath() + "/servlet/" + encodedPath;
 
 									String iconImg = "doc.gif";
 
