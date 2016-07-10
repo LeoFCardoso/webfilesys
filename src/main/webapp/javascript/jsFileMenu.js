@@ -229,6 +229,26 @@ function startProgramResult() {
     }
 }
 
+//function URLEncode(path)
+//{
+//    var encodedPath = '';
+//
+//    for (i = 0; i < path.length; i++)
+//    {
+//        c = path.charAt(i);
+//    
+//        if (c == '\\')
+//        {
+//            encodedPath = encodedPath + '/';
+//        }
+//        else
+//        {
+//            encodedPath = encodedPath + c;
+//        }
+//    }
+//    return(encodeURI(encodedPath)); 
+//}
+
 function URLEncode(path)
 {
     var encodedPath = '';
@@ -237,16 +257,18 @@ function URLEncode(path)
     {
         c = path.charAt(i);
     
-        if (c == '\\')
+        if (c == '/')
+        {
+            encodedPath = encodedPath + c;
+        }
+        else if (c == '\\')
         {
             encodedPath = encodedPath + '/';
         }
         else
         {
-            encodedPath = encodedPath + c;
+            encodedPath = encodedPath + encodeURIComponent(c);
         }
     }
-    
-    return(encodeURI(encodedPath)); 
+    return(encodedPath); 
 }
-

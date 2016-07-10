@@ -163,7 +163,6 @@ function URLEncode(path)
             encodedPath = encodedPath + encodeURIComponent(c);
         }
     }
-    
     return(encodedPath); 
 }
 

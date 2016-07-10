@@ -67,7 +67,8 @@ function contextMenu(fileName) {
 									+ (new Date().getTime()),
 							resourceBundle["label.view"], "_blank");
 		} else {
-			scriptPreparedPath = scriptPreparedPath.replace(/\+/g, "%2B"); //Fix for '+' char in filename
+			//Fix for special chars in filename.
+			scriptPreparedPath = URLEncode(scriptPreparedPath);
 			menuText = menuText
 					// Leonardo - fix. IE8 cannot correctly show PDF opened by
 					// scripts without change in security settings

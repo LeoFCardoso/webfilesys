@@ -15,6 +15,7 @@ import de.webfilesys.util.UTF8URLDecoder;
 /**
  * @author Frank Hoehnel
  */
+@SuppressWarnings("rawtypes")
 public class MultiFileRequestHandler extends UserRequestHandler
 {
 	protected String actPath = null;
@@ -22,7 +23,8 @@ public class MultiFileRequestHandler extends UserRequestHandler
 	protected Vector selectedFiles = null;
 
 	protected String cmd = null;
-	
+
+	@SuppressWarnings("unchecked")
 	public MultiFileRequestHandler(
     		HttpServletRequest req, 
     		HttpServletResponse resp,
@@ -56,7 +58,12 @@ public class MultiFileRequestHandler extends UserRequestHandler
 			{
 				try
 				{
-					String fileName = UTF8URLDecoder.decode(parm_key);
+					//Try to fix for special chars in filename
+					//Test file: "nome com caracteres especiais , @ & = + $ #"
+					String fileName = parm_key;
+					if (! "UTF-8".equals(req.getCharacterEncoding())) {
+						fileName = UTF8URLDecoder.decode(parm_key);
+					}
 					selectedFiles.add(fileName); 
 				}
 				catch (Exception ue1)
