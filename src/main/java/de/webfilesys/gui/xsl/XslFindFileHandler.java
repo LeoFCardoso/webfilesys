@@ -277,8 +277,6 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 						path = "\\\\\\\\" + path; // UNC prefix twice to honnor servlet direct "getFile"
 					}
 
-					// String encodedPath = UTF8URLEncoder.encode(path);
-
 					subFolderElem = doc.createElement("folder");
 
 					if (!pathParser.hasMoreTokens()) {
@@ -289,8 +287,10 @@ public class XslFindFileHandler extends XslRequestHandlerBase {
 
 					subFolderElem.setAttribute("name", partOfPath);
 
-					// LCARD - direct access (without getFile)
-					subFolderElem.setAttribute("path", path);
+					// LCARD - direct access (without getFile) and handling special chars
+					String encodedPath = UTF8URLEncoder.encode(path);
+					encodedPath = encodedPath.replaceAll("%2F", "/"); //to detect file download
+					subFolderElem.setAttribute("path", encodedPath);
 
 					String lowerCasePartOfPath = partOfPath.toLowerCase();
 
