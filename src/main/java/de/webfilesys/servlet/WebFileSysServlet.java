@@ -151,8 +151,8 @@ import de.webfilesys.gui.user.LicenseReminderRequestHandler;
 import de.webfilesys.gui.user.MainFrameSetHandler;
 import de.webfilesys.gui.user.Mp3V2ThumbnailHandler;
 import de.webfilesys.gui.user.MultiDeleteRequestHandler;
-import de.webfilesys.gui.user.MultiDownloadViewHandlerRequestHandler;
 import de.webfilesys.gui.user.MultiFileDownloadPromptHandler;
+import de.webfilesys.gui.user.MultiFileDownloadViewHandler;
 import de.webfilesys.gui.user.MultiImageDeleteHandler;
 import de.webfilesys.gui.user.MultiImageDownloadPromptHandler;
 import de.webfilesys.gui.user.MultiMoveCopyRequestHandler;
@@ -1510,7 +1510,8 @@ public class WebFileSysServlet extends HttpServlet {
 		if (command.equals("multiDownload")) {
 			// (new MultiDownloadRequestHandler(req, resp, session, output, userid)).handleRequest();
 			// LCARD - Use view handlers inside zip when available
-			(new MultiDownloadViewHandlerRequestHandler(req, resp, session, output, userid)).handleRequest();
+			(new MultiFileDownloadViewHandler(req, resp, session, output, userid)).handleRequest();
+			
 			return (true);
 		}
 

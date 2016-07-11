@@ -35,7 +35,7 @@ public final class PessimisticSecurityFilter implements Filter {
 	 * All but these cmds will be redirected to "forbidden" command. CMD are somethig like a complementary command. Each
 	 * entry must have this form: command(cmd)
 	 */
-	private static final String[] allowedCmds = { "mobile(folderFileList)", "multiFileDownloadPrompt(download)" };
+	private static final String[] allowedCmds = { "mobile(folderFileList)", "multiDownload(download)", "multiFileDownloadPrompt(download)" };
 
 	/*
 	 * (non-Javadoc)

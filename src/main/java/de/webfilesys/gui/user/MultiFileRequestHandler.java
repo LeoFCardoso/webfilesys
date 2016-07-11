@@ -16,91 +16,71 @@ import de.webfilesys.util.UTF8URLDecoder;
  * @author Frank Hoehnel
  */
 @SuppressWarnings("rawtypes")
-public class MultiFileRequestHandler extends UserRequestHandler
-{
+public class MultiFileRequestHandler extends UserRequestHandler {
 	protected String actPath = null;
-	
+
 	protected Vector selectedFiles = null;
 
 	protected String cmd = null;
 
 	@SuppressWarnings("unchecked")
-	public MultiFileRequestHandler(
-    		HttpServletRequest req, 
-    		HttpServletResponse resp,
-            HttpSession session,
-            PrintWriter output, 
-            String uid)
-	{
-        super(req, resp, session, output, uid);
-        
+	public MultiFileRequestHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
+			PrintWriter output, String uid) {
+		super(req, resp, session, output, uid);
+
 		selectedFiles = new Vector();
 
 		// Enumeration allKeys=requestParms.keys();
 
 		Enumeration allKeys = req.getParameterNames();
-		
-		while (allKeys.hasMoreElements())
-		{
-			String parm_key=(String) allKeys.nextElement();
+
+		while (allKeys.hasMoreElements()) {
+			String parm_key = (String) allKeys.nextElement();
 
 			String parm_value = req.getParameter(parm_key);
-			
-			if (parm_key.equals("cmd"))
-			{
-				cmd=parm_value;
-			}
-			else if (parm_key.equals("actpath"))
-			{
+
+			if (parm_key.equals("cmd")) {
+				cmd = parm_value;
+			} else if (parm_key.equals("actpath")) {
 				actPath = parm_value;
-			}
-			else if ((!parm_key.equals("cb-setAll")) && (!parm_key.equals("command")))
-			{
-				try
-				{
-					//Try to fix for special chars in filename
-					//Test file: "nome com caracteres especiais , @ & = + $ #"
+			} else if ((!parm_key.equals("cb-setAll")) && (!parm_key.equals("command"))) {
+				try {
+					// Try to fix for special chars in filename
+					// Test file: "nome com caracteres especiais , @ & = + $ #"
 					String fileName = parm_key;
-					if (! "UTF-8".equals(req.getCharacterEncoding())) {
+					if (!"UTF-8".equals(req.getCharacterEncoding())) {
 						fileName = UTF8URLDecoder.decode(parm_key);
 					}
-					selectedFiles.add(fileName); 
-				}
-				catch (Exception ue1)
-				{
+					selectedFiles.add(fileName);
+				} catch (Exception ue1) {
 					System.out.println(ue1);
 				}
 			}
 		}
 
 		session.setAttribute("selectedFiles", selectedFiles);
-		
-		if (actPath == null) 
-		{
-		    actPath = getCwd();
-		}
-		else
-		{
-	        if (isMobile()) {
-	            actPath = getAbsolutePath(actPath);
-	        }
+
+		if (actPath == null) {
+			actPath = getCwd();
+		} else {
+			if (isMobile()) {
+				actPath = getAbsolutePath(actPath);
+			}
 		}
 	}
 
-	public void handleRequest()
-	{
-		if (!accessAllowed(actPath))
-		{
-			Logger.getLogger(getClass()).warn("user " + uid + " tried to access folder outside of it's document root: " + actPath);
+	public void handleRequest() {
+		if (!accessAllowed(actPath)) {
+			Logger.getLogger(getClass())
+					.warn("user " + uid + " tried to access folder outside of it's document root: " + actPath);
 			return;
 		}
-		
-		if (selectedFiles.size()==0)
-		{
+
+		if (selectedFiles.size() == 0) {
 			output.print("<HTML>");
 			output.print("<HEAD>");
 
-			javascriptAlert(getResource("alert.noFilesSelected","No files have been selected"));
+			javascriptAlert(getResource("alert.noFilesSelected", "No files have been selected"));
 
 			output.println("<script language=\"javascript\">");
 			output.println("window.location.href='/webfilesys/servlet?command=listFiles';");

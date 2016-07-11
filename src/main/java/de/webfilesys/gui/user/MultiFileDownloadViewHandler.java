@@ -29,12 +29,13 @@ import de.webfilesys.viewhandler.PDFViewHandler;
  * 
  * @author Leonardo F. Cardoso, based on original by Frank Hoehnel
  */
-public class MultiDownloadViewHandlerRequestHandler extends UserRequestHandler {
+public class MultiFileDownloadViewHandler extends MultiFileRequestHandler {
 	protected HttpServletResponse resp = null;
 
-	public MultiDownloadViewHandlerRequestHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
+	public MultiFileDownloadViewHandler(HttpServletRequest req, HttpServletResponse resp, HttpSession session,
 			PrintWriter output, String uid) {
 		super(req, resp, session, output, uid);
+
 		this.resp = resp;
 	}
 
@@ -43,27 +44,30 @@ public class MultiDownloadViewHandlerRequestHandler extends UserRequestHandler {
 		Vector selectedFiles = (Vector) session.getAttribute("selectedFiles");
 
 		if ((selectedFiles == null) || (selectedFiles.size() == 0)) {
-			Logger.getLogger(getClass()).error("MultiDownloadRequestHandler: no files selected");
+			Logger.getLogger(getClass()).debug("MultiFileDownloadViewHandler: no files selected");
+
 			return;
 		}
 
-		String actPath = getParameter("actPath");
+		String actPath = getCwd();
 
 		if (actPath == null) {
-			Logger.getLogger(getClass()).error("MultiDownloadRequestHandler: actPath is null");
+			Logger.getLogger(getClass()).error("MultiFileDownloadViewHandler: actPath is null");
+
 			return;
 		}
 
-		if (isMobile()) {
-			actPath = this.getAbsolutePath(actPath);
-		}
+		// It seems to be a bug here with mobile mode
+		// if (isMobile())
+		// {
+		// actPath = this.getAbsolutePath(actPath);
+		// }
 
 		if (!checkAccess(actPath)) {
 			return;
 		}
 
 		try {
-
 			OutputStream byteOut = null;
 			ZipOutputStream zip_out = null;
 
