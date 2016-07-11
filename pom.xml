@@ -125,4 +125,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<description>dummy edit</description>
 </project>
