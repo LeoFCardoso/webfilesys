@@ -1,6 +1,3 @@
-// Comment to prevent Eclipse Validation
-// <%@ page language="java" contentType="text/javascript" %>
-
 //ReplaceAll in JS
 // http://geekvigarista.com/dev/criando-uma-funcao-replaceall-em-javascript-sem-loop-infinito
 String.prototype.replaceAll = function(de, para) {

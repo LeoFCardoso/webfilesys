@@ -1,4 +1,3 @@
-
 function validateAndSubmitCrypto(invalidKeyMsg)
 {
     var secretKey = document.getElementById('cryptoForm').cryptoKey.value;

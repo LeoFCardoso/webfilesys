@@ -38,6 +38,33 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 		<filter-class>de.webfilesys.servlet.ValidateLogonFilter</filter-class>
 	</filter>
 
+	<filter> <!-- HttpCache for static content -->
+		<filter-name>HttpCacheFilter</filter-name>
+		<filter-class>de.webfilesys.servlet.HttpCacheFilter</filter-class>
+		<init-param>
+			<param-name>Cache-Control</param-name>
+			<param-value>max-age=3600, public</param-value>
+		</init-param>
+	</filter>
+
+	<filter> <!-- Force correct content type for JSP processed JS and CSS -->
+		<filter-name>CSSContentTypeFilter</filter-name>
+		<filter-class>de.webfilesys.servlet.ContentTypeFilter</filter-class>
+		<init-param>
+			<param-name>ContentType</param-name>
+			<param-value>text/css</param-value>
+		</init-param>
+	</filter>
+	<filter> <!-- Force correct content type for JSP processed JS and CSS -->
+		<filter-name>JSContentTypeFilter</filter-name>
+		<filter-class>de.webfilesys.servlet.ContentTypeFilter</filter-class>
+		<init-param>
+			<param-name>ContentType</param-name>
+			<param-value>text/javascript</param-value>
+		</init-param>
+	</filter>
+
+
 	<filter-mapping>
 		<filter-name>JAASFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -63,6 +90,25 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 		<url-pattern>/servlet/*</url-pattern>
 	</filter-mapping>
 
+	<filter-mapping>
+		<filter-name>HttpCacheFilter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>HttpCacheFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>JSContentTypeFilter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>CSSContentTypeFilter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+
+
 	<listener>
 		<listener-class>de.webfilesys.SessionHandler</listener-class>
 	</listener>
@@ -86,10 +132,8 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<!--servlet>
-		<servlet-name>upload</servlet-name>
-		<servlet-class>de.webfilesys.servlet.UploadServlet</servlet-class>
-	</servlet -->
+	<!--servlet> <servlet-name>upload</servlet-name> <servlet-class>de.webfilesys.servlet.UploadServlet</servlet-class> 
+		</servlet -->
 
 	<!-- Action Servlet Mapping -->
 	<servlet-mapping>
@@ -100,10 +144,8 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 	<!-- servlet-mapping> <servlet-name>upload</servlet-name> <url-pattern>/upload/*</url-pattern> 
 		</servlet-mapping -->
 
-	<!-- To make context path dynamic inside JS & CSS files 
-	     Define js and css only is IS BUGGY within TOMCAT 7.
-	     Must define jsp and jspx (defaults) also.
-	     -->
+	<!-- To make context path dynamic inside JS & CSS files Define js and css 
+		only is IS BUGGY within TOMCAT 7. Must define jsp and jspx (defaults) also. -->
 	<servlet-mapping>
 		<servlet-name>jsp</servlet-name>
 		<url-pattern>*.jsp</url-pattern>

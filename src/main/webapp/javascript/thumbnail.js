@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 function multiFileFunction()
 {
     idx=document.form2.cmd.selectedIndex;

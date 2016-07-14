@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 function editMetaInfo(fileName)
 {
     window.location.href = "<%=request.getContextPath()%>/servlet?command=editMetaInf&fileName=" + encodeURIComponent(fileName) + "&mobile=true&random=" + new Date().getTime();

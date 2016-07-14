@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 // not used because only working with Firefox
 // other browsers require very different DOM manipulation operations
 

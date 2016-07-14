@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 var TIMETABLE_COLOR = "#80ffff";
 
 function clearAppointmentCont()

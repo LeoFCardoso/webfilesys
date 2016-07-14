@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 function viewModeList()
 {
     window.location.href='<%=request.getContextPath()%>/servlet?command=listFiles&viewMode=1';

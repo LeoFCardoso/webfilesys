@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
       var firefoxDragDrop = existFileReader();
 
       var SINGLE_FILE_MAX_SIZE;

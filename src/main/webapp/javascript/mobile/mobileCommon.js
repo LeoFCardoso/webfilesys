@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 function mobileFunctionSelected() 
 {
     var functionSelect = document.getElementById("functionSelect");

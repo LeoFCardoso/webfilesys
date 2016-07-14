@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 function cutCopyToClip(fileName, operation)
 {
     url = '<%=request.getContextPath()%>/servlet?command=cutCopy&fileName=' + encodeURIComponent(fileName) + '&cmd=' + operation;

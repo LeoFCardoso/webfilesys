@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 function mkdir(path)
 {  
     showPrompt('<%=request.getContextPath()%>/servlet?command=mkdirPrompt&path=' + encodeURIComponent(path), '<%=request.getContextPath()%>/xsl/createFolder.xsl', 320, 190);

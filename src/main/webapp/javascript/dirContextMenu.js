@@ -1,5 +1,3 @@
-// <%-- Comment to prevent Eclipse Validation --%>
-// <%@ page language="java" contentType="text/javascript" %>
 function hideMenu() {
 	document.getElementById('contextMenu').style.visibility = 'hidden';
 }
