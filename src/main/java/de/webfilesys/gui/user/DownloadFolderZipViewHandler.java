@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -96,6 +97,13 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 
 		resp.setContentType("application/zip");
 
+		String token = getParameter("token");
+		if (token != null) {
+			Logger.getLogger(getClass()).debug("Setting fileDownloadToken to control blockUI with " + token);
+			Cookie cookie = new Cookie("fileDownloadToken", token);
+			resp.addCookie(cookie);
+		}
+
 		resp.setHeader("Content-Disposition", "attachment; filename=" + dirName + ".zip");
 
 		OutputStream byteOut = null;
@@ -105,21 +113,21 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 			byteOut = resp.getOutputStream();
 			zipOut = new ZipOutputStream(byteOut);
 
-			// Add metadata file to identify zip file and start download quickly
+			// Test code to simulate slow zip compression
+			// try {
+			// Thread.sleep(2000);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+
+			// Add metadata file to identify zip file and try to start download quickly
 			String infoText = "User: " + req.getSession().getAttribute("userid").toString().trim().toUpperCase();
 			infoText += "; generated on " + DateFormat.getDateTimeInstance().format(new Date());
 			ZipEntry newZipEntry = new ZipEntry("_INFO.TXT");
 			zipOut.putNextEntry(newZipEntry);
 			zipOut.write(infoText.getBytes());
-			zipOut.flush(); // Sinalize browser to start downloading
-
-			// Test code to simulate slow zip compression
-			// try {
-			// Thread.sleep(10000);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
+			zipOut.flush(); // try to sinalize browser to start downloading
 
 			zipFolderTree(path, "", zipOut);
 

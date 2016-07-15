@@ -40,6 +40,32 @@
 <script language="JavaScript" src="{$contextPath}/javascript/keyDirTree.js" type="text/javascript"></script>
 <script language="JavaScript" src="{$contextPath}/javascript/util.js" type="text/javascript"></script>
 
+<!-- jQuery LCARD -->
+<script language="JavaScript" src="{$contextPath}/javascript/jquery/jquery-3.0.0.min.js" type="text/javascript"></script>
+<script language="JavaScript" src="{$contextPath}/javascript/jquery/jquery.blockUI.js" type="text/javascript"></script>
+<script language="JavaScript" src="{$contextPath}/javascript/jquery/jquery.cookie.js" type="text/javascript"></script>
+<!-- end jQuery LCARD -->
+
+<!-- download control LCARD -->
+<script language="JavaScript">
+	var fileDownloadCheckTimer;
+  	function blockUIForDownload(token) {
+		$.blockUI({ message: '<h1>Aguarde...</h1>' });
+		fileDownloadCheckTimer = window.setInterval(function () {
+			var cookieValue = $.cookie('fileDownloadToken');
+			if (cookieValue == token) {
+				finishDownload();
+			}
+    	}, 1000);
+	}
+	function finishDownload() {
+		window.clearInterval(fileDownloadCheckTimer);
+		$.removeCookie('fileDownloadToken');
+		$.unblockUI();
+	}
+</script>
+<!-- end download control LCARD -->
+
 <script src="{$contextPath}/javascript/resourceBundle.js" type="text/javascript"></script>
 <script type="text/javascript">
   <xsl:attribute name="src"><xsl:value-of select="$contextPath"/>/servlet?command=getResourceBundle&amp;lang=<xsl:value-of select="/folderTree/language" /></xsl:attribute>

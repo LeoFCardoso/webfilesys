@@ -48,7 +48,7 @@ function folderContextMenu(path, folderName, basePath)
              + menuEntry("javascript:search('" + scriptPreparedPath + "')",resourceBundle["menuSearch"],null);
     
 	menuText = menuText
-				+ menuEntry("<%=request.getContextPath()%>/servlet?command=downloadFolder&path="
+				+ menuEntryBlockUi("<%=request.getContextPath()%>/servlet?command=downloadFolder&path="
 						+ encodeURIComponent(basePath+'/'+folderName),
 						resourceBundle["label.downloadFolder"], null);
 
