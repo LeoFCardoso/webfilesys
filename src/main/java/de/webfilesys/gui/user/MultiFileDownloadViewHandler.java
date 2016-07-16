@@ -13,6 +13,7 @@ import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -72,6 +73,14 @@ public class MultiFileDownloadViewHandler extends MultiFileRequestHandler {
 			ZipOutputStream zip_out = null;
 
 			resp.setContentType("application/zip");
+
+			String token = getParameter("token");
+			if (token != null) {
+				Logger.getLogger(getClass()).debug("Setting fileDownloadToken to control blockUI with " + token);
+				Cookie cookie = new Cookie("fileDownloadToken", token);
+				resp.addCookie(cookie);
+			}
+
 			String downloadFileName = "fmwebDownload-"
 					+ req.getSession().getAttribute("userid").toString().trim().toUpperCase() + ".zip";
 			resp.setHeader("Content-Disposition", "attachment; filename=" + downloadFileName);
@@ -79,13 +88,21 @@ public class MultiFileDownloadViewHandler extends MultiFileRequestHandler {
 			byteOut = resp.getOutputStream();
 			zip_out = new ZipOutputStream(byteOut);
 
+			// Test code to simulate slow zip compression
+			// try {
+			// Thread.sleep(2000);
+			// } catch (InterruptedException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+
 			// Add metadata file to identify zip file and start download quickly
 			String infoText = "User: " + req.getSession().getAttribute("userid").toString().trim().toUpperCase();
 			infoText += "; generated on " + DateFormat.getDateTimeInstance().format(new Date());
 			ZipEntry newZipEntry = new ZipEntry("_INFO.TXT");
 			zip_out.putNextEntry(newZipEntry);
 			zip_out.write(infoText.getBytes());
-			zip_out.flush(); // Sinalize browser to start downloading
+			// zip_out.flush(); // Sinalize browser to start downloading
 
 			InputStream fin = null;
 

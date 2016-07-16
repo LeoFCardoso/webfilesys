@@ -42,6 +42,17 @@
 <script src="{$contextPath}/javascript/jsFileMenu.js" type="text/javascript"></script>
 <script src="{$contextPath}/javascript/keyFileList.js" type="text/javascript"></script>
 <script src="{$contextPath}/javascript/crypto.js" type="text/javascript"></script>
+
+<!-- jQuery LCARD -->
+<script language="JavaScript" src="{$contextPath}/javascript/jquery/jquery-3.0.0.min.js" type="text/javascript"></script>
+<script language="JavaScript" src="{$contextPath}/javascript/jquery/jquery.blockUI.js" type="text/javascript"></script>
+<script language="JavaScript" src="{$contextPath}/javascript/jquery/jquery.cookie.js" type="text/javascript"></script>
+<!-- end jQuery LCARD -->
+
+<!-- download control LCARD -->
+<script language="JavaScript" src="{$contextPath}/javascript/downloadcontrol/downloadcontrol.js" type="text/javascript"></script>
+<!-- end download control LCARD -->
+
 <script src="{$contextPath}/javascript/resourceBundle.js" type="text/javascript"></script>
 <script type="text/javascript">
   <xsl:attribute name="src"><xsl:value-of select="$contextPath"/>/servlet?command=getResourceBundle&amp;lang=<xsl:value-of select="/fileList/language" /></xsl:attribute>
@@ -336,7 +347,8 @@
   <form accept-charset="utf-8" name="form1" method="post" action="{$contextPath}/servlet" style="padding:0px;margin:0px;">
 
     <input type="hidden" name="command" value="multiFileOp" />
-
+	<input type="hidden" name="token" id="token"/>
+	
     <input type="hidden" name="actpath">
       <xsl:attribute name="value">
         <xsl:value-of select="currentPath" />

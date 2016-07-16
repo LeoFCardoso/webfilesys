@@ -29,8 +29,11 @@ function selectAll() {
 }
 
 function multiDownload() {
+	var token = new Date().getTime(); //use the current timestamp as the token value
+	document.form1.token.value = token;
 	document.form1.command.value = 'multiDownload';
 	document.form1.submit();
+	blockUIForDownload(token);
 }
 
 function setDependendCheckbox(prereq, dependent) {

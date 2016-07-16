@@ -79,7 +79,7 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 
 		if (errorMsg != null) {
 			Logger.getLogger(getClass()).warn(errorMsg);
-			resp.setStatus(404);
+			// resp.setStatus(404);
 			resp.setContentType("text/html");
 			try {
 				PrintWriter output = new PrintWriter(resp.getWriter());
@@ -127,7 +127,7 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 			ZipEntry newZipEntry = new ZipEntry("_INFO.TXT");
 			zipOut.putNextEntry(newZipEntry);
 			zipOut.write(infoText.getBytes());
-			zipOut.flush(); // try to sinalize browser to start downloading
+			// zipOut.flush(); // try to sinalize browser to start downloading
 
 			zipFolderTree(path, "", zipOut);
 
@@ -142,6 +142,7 @@ public class DownloadFolderZipViewHandler extends UserRequestHandler {
 					byteOut.close();
 				}
 			} catch (Exception ex) {
+				Logger.getLogger(getClass()).warn(ex);
 			}
 		}
 	}

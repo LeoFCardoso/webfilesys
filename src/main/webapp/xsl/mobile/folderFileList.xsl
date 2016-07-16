@@ -53,22 +53,11 @@
 <!-- end jQuery LCARD -->
 
 <!-- download control LCARD -->
+<script language="JavaScript" src="{$contextPath}/javascript/downloadcontrol/downloadcontrol.js" type="text/javascript"></script>
+<!-- end download control LCARD -->
+
+<!-- download control LCARD -->
 <script language="JavaScript">
-	var fileDownloadCheckTimer;
-  	function blockUIForDownload(token) {
-		$.blockUI({ message: '<h1>Aguarde...</h1>' });
-		fileDownloadCheckTimer = window.setInterval(function () {
-			var cookieValue = $.cookie('fileDownloadToken');
-			if (cookieValue == token) {
-				finishDownload();
-			}
-    	}, 1000);
-	}
-	function finishDownload() {
-		window.clearInterval(fileDownloadCheckTimer);
-		$.removeCookie('fileDownloadToken');
-		$.unblockUI();
-	}
 	//Handle back button and cache
 	// http://stackoverflow.com/questions/8788802/prevent-safari-loading-from-cache-when-back-button-is-clicked
 	$(window).bind("pageshow", function(event) {
@@ -429,6 +418,7 @@
   <form accept-charset="utf-8" name="form1" action="{$contextPath}/servlet" method="post" style="padding:0px;margin:0px;">
   
     <input type="hidden" name="command" value="mobileMultiFile" />
+    <input type="hidden" name="token" id="token"/>
 
     <input type="hidden" name="actpath">
       <xsl:attribute name="value">

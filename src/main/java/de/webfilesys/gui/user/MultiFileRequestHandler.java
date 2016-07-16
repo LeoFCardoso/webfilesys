@@ -43,7 +43,8 @@ public class MultiFileRequestHandler extends UserRequestHandler {
 				cmd = parm_value;
 			} else if (parm_key.equals("actpath")) {
 				actPath = parm_value;
-			} else if ((!parm_key.equals("cb-setAll")) && (!parm_key.equals("command"))) {
+			} else if ((!parm_key.equals("cb-setAll")) && (!parm_key.equals("command"))
+					&& (!parm_key.equals("token"))) {
 				try {
 					// Try to fix for special chars in filename
 					// Test file: "nome com caracteres especiais , @ & = + $ #"

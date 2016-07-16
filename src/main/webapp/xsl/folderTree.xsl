@@ -47,23 +47,7 @@
 <!-- end jQuery LCARD -->
 
 <!-- download control LCARD -->
-<script language="JavaScript">
-	var fileDownloadCheckTimer;
-  	function blockUIForDownload(token) {
-		$.blockUI({ message: '<h1>Aguarde...</h1>' });
-		fileDownloadCheckTimer = window.setInterval(function () {
-			var cookieValue = $.cookie('fileDownloadToken');
-			if (cookieValue == token) {
-				finishDownload();
-			}
-    	}, 1000);
-	}
-	function finishDownload() {
-		window.clearInterval(fileDownloadCheckTimer);
-		$.removeCookie('fileDownloadToken');
-		$.unblockUI();
-	}
-</script>
+<script language="JavaScript" src="{$contextPath}/javascript/downloadcontrol/downloadcontrol.js" type="text/javascript"></script>
 <!-- end download control LCARD -->
 
 <script src="{$contextPath}/javascript/resourceBundle.js" type="text/javascript"></script>
